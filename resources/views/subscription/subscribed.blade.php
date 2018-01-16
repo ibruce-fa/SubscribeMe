@@ -21,7 +21,7 @@
                 </div>
                 <div class="card card-body">
                     <h2 class="text-center"><u>Details</u></h2>
-                    <h3 class="text-center">Price: <strong>{{formatPrice(session('price'))}}</strong> per <strong>{{session('interval')}}</strong></h3>
+                    <h3 class="text-center">Price: <strong>{{formatPrice(session('price')git statu)}}</strong> per <strong>{{session('interval')}}</strong></h3>
                     <hr>
                     <p class="text-center">To use this service now, <a href="/account/mysubscriptions">click here to go to your subscriptions</a></p>
                     <a href="/home" class="btn btn-primary">Find more services</a>
