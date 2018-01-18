@@ -75,6 +75,7 @@ class SubscriptionController extends Controller
         $stripeToken    = $request->stripeToken;
         $planName       = $request->stripe_plan_name;
         $planIdentifier = $request->stripe_plan_id;
+        $smPlanId       = $request->plan_id;
         $businessId     = $request->business_id;
         $isAppPlan      = $request->is_app_plan;
         $price          = $request->price;
@@ -90,6 +91,7 @@ class SubscriptionController extends Controller
         $newStripeSubscription->business_id         = $businessId;
         $newStripeSubscription->price               = $price;
         $newStripeSubscription->sm_interval         = $interval;
+        $newStripeSubscription->plan_id             = $smPlanId;
         $newStripeSubscription->save();
 
         if($isAppPlan) {

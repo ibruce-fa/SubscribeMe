@@ -30,7 +30,6 @@ Route::get('/user/activateSellerAccount/{id}', 'PlanController@activateSellerAcc
 /** PLAN USER END */
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/user', 'UserController@index')->name('user');
 
 
 
@@ -118,3 +117,8 @@ Route::delete('/plan/galleryPhoto/{id}', 'PlanController@deleteGalleryPhoto');
 /** LOCATION ROUTES */
 Route::get('/location', 'LocationController@getLocations');
 /** LOCATION ROUTES END */
+
+/** ACCOUNT ROUTES */
+Route::get('/account', 'AccountController@index');
+Route::get('/account/subscriptions', 'AccountController@subscriptions');
+/** ACCOUNT ROUTES END */

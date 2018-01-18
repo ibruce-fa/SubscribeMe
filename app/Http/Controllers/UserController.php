@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        return view('/user/user-home');
-    }
 
     public function activateBusinessAccount($id, $accountPlan, $subscriptionId)
     {

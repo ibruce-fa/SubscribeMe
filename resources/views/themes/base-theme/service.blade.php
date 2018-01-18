@@ -90,6 +90,7 @@ $intervals = ['month','year'];
                                         data-image="{{ $haslogo ? asset('/storage/'.$business->logo_path) : ''}}"
                                         data-locale="auto">
                                 </script>
+                                <input type="hidden" name="plan_id" value="{{$plan->id}}">
                                 <input type="hidden" name="stripe_plan_id" value="{{$plan->stripe_plan_id}}_{{$interval}}">
                                 <input type="hidden" name="stripe_plan_name" value="{{$plan->stripe_plan_name}} {{strtoupper($interval)}}">
                                 <input type="hidden" name="is_app_plan" value="{{$plan->is_app_plan}}">

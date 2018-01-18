@@ -19,6 +19,7 @@ class CreateSubscriptionsTable extends Migration
             $table->string('name');
             $table->string('stripe_id');
             $table->string('stripe_plan');
+            $table->string('plan_id');
             $table->integer('business_id')->default(0);
             $table->integer('price')->default(0);
             $table->string('sm_interval')->default(0);

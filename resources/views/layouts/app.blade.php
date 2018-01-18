@@ -62,7 +62,7 @@
                                 <a class="nav-link" href="/home"><span class="fa fa-search "></span> Search </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/user"><span class="fa fa-user-circle "></span> My Account </a>
+                                <a class="nav-link" href="/account"><span class="fa fa-user-circle "></span> My Account </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/business"> <span class="fa fa-briefcase "></span> Business Account </a>
