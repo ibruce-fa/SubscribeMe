@@ -1115,4 +1115,10 @@ function defaultSearchDistanceMI() {
     return (int) defaultSearchDistanceKM() / .621;
 }
 
+function removeLastWord($text) {
+    $arr = explode(' ', $text);
+    array_pop($arr);
+    echo implode(' ',$arr);
+}
+
 

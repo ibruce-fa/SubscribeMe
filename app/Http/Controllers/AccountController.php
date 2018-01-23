@@ -20,7 +20,7 @@ class AccountController extends Controller
 
     public function subscriptions()
     {
-        $subscriptions = Subscription::where('user_id', Auth::id());
+        $subscriptions  = Subscription::where('user_id', Auth::id())->where('business_id',"!=",0)->get();
         return view('account.subscriptions')->with('subscriptions', $subscriptions);
     }
 }

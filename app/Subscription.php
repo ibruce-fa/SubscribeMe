@@ -10,6 +10,7 @@ class Subscription extends Model
         'name',
         'stripe_id',
         'stripe_plan',
+        'plan_id',
         'business_owner_id',
         'quantity',
         'is_checking_in',
@@ -24,6 +25,10 @@ class Subscription extends Model
 
     public function getSubscriptionService() {
         return $this->belongsTo('App\SubscriptionService');
+    }
+
+    public function plan() {
+        return Plan::where('id',$this->plan_id)->first();
     }
 
 }
