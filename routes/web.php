@@ -88,12 +88,12 @@ Route::delete('/customer/delete/{id}', 'CustomerController@deleteBusiness');
 Route::get('/subscription/subscribe/{planId}', 'SubscriptionController@showSubscriptionForm')->name('chooseSubscription');
 Route::get('/subscription/subscribed', 'SubscriptionController@subscribed');
 Route::post('/subscription/subscribe', 'SubscriptionController@createSubscription');
-Route::post('/subscription/create', 'BusinessController@createBusiness');
-Route::put('/subscription/update/{id}', 'BusinessController@updateBusiness');
-Route::put('/subscription/deactivate/{id}', 'BusinessController@deactivateBusiness');
-Route::put('/subscription/activate/{id}', 'BusinessController@activateBusiness');
-Route::put('/subscription/suspend/{id}', 'BusinessController@suspendBusiness');
-Route::delete('/subscription/delete/{id}', 'BusinessController@deleteBusiness');
+Route::post('/subscription/create', 'SubscriptionController@createBusiness');
+Route::put('/subscription/update/{id}', 'SubscriptionController@updateBusiness');
+Route::put('/subscription/deactivate/{id}', 'SubscriptionController@deactivateBusiness');
+Route::put('/subscription/activate/{id}', 'SubscriptionController@activateBusiness');
+Route::put('/subscription/suspend/{id}', 'SubscriptionController@suspendBusiness');
+Route::delete('/subscription/cancel/{id}', 'SubscriptionController@cancelSubscription');
 
 /** SUBSCRIPTION ROUTES END */
 

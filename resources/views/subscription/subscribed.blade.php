@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card card-header">
-                    <h1 class="text-center">Thanks for your subscription to {{session('planName')}}</h1>
+                    <h1 class="text-center">Thanks for your subscription to {{removeLastWord(session('planName'))}}</h1>
                 </div>
                 <div class="card card-body">
                     <h2 class="text-center"><u>Details</u></h2>

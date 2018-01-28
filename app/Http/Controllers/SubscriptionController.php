@@ -6,6 +6,7 @@ use App\Plan;
 use App\Subscription;
 use App\SubscriptionService;
 use App\User;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Logging\Log;
 use Illuminate\Contracts\View\View;
@@ -71,7 +72,7 @@ class SubscriptionController extends Controller
             throw new AuthorizationException("You are not authorized to make this request");
         }
 
-        setStripeApiKey("private");
+        setStripeApiKey("secret");
         $stripeToken    = $request->stripeToken;
         $planName       = $request->stripe_plan_name;
         $planIdentifier = $request->stripe_plan_id;
@@ -115,7 +116,7 @@ class SubscriptionController extends Controller
         $user                 = Auth::user();
         $subscriptionId       = $user->subscription_id;
         $newPlan              = $request->plan_id;
-        setStripeApiKey("private");
+        setStripeApiKey("secret");
         $subscription   = \Stripe\Subscription::retrieve($subscriptionId);
         $itemID         = $subscription->items->data[0]->id;
 
@@ -130,15 +131,23 @@ class SubscriptionController extends Controller
     }
 
 
-    public function deleteSubscription(Request $request)
+    public function cancelSubscription(Request $request, $subscriptionId)
     {
         /** @var User $user */
-        setStripeApiKey("private");
-        $user                 = Auth::user();
-        $subscriptionId       = $user->subscription_id;
+        setStripeApiKey("secret");
+        $user              = Auth::user();
+        $localSubscription = Subscription::find($subscriptionId);
+
+        try {
+            $stripeSubscription = \Stripe\Subscription::retrieve($localSubscription->stripe_id);
+        } catch (Exception $e) {
+            return redirect()->back()->with("errorMessage", "There was a problem canceling your subscription. please try again or contact customer service {$localSubscription->stripe_plan}");
+        }
+
+        $stripeSubscription->cancel(); // need a catch here
+        $localSubscription->delete();
+
         $isBusinessAcoount    = $request->is_business_account;
-        $subscription   = \Stripe\Subscription::retrieve($subscriptionId);
-        $subscription->cancel();
 
         if($isBusinessAcoount) {
             $user->business_account      = "0";
@@ -147,13 +156,15 @@ class SubscriptionController extends Controller
             $user->save();
         }
 
+        return redirect()->back()->with("successMessage", "Subscription cancelled Successfully");
+
     }
 
 
     public function getSubscriptionStatus()
     {
         /** @var User $user */
-        setStripeApiKey("private");
+        setStripeApiKey("secret");
         $user           = Auth::user();
         $subscriptionId = $user->subscription_id;
         $subscription   = \Stripe\Subscription::retrieve($subscriptionId);

@@ -1118,7 +1118,7 @@ function defaultSearchDistanceMI() {
 function removeLastWord($text) {
     $arr = explode(' ', $text);
     array_pop($arr);
-    echo implode(' ',$arr);
+    return implode(' ',$arr);
 }
 
 

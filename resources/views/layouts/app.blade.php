@@ -99,6 +99,7 @@
 {{--NAV SECTION--}}
 
 @yield('header')
+@include("alerts.plan-alerts")
         @yield('body')
 
 

@@ -14,7 +14,12 @@
                             <hr>
                             <button class="btn btn-primary"> Check-in </button> {{-- still needs to be worked out --}}
                             <button class="btn btn-primary"> View Details </button> {{-- we need a modal for this --}}
-                            <button class="btn btn-danger"> Cancel Subscription </button> {{-- still needs to be worked out --}}
+                            <form method="POST" action=/subscription/cancel/{{$subscription->id}}" style="display: inline-block">
+                                {{csrf_field()}}
+                                {{method_field("DELETE")}}
+                                <input type="hidden" name="is_business_account" value="0">
+                                <button type="submit" class="btn btn-danger"> Cancel Subscription </button> {{-- still needs to be worked out --}}
+                            </form>
                         </div>
                 </div>
                 @empty
