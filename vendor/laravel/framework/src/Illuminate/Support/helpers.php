@@ -1059,8 +1059,8 @@ function setStripeApiKey($privateOrPublic) {
     }
 }
 
-function currentMonth() {
-    return date('m');
+function currentMonthAndYear() {
+    return date('m').date('Y');
 }
 
 /** this method is used to unlink photos during deletes */

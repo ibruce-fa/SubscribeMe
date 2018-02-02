@@ -18,6 +18,8 @@ class CreateCheckInsTable extends Migration
             $table->string('customer_id');
             $table->integer('business_id',false,true);
             $table->string('stripe_plan_id');
+            $table->string('stripe_sub_id');
+            $table->string('code');
             $table->integer('uses');
             $table->timestamps();
         });

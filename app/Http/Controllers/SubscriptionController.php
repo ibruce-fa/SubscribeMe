@@ -141,7 +141,7 @@ class SubscriptionController extends Controller
         try {
             $stripeSubscription = \Stripe\Subscription::retrieve($localSubscription->stripe_id);
         } catch (Exception $e) {
-            return redirect()->back()->with("errorMessage", "There was a problem canceling your subscription. please try again or contact customer service {$localSubscription->stripe_plan}");
+            return redirect()->back()->with("errorMessage", "There was a problem canceling your subscription. please try again or contact customer service {$localSubscription->stripe_id} {$subscriptionId}");
         }
 
         $stripeSubscription->cancel(); // need a catch here
@@ -171,28 +171,29 @@ class SubscriptionController extends Controller
         return $subscription->status;
     }
 
-    public function checkIn(Request $request)
+    public function checkIn(Request $request, $planId, $subscriptionId)
     {
         /** @var Subscription $subscription */
         $userId       = Auth::id();
-        $planId       = $request->stripe_plan;
-        $plan         = DB::table('plans')->where('stripe_plan_id',$planId)->get();
-        $subscription = DB::table('subscriptions')->where('user_id',$userId)->where('stripe_plan',$planId)->get();
+        $plan         = Plan::find($planId);
+        $subscription = Subscription::find($subscriptionId);
+
 
         if ($subscription->uses >= $plan->use_limit) {
-            // this means the period is over and we need to reset
-            if (currentMonth() != $subscription->current_usage_month) {
-                $subscription->current_usage_month = currentMonth();
+            if ($subscription->last_usage_date != currentMonthAndYear()) { // this means the period is over and we need to reset
+                $subscription->last_usage_date = currentMonthAndYear();
                 $subscription->uses = 0;
             } else {
                 return 'You have exceeded your limit for this month';
             }
-        } else {
-            $subscription->is_checking_in = "1";
-            $subscription->save();
         }
 
-        return $subscription;
+        $checkinCode = rand(10000,99999);
+        $subscription->checkin_code = $checkinCode;
+        $subscription->is_checking_in = "1";
+        $subscription->save();
+
+        return $checkinCode;
     }
 
     public function getCheckIns()
@@ -204,13 +205,24 @@ class SubscriptionController extends Controller
         return $checkIns;
     }
 
-    public function confirmCheckIn(Request $request)
+    public function confirmCheckIn(Request $request, $businessId)
     {
         /** @var Subscription $subscription */
-        $subscription = DB::table('subscriptions')->where('id',$request->id)->get();
-        $subscription->uses = $subscription->uses + 1;
-        $subscription->is_checking_in = "2";
-        $subscription->save();
+        $subscription = DB::table('subscriptions')
+            ->where("business_id", $businessId)
+            ->where('checkin_code',$request->checkin_code)
+            ->where('is_checking_in', 1)
+            ->first();
+
+        if($subscription) {
+            $subscription->uses = $subscription->uses + 1;
+            $subscription->is_checking_in = 0;
+            $subscription->save();
+
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     public function resetCheckIn(Request $request)
@@ -227,3 +239,4 @@ class SubscriptionController extends Controller
     }
 
 }
+

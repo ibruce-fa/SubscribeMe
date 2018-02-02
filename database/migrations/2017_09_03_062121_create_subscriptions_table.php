@@ -24,7 +24,8 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('price')->default(0);
             $table->string('sm_interval')->default(0);
             $table->integer('is_checking_in')->nullable();
-            $table->integer('current_usage_month')->default(0);
+            $table->integer('last_usage_date')->default(0);
+            $table->integer('checkin_code')->default(0);
             $table->integer('quantity')->nullable();
             $table->timestamp('trial_ends_at')->nullable();
             $table->timestamp('ends_at')->nullable();
