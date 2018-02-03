@@ -60,6 +60,13 @@
             </div>
         </a>
 
+        <a class="col-md-4" href="/business/checkins">
+            <div class="card">
+                <span class="fa fa-envelope fa-2x"></span>
+                <h3>Check-ins</h3>
+            </div>
+        </a>
+
         <a class="col-md-4" href="###">
             <div class="card">
                 <span class="fa fa-window-close fa-2x text-danger"></span>

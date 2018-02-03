@@ -60,6 +60,7 @@ Route::put('/business/activate/{id}', 'BusinessController@activateBusiness');
 Route::put('/business/suspend/{id}', 'BusinessController@suspendBusiness');
 Route::delete('/business/deletePhoto/{businessId}', 'BusinessController@deleteBusinessPhoto');
 Route::delete('/business/deleteLogo/{businessId}', 'BusinessController@deleteBusinessLogo');
+Route::get('/business/checkins', 'BusinessController@showCheckinView');
 /** BUSINESS ROUTES END */
 
 
@@ -95,6 +96,8 @@ Route::put('/subscription/activate/{id}', 'SubscriptionController@activateBusine
 Route::put('/subscription/suspend/{id}', 'SubscriptionController@suspendBusiness');
 Route::delete('/subscription/cancel/{id}', 'SubscriptionController@cancelSubscription');
 
+// AJAX
+Route::post('/subscription/checkin/{planId}/{subscriptionId}', 'SubscriptionController@checkin');
 /** SUBSCRIPTION ROUTES END */
 
 
@@ -120,5 +123,5 @@ Route::get('/location', 'LocationController@getLocations');
 
 /** ACCOUNT ROUTES */
 Route::get('/account', 'AccountController@index');
-Route::get('/account/subscriptions', 'AccountController@subscriptions');
+Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
 /** ACCOUNT ROUTES END */

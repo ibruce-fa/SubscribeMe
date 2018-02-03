@@ -88,7 +88,7 @@ class SubscriptionController extends Controller
 //        $subscription   = \Stripe\Subscription::retrieve($subscriptionId);
 //        $subscription->cancel();
 
-        $newStripeSubscription->current_usage_month = currentMonth();
+        $newStripeSubscription->last_usage_date     = currentMonthAndYear(); // restart this process
         $newStripeSubscription->business_id         = $businessId;
         $newStripeSubscription->price               = $price;
         $newStripeSubscription->sm_interval         = $interval;

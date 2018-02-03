@@ -14,7 +14,8 @@ class Subscription extends Model
         'business_owner_id',
         'quantity',
         'is_checking_in',
-        'current_usage_month',
+        'last_usage_date',
+        'uses',
         'trial_ends_at',
         'ends_at'
     ];

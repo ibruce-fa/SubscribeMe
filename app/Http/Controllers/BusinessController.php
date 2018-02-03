@@ -327,6 +327,10 @@ class BusinessController extends Controller
         return $income;
     }
 
+    public function showCheckinView() {
+        return view('business.checkins');
+    }
+
 
 
     private function getUserObject()
