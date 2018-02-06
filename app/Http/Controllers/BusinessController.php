@@ -327,8 +327,10 @@ class BusinessController extends Controller
         return $income;
     }
 
-    public function showCheckinView() {
-        return view('business.checkins');
+    public function showCheckinView($businessId) {
+
+        $checkins = \App\Subscription::where('business_id',$businessId)->where('is_checking_in', 1)->get();
+        return view('business.checkins')->with('checkins', $checkins);
     }
 
 

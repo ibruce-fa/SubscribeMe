@@ -1121,4 +1121,10 @@ function removeLastWord($text) {
     return implode(' ',$arr);
 }
 
+function getLoadingAnimation()
+{
+    return new HtmlString('<img src="/images/pacman.gif">');
+}
+
+
 

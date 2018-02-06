@@ -60,7 +60,7 @@
             </div>
         </a>
 
-        <a class="col-md-4" href="/business/checkins">
+        <a class="col-md-4" href="/business/checkins/{{$data['businessId']}}">
             <div class="card">
                 <span class="fa fa-envelope fa-2x"></span>
                 <h3>Check-ins</h3>

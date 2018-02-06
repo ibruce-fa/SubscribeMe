@@ -32,6 +32,10 @@ class Subscription extends Model
         return Plan::where('id',$this->plan_id)->first();
     }
 
+    public function user() {
+        return $this->belongsTo('App\User');
+    }
+
 }
 
 

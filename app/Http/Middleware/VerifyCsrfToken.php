@@ -13,6 +13,7 @@ class VerifyCsrfToken extends BaseVerifier
      */
     protected $except = [
         'location',
-        'subscription/checkin/*'
+        'subscription/checkin/*',
+        'subscription/confirmCheckin/*'
     ];
 }

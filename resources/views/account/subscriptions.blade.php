@@ -23,7 +23,7 @@
                             </form>
                         </div>
                 </div>
-                @include('modals.bootstrap.checkin-modal')
+                @include('modals.custom.checkin-modal')
                 @empty
                     <div class="card">
                         <div class="card-header">No subscriptions yet!</div>

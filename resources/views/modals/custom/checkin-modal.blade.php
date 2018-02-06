@@ -8,7 +8,7 @@
             <div id="checkin-response-container">
                 <h3 class="text-center">Give this 5 digit code to the service worker to use their service.</h3>
                 <hr>
-                <h1 class="text-center checkin-code">.....</h1>
+                <h1 class="text-center checkin-code">{{getLoadingAnimation()}}</h1>
             </div>
         </div>
     </div>

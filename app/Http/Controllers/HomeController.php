@@ -29,7 +29,7 @@ class HomeController extends Controller
      */
     public function index(ESPlanRepository $ESPlanRepository, Request $request)
     {
-        $location = Location::find($request->get('location_id'));
+        $location = Location::find($request->get('location_id') ?: Auth::user()->location_id);
         $lat = $location ? $location->lat : null;
         $lng = $location ? $location->lng : null;
 

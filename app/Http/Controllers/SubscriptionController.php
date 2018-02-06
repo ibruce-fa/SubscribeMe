@@ -205,16 +205,13 @@ class SubscriptionController extends Controller
         return $checkIns;
     }
 
-    public function confirmCheckIn(Request $request, $businessId)
+    public function confirmCheckin(Request $request, $subscriptionId)
     {
         /** @var Subscription $subscription */
-        $subscription = DB::table('subscriptions')
-            ->where("business_id", $businessId)
-            ->where('checkin_code',$request->checkin_code)
-            ->where('is_checking_in', 1)
-            ->first();
+        $subscription = Subscription::find($subscriptionId);
 
-        if($subscription) {
+//
+        if($subscription && $subscription->checkin_code == $request->checkin_code && $subscription->is_checking_in == 1) {
             $subscription->uses = $subscription->uses + 1;
             $subscription->is_checking_in = 0;
             $subscription->save();
