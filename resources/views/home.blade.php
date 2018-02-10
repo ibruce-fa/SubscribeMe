@@ -9,6 +9,15 @@
                     <input type="hidden" name="location_id" id="location_id" value="{{getAuthUser()->location_id ?: 0}}">
                     <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchField" name="searchField" placeholder="What are you looking for?" style="background: white ">
             </div>
+            <hr>
+            <a class="text-white" data-toggle="collapse" data-target="#more-criteria" aria-expanded="false" aria-controls="more-criteria">
+               <span class="fa fa-plus-circle"></span> Advanced search
+            </a>
+            <div class="block form-group collapse" id="more-criteria">
+                <label class="text-white">Distance in miles:</label>
+                <input id="miles" name="miles" type="number" value="{{$miles}}" class="form-control bg-white" min="1" max="100" placeholder="Distance in miles">
+            </div>
+            <hr>
         </form>
 
         <form class="col-md-3 col-sm-12" id="location-form">
@@ -39,7 +48,7 @@
                 <div class="search-result bg-gray">
                                                         {{--using default distance here--}}
                     <h4>Results For "{{$queryString}}" </h4>
-                    <p>{{$count}} {{$count == 1 ? 'result' : 'results'}} within {{ceil(80.5*.621)}} miles of {{$location->city}}, {{$location->state}}</p>
+                    <p>{{$count}} {{$count == 1 ? 'result' : 'results'}} within {{$miles}} miles of {{$location->city}}, {{$location->state}}</p>
                 </div>
             </div>
         @else
@@ -98,6 +107,5 @@
 
 @section('footer')
 <script src="{{asset('/js/location/setLocation.js')}}"></script>
-<script src="{{asset('/js/setLocation.js')}}"></script>
 <script src="{{asset('/js/index.js')}}"></script>
 @endsection
