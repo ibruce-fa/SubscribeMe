@@ -126,3 +126,19 @@ Route::get('/location', 'LocationController@getLocations');
 Route::get('/account', 'AccountController@index');
 Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
 /** ACCOUNT ROUTES END */
+
+/** REVIEW ROUTES */
+Route::get('/review/all/{businessId}', 'ReviewController@getAll');
+Route::post('/review/addReview/{businessId}', 'ReviewController@addReview');
+Route::delete('/review/deleteReview/{businessId}', 'ReviewController@deleteReview');
+/** REVIEW ROUTES END */
+
+/** RATING ROUTES */
+Route::get('/account', 'AccountController@index');
+Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
+/** RATING ROUTES END */
+
+/** NOTIFICATION ROUTES */
+Route::get('/account', 'AccountController@index');
+Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
+/** NOTIFICATION ROUTES END */

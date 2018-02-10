@@ -26,6 +26,16 @@ $('.has-business-hours').on('change', function(){
         $('.business-hours').hide();
     }
 });
+//
+// $('#review-form').submit(function (event) {
+//     event.preventDefault();
+//     var reviewContainer = $('#review-container');
+//     var userName = $(this).children('.user-name').val();
+//     var reviewBody = $(this).children('.review-body').val();
+//     var date = $(this).children('.date').val();
+//     var review = $('<div class="review"><p>'+reviewBody+'</p><small class="text-muted">Posted by <b>'+userName+'</b> on '+date+'</small></div><hr>');
+//     reviewContainer.prepend(review);
+// });
 
 
 function triggerTargetClick(obj) {
@@ -39,3 +49,5 @@ function triggerTargetSubmit(obj) {
 }
 // When clicking here, we will trigger the dropzone that
 // lets us choose a NEW FEATURED PHOTO for the the PLAN
+
+

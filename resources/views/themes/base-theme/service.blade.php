@@ -52,19 +52,37 @@ $intervals = ['month','year'];
 
                 <div class="card card-outline-secondary my-4 no-shadow">
                     <div class="card-header">
-                        Product Reviews
+                        Service Reviews
                     </div>
                     <div class="card-body">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                        <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+                        <div id="review-container">
+                            @forelse($reviews as $review)
+                                <div class="review">
+                                    <p>{{$review->body}}</p>
+                                    <small class="text-muted">Posted by <b>{{$review->name}}</b> on <span><b>{{formatDate($review->created_at,'M-d-Y')}}</b></span></small>
+                                    @if($review->user_id === \Illuminate\Support\Facades\Auth::id())
+                                        <form action="/review/deleteReview/{{$review->id}}" method="post" class="float-right">
+                                            <button type="submit" class="text-danger">delete</button>
+                                            {{method_field('delete')}}
+                                            {{csrf_field()}}
+                                        </form>
+                                    @endif
+                                </div>
+                            @empty
+                                <h3>No reviews yet</h3>
+                            @endforelse
+                        </div>
                         <hr>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                        <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                        <hr>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                        <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                        <hr>
-                        <a href="#" class="btn btn-success">Leave a Review</a>
+                        @if(!$hasReview && !$owner)
+                            <form method="post" action="/review/addReview/{{$business->id}}" class="form-group" id="review-form">
+                                <textarea name="body" placeholder="write your review here" class="form-control-lg review-body" id="review-body" required></textarea><br>
+                                <input type="hidden" name="user_id"   class="user-id" value="{{\Illuminate\Support\Facades\Auth::id()}}">
+                                <input type="hidden" name="user_name" class="user-name" value="{{authedUserFullName()}}">
+                                {{csrf_field()}}
+                                <br>
+                                <button type="submit" class="btn btn-success" id="service-review-button">Leave a Review</button>
+                            </form>
+                        @endif
                     </div>
                 </div>
                 <!-- /.card -->

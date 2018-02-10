@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Location;
 use App\Plan;
+use App\Review;
 use Dompdf\Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -89,16 +90,20 @@ class BusinessController extends Controller
     }
 
     public function viewService(Request $request,$planId) {
-        $plan     = Plan::find($planId);
-        $business = $plan->business;
-        $hasPhoto   = !empty($business->photo_path);
-        $haslogo    = !empty($business->logo_path);
-        $owner    = $business->user->id == Auth::id();
-        $publicStripeKey = getPublicStripeKey();
+        $plan               = Plan::find($planId);
+        $business           = $plan->business;
+        $hasPhoto           = !empty($business->photo_path);
+        $haslogo            = !empty($business->logo_path);
+        $owner              = $business->user->id == Auth::id();
+        $publicStripeKey    = getPublicStripeKey();
+        $reviews            = (new Review())->where('business_id', $business->id)->orderBy('id','desc')->get();
+        $hasReview          = (new Review())->where('business_id', $business->id)->where('user_id', Auth::id() ?: $request->get('user_id'))->first();
         return view('themes.base-theme.service')
             ->with('hasPhoto',$hasPhoto)
             ->with('haslogo',$haslogo)
             ->with('business',$business)
+            ->with('hasReview',$hasReview)
+            ->with('reviews',$reviews)
             ->with('active','')
             ->with('publicStripeKey',$publicStripeKey)
             ->with('plan',$plan)->with('owner',$owner);

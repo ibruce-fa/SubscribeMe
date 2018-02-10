@@ -1126,5 +1126,17 @@ function getLoadingAnimation()
     return new HtmlString('<img src="/images/pacman.gif">');
 }
 
+function authedUserFullName()
+{
+    $user = \Illuminate\Support\Facades\Auth::user();
+    return ucwords(sprintf("%s %s", $user->first, $user->last));
+}
+
+function formatDate($time, $formatString)
+{
+    $date = new DateTime($time);
+    return $date->format($formatString);
+}
+
 
 

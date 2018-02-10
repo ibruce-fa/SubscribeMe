@@ -294,6 +294,10 @@ label {
     margin-top: 10px;
 }
 
+#review-body {
+    width: 100%;
+}
+
 .text-default {
     color: whitesmoke;
 }
