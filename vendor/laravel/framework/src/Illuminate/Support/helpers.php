@@ -1138,5 +1138,21 @@ function formatDate($time, $formatString)
     return $date->format($formatString);
 }
 
+function getRatingStars($rating)
+{
+    for($i = 1; $i <= 5; $i++){
+        $class = '';
+        if($rating >= $i){
+            $class = 'fa fa-star';
+        } elseif ($i - $rating < 1.0) {
+            $class = 'fa fa-star-half-full';
+        } else {
+            $class = 'fa fa-star-o';
+        }
+
+        echo "<span class='$class'></span>";
+    }
+}
+
 
 

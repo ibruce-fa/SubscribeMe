@@ -79,11 +79,9 @@
                                 </ul>
                                 <div class="product-ratings">
                                     <ul class="list-inline">
-                                        <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                        <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                        <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                        <li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-                                        <li class="list-inline-item"><i class="fa fa-star"></i></li>
+                                        <span class="text-warning">
+                                            {{getRatingStars($plan->rating)}}
+                                        </span>
                                         <a class=" list-inline-item float-right">{{formatPrice($plan->month_price)}} - {{formatPrice($plan->year_price)}}</a>
                                     </ul>
 

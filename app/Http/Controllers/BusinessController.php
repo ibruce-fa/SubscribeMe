@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Location;
 use App\Plan;
+use App\Rating;
 use App\Review;
 use Dompdf\Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -96,6 +97,7 @@ class BusinessController extends Controller
         $haslogo            = !empty($business->logo_path);
         $owner              = $business->user->id == Auth::id();
         $publicStripeKey    = getPublicStripeKey();
+        $rating             = (new Rating())->where('plan_id', $planId)->avg('rate_number');
         $reviews            = (new Review())->where('business_id', $business->id)->orderBy('id','desc')->get();
         $hasReview          = (new Review())->where('business_id', $business->id)->where('user_id', Auth::id() ?: $request->get('user_id'))->first();
         return view('themes.base-theme.service')
@@ -104,6 +106,7 @@ class BusinessController extends Controller
             ->with('business',$business)
             ->with('hasReview',$hasReview)
             ->with('reviews',$reviews)
+            ->with('rating',$rating)
             ->with('active','')
             ->with('publicStripeKey',$publicStripeKey)
             ->with('plan',$plan)->with('owner',$owner);

@@ -23,6 +23,10 @@ class Plan extends Model
         return $this->hasMany('App\Photo');
     }
 
+    public function ratings() {
+        return $this->hasMany('App\Rating')->avg("rate_number");
+    }
+
 //    public function setIdAttribute($value)
 //    {
 //        $this->attributes['id'] = strtolower($value);

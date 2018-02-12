@@ -135,7 +135,7 @@ Route::delete('/review/deleteReview/{businessId}', 'ReviewController@deleteRevie
 
 /** RATING ROUTES */
 Route::get('/account', 'AccountController@index');
-Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
+Route::post('/rating/rateService/{planId}', 'RatingController@rateService');
 /** RATING ROUTES END */
 
 /** NOTIFICATION ROUTES */

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Business;
 use App\Plan;
+use App\Rating;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 use Illuminate\Console\Command;
@@ -23,6 +24,7 @@ class ReindexCommand extends Command
 
     public function handle()
     {
+        // curl -XDELETE 'localhost:9200/plans?pretty'
         $this->output->write("building index.... \n");
         $this->buildPlanIndex(); // builds schema
         $this->output->write("index built \n");
@@ -35,6 +37,7 @@ class ReindexCommand extends Command
                 $body = $model->toSearchArray();
                 $location = ['lat' => $model->business->lat,'lon' => $model->business->lng];
                 $body['location'] = $location;
+                $body['rating'] = (new Rating())->where('plan_id', $model->id)->avg('rate_number') ?: 0;
 
                 $this->search->index([
                     'index' => $model->getSearchIndex(),
@@ -86,6 +89,17 @@ class ReindexCommand extends Command
         ];
 
         return $client->indices()->create($params);
+    }
+
+    public function deleteIndex($id)
+    {
+        $client = ClientBuilder::create()->build();
+        $params = [
+            'index' => 'plans',
+            'type'  => 'plans',
+            'id'    => '6'
+        ];
+        $client->delete($params);
     }
 
 

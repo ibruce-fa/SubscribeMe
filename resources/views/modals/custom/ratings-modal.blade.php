@@ -1,20 +1,41 @@
-<div id="review-{{$plan->id}}" class="sm-modal" role="dialog" tabindex="-1" aria-hidden="true">
+<div id="rate-{{$plan->id}}" class="sm-modal" role="dialog" tabindex="-1" aria-hidden="true">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close hide-sm-modal" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
-            <div class="card-body">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-                <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-                <hr>
-                <form method="post" action="///" class="form-group">
-                    <textarea name="body" placeholder="write your review here" class="form-control-lg" id="review-body"></textarea><br>
-                    <input type="hidden" name="user_id" value="{{\Illuminate\Support\Facades\Auth::id()}}">
+            <div class="card-body text-center">
+                <h2 class="text-center">Do you like this service? please rate it</h2>
+
+                    <h1 style="display: inline" class="mr-4"><span class="fa fa-frown-o"></span></h1>
+                    @for($i = 1; $i <=5; $i++)
+
+                        <h1 style="display: inline" class="rate-star"><span class="fa fa-star-o fa-lg star-icons" data-rate="{{$i}}"></span></h1>
+
+                    @endfor
+                    <h1 style="display: inline" class="ml-4"><span class="fa fa-smile-o"></span></h1>
+
+                <form method="post" action="/rating/rateService/{{$plan->id}}" class="form-group">
+                    <input type="hidden" name="rate_number" id="rate-number">
+                    <br>
+                    <button type="submit" class="btn btn-success">Rate this product</button>
                     {{csrf_field()}}
                 </form>
-                <a href="#" class="btn btn-success" id="service-review-button">Leave a Review</a>
+
+
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $('.rate-star').on('click', function() {
+        var span = $(this).children();
+        $('.star-icons').addClass('fa-star-o');
+        var rateNumber = $(this).children().attr('data-rate');
+        span.removeClass('fa-star-o').addClass('fa-star');
+        $('#rate-number').val(rateNumber);
+
+
+    });
+</script>

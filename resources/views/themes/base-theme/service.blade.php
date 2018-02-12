@@ -44,8 +44,11 @@ $intervals = ['month','year'];
 
                         <h4>Service description</h4>
                         <p class="card-text">{{$plan->description}}</p>
-                        <span class="text-warning">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
-                        4.0 stars
+                        <h5></h5>
+                        <span class="text-warning">
+                            {{getRatingStars($rating)}}
+                        </span>
+                        {{round($rating, 1)}} stars
                     </div>
                 </div>
                 <!-- /.card -->
