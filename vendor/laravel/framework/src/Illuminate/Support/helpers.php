@@ -1141,7 +1141,6 @@ function formatDate($time, $formatString)
 function getRatingStars($rating)
 {
     for($i = 1; $i <= 5; $i++){
-        $class = '';
         if($rating >= $i){
             $class = 'fa fa-star';
         } elseif ($i - $rating < 1.0) {
@@ -1152,6 +1151,15 @@ function getRatingStars($rating)
 
         echo "<span class='$class'></span>";
     }
+}
+
+function getNotificationTypes()
+{
+    return [
+        'common',
+        'consumer',
+        'business'
+    ];
 }
 
 

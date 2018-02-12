@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Location;
+use App\Notification;
 use App\Plan;
 use App\Rating;
 use App\Review;
@@ -339,6 +340,12 @@ class BusinessController extends Controller
 
         $checkins = \App\Subscription::where('business_id',$businessId)->where('is_checking_in', 1)->get();
         return view('business.checkins')->with('checkins', $checkins);
+    }
+
+    public function businessNotificationView($businessId){
+        $businessEmail = (new Business())->where('id', $businessId)->value('email');
+        $notifications = (new Notification())->getNotifications('business', $businessEmail, $businessId);
+        return view('business.business-notifications')->with('notifications', $notifications);
     }
 
 
