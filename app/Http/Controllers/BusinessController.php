@@ -348,6 +348,10 @@ class BusinessController extends Controller
         return view('business.business-notifications')->with('notifications', $notifications);
     }
 
+    public function showCancelAccountView(){
+        return view('business.cancel-account');
+    }
+
 
 
     private function getUserObject()

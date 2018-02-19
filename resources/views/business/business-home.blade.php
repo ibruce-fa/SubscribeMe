@@ -67,7 +67,7 @@
             </div>
         </a>
 
-        <a class="col-md-4" href="###">
+        <a class="col-md-4" href="/business/cancel">
             <div class="card">
                 <span class="fa fa-window-close fa-2x text-danger"></span>
                 <h3>Cancel account</h3>

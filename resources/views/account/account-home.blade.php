@@ -8,8 +8,8 @@
                     <ul class="list-group text-center" style="border: none">
                         <a href="/account/mysubscriptions" class="list-group-item theme-background text-default">My Subscriptions</a>
                         <a href="/account/notifications" class="list-group-item theme-background text-default"> Notifications</a>
-                        <a href="/account/details" class="list-group-item theme-background text-default"> My Account</a>
                         <a href="/account/support" class="list-group-item theme-background text-default"> Customer Support</a>
+                        <a href="/account/delete" class="list-group-item theme-background text-default"> Delete your Account</a>
                     </ul>
             </div>
         </div>

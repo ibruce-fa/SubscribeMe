@@ -61,6 +61,7 @@ Route::put('/business/suspend/{id}', 'BusinessController@suspendBusiness');
 Route::delete('/business/deletePhoto/{businessId}', 'BusinessController@deleteBusinessPhoto');
 Route::delete('/business/deleteLogo/{businessId}', 'BusinessController@deleteBusinessLogo');
 Route::get('/business/checkins/{businessId}', 'BusinessController@showCheckinView');
+Route::get('/business/cancel', 'BusinessController@showCancelAccountView');
 /** BUSINESS ROUTES END */
 
 
@@ -122,10 +123,6 @@ Route::delete('/plan/galleryPhoto/{id}', 'PlanController@deleteGalleryPhoto');
 Route::get('/location', 'LocationController@getLocations');
 /** LOCATION ROUTES END */
 
-/** ACCOUNT ROUTES */
-Route::get('/account', 'AccountController@index');
-Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
-/** ACCOUNT ROUTES END */
 
 /** REVIEW ROUTES */
 Route::get('/review/all/{businessId}', 'ReviewController@getAll');
@@ -141,4 +138,7 @@ Route::post('/rating/rateService/{planId}', 'RatingController@rateService');
 /** NOTIFICATION ROUTES */
 Route::get('/account', 'AccountController@index');
 Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
+Route::get('/account/notifications', 'AccountController@accountNotificationView');
+Route::get('/account/delete', 'AccountController@deleteAccount');
+Route::get('/account/support', 'AccountController@showSupportView');
 /** NOTIFICATION ROUTES END */

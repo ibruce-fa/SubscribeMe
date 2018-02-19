@@ -15,7 +15,7 @@ class CreateNotificationsTable extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->increments('id');
-            $table->enum("type",['common', 'consumer', 'business']);
+            $table->enum("type",['common', 'consumer', 'business', 'support']);
             $table->integer('on_behalf_of_id'); // will work in conjunction with the type to determine if this needs to be business or user id
             $table->string('on_behalf_of_email'); // will work in conjunction with the type to determine if this needs to be business or user id
             $table->string('recipient_email');
