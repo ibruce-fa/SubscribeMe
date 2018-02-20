@@ -11,7 +11,7 @@
 
     <div class="container">
         <div class="row "><br><br>
-            <h3 class="text-center col-12 card-header">Manage your plans</h3>
+            <h3 class="text-center col-12 card-header">Manage your services</h3>
         </div>
     </div>
     <div class="container">

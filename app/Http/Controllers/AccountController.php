@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Notification;
 use App\Subscription;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +35,17 @@ class AccountController extends Controller
         $notifications = (new Notification())->getNotifications('consumer', Auth::user()->email);
         // maybe also get common
         return view('account.account-notifications')->with('notifications', $notifications);
+    }
+
+    public function contactSupport(Request $request){
+        try {
+            (new Notification())->createNotification($request);
+            return redirect('/account')->with('successMessage', "Your message was successfully sent. You will receive a response in 24-48 hours.");
+        } catch (Exception $e) {
+            // return with old values
+            return redirect('/account/support')->with('errorMessage', "Message was not sent successfully. Please try again.");
+        }
+
     }
 
     public function deleteAccount(){

@@ -49,6 +49,9 @@ Route::get('/business/viewStore/{id}', 'BusinessController@viewStore');
 Route::get('/business/viewStore/{id}/about', 'BusinessController@about');
 Route::get('/business/viewStore/{id}/contact', 'BusinessController@contact');
 Route::get('/business/viewService/{planId}', 'BusinessController@viewService');
+Route::get('/business/checkins/{businessId}', 'BusinessController@showCheckinView');
+Route::get('/business/cancel', 'BusinessController@showCancelAccountView');
+Route::get('/business/notifications/{businessId}', 'BusinessController@showBusinessNotificationView');
 Route::post('/business/delete/{id}', 'BusinessController@deleteBusiness');
 Route::post('/business/createAccount', 'BusinessController@createBusinessAccount');
 Route::post('/business/create', 'BusinessController@createBusiness');
@@ -60,8 +63,6 @@ Route::put('/business/activate/{id}', 'BusinessController@activateBusiness');
 Route::put('/business/suspend/{id}', 'BusinessController@suspendBusiness');
 Route::delete('/business/deletePhoto/{businessId}', 'BusinessController@deleteBusinessPhoto');
 Route::delete('/business/deleteLogo/{businessId}', 'BusinessController@deleteBusinessLogo');
-Route::get('/business/checkins/{businessId}', 'BusinessController@showCheckinView');
-Route::get('/business/cancel', 'BusinessController@showCancelAccountView');
 /** BUSINESS ROUTES END */
 
 
@@ -141,4 +142,5 @@ Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
 Route::get('/account/notifications', 'AccountController@accountNotificationView');
 Route::get('/account/delete', 'AccountController@deleteAccount');
 Route::get('/account/support', 'AccountController@showSupportView');
+Route::post('/account/contactSupport', 'AccountController@contactSupport');
 /** NOTIFICATION ROUTES END */

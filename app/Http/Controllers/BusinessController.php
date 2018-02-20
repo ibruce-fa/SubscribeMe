@@ -245,6 +245,13 @@ class BusinessController extends Controller
         return $this->failMessage;
     }
 
+    public function showBusinessNotificationView($businessId){
+        $business = Business::find($businessId);
+        $notifications = (new Notification())->getNotifications('business', $business->email);
+        // maybe also get common
+        return view('business.business-notifications')->with('notifications', $notifications);
+    }
+
     public function deleteBusiness($id)
     {
         $business = DB::table('businesses')->where('id', $id)->first();
