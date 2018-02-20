@@ -48,9 +48,18 @@ class AccountController extends Controller
 
     }
 
-    public function deleteAccount(){
+    public function showDeleteAccountView(){
         // maybe also get common
         return view('account.delete-account');
+    }
+
+    public function deleteAccount()
+    {
+        // delete user
+        // delete all subscriptions associated with user
+        // if they have a business, then we have to run the deleteBusiness method
+        // DELETE BUSINESS METHOD SHOULD BE CREATED FIRST BECAUSE OF 3RD POINT
+
     }
 
     public function showSupportView(){

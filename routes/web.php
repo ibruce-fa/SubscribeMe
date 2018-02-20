@@ -140,7 +140,7 @@ Route::post('/rating/rateService/{planId}', 'RatingController@rateService');
 Route::get('/account', 'AccountController@index');
 Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
 Route::get('/account/notifications', 'AccountController@accountNotificationView');
-Route::get('/account/delete', 'AccountController@deleteAccount');
+Route::get('/account/delete', 'AccountController@showDeleteAccountView');
 Route::get('/account/support', 'AccountController@showSupportView');
 Route::post('/account/contactSupport', 'AccountController@contactSupport');
 /** NOTIFICATION ROUTES END */
