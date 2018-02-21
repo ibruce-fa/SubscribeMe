@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Location;
 use App\Notification;
+use App\Photo;
 use App\Plan;
 use App\Rating;
 use App\Review;
@@ -252,17 +253,33 @@ class BusinessController extends Controller
         return view('business.business-notifications')->with('notifications', $notifications);
     }
 
-    public function deleteBusiness($id)
+    public function deleteBusiness($businessId)
     {
-        $business = DB::table('businesses')->where('id', $id)->first();
-        if($business->delete()){
-            return redirect('/business/manageBusiness');
+        $business = Business::find($businessId);
+        foreach($business->plans() as $plan)
+        {
+            $subs = (new \App\Subscription())->where('plan_id', $plan->id)->get(); // delete all the subscriptions
+            foreach($subs as $sub)
+            {
+                Subscription::retrieve($sub->stripe_plan)->cancel();
+                $sub->delete(); // delete all photos assoc with plans
+            }
+
+            $photos = (new Photo())->where('plan_id', $plan)->get();
+            foreach($photos as $photo)
+            {
+                unlink($photo->path);
+                $photo->delete(); // delete all photos assoc with plans
+            }
+            $plan->delete(); // delete plan
         }
 
-        // TODO: remove plans and subscriptions associated with
-        // TODO: also, handle the case where a business may try to grab money
-        // cont. from customers and delete their account early.
-        return 'nah';
+        unlink($business->photo_path);
+        // delete the business subscription first
+        $business->delete(); //  delete business
+
+        return redirect('/business')->with('errorMessage',"Your business subscription was canceled successfully");
+
     }
 
     public function deactivateBusiness($id)
