@@ -253,32 +253,47 @@ class BusinessController extends Controller
         return view('business.business-notifications')->with('notifications', $notifications);
     }
 
-    public function deleteBusiness($businessId)
+    public function deleteBusiness($businessId, Request $request)
     {
-        $business = Business::find($businessId);
-        foreach($business->plans() as $plan)
-        {
-            $subs = (new \App\Subscription())->where('plan_id', $plan->id)->get(); // delete all the subscriptions
-            foreach($subs as $sub)
-            {
-                Subscription::retrieve($sub->stripe_plan)->cancel();
-                $sub->delete(); // delete all photos assoc with plans
-            }
-
-            $photos = (new Photo())->where('plan_id', $plan)->get();
-            foreach($photos as $photo)
-            {
-                unlink($photo->path);
-                $photo->delete(); // delete all photos assoc with plans
-            }
-            $plan->delete(); // delete plan
+        if(Auth::user()->email !== $request->email) {
+            return redirect()->back()->with("errorMessage","Not authorized to make this request");
+        }
+        $business = (new Business())->find($businessId);
+        if(!$business){
+            return redirect()->back()->with("errorMessage","Business doesn't exist");
         }
 
-        unlink($business->photo_path);
+        $subs = (new \App\Subscription())->where('business_id', $businessId)->get(); // delete all the subscriptions
+        foreach($subs as $sub)
+        {
+            Subscription::retrieve($sub->stripe_id)->cancel();
+            $sub->delete(); // delete all photos assoc with plans
+        }
+
+        if($plans = $business->plans()) {
+            foreach($plans as $plan)
+            {
+
+                $photos = (new Photo())->where('plan_id', $plan->id)->get();
+                foreach($photos as $photo)
+                {
+                    unlink(getFullPathToImage($photo->path));
+                    $photo->delete(); // delete all photos assoc with plans
+                }
+                $plan->delete(); // delete plan
+            }
+
+        } else {
+            //test code, in reality it should just continue and delete business. else will be deleted
+            return redirect()->back()->with("errorMessage","plans don't exist");
+        }
+
+        unlink(getFullPathToImage($business->photo_path));
+        unlink(getFullPathToImage($business->logo_path));
         // delete the business subscription first
         $business->delete(); //  delete business
 
-        return redirect('/business')->with('errorMessage',"Your business subscription was canceled successfully");
+        return redirect('/business')->with('successMessage',"Your business subscription was canceled successfully");
 
     }
 
