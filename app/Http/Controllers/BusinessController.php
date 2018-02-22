@@ -253,7 +253,7 @@ class BusinessController extends Controller
         return view('business.business-notifications')->with('notifications', $notifications);
     }
 
-    public function deleteBusiness($businessId, Request $request)
+    public function deleteBusiness(Request $request, $businessId)
     {
         if(Auth::user()->email !== $request->email) {
             return redirect()->back()->with("errorMessage","Not authorized to make this request");
@@ -291,6 +291,8 @@ class BusinessController extends Controller
         unlink(getFullPathToImage($business->photo_path));
         unlink(getFullPathToImage($business->logo_path));
         // delete the business subscription first
+        $localSubscription = (new \App\Subscription())->find(Auth::user()->subscription_id);
+        Subscription::retrieve($localSubscription->stripe_id)->cancel();
         $business->delete(); //  delete business
 
         return redirect('/business')->with('successMessage',"Your business subscription was canceled successfully");

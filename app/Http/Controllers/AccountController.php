@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Business;
 use App\Notification;
 use App\Subscription;
+use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,12 +55,28 @@ class AccountController extends Controller
         return view('account.delete-account');
     }
 
-    public function deleteAccount()
+    public function deleteAccount(Request $request)
     {
-        // delete user
-        // delete all subscriptions associated with user
-        // if they have a business, then we have to run the deleteBusiness method
-        // DELETE BUSINESS METHOD SHOULD BE CREATED FIRST BECAUSE OF 3RD POINT
+        $email = $request->get('email');
+        $user = Auth::user();
+        if($email !=  $user->email) {
+            return redirect()->back()->with("errorMessage","Not authorized to make this request");
+        }
+
+        if($user->business_id) {
+            $businessController = new BusinessController();
+            $businessController->deleteBusiness( $request, $user->business_id);
+        }
+
+        $localSubscriptions = (new Subscription())->where('user_id', Auth::id())->get();
+        foreach ($localSubscriptions as $localSubscription) {
+            \Stripe\Subscription::retrieve($localSubscription->stripe_id)->cancel();
+            $localSubscription->delete();
+        }
+
+        (new User())->find(Auth::id())->delete();
+        Auth::logout();
+        return redirect('/')->with('successMessage',"Your account was canceled successfully");
 
     }
 
