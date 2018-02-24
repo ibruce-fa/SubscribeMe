@@ -52,7 +52,7 @@ Route::get('/business/viewService/{planId}', 'BusinessController@viewService');
 Route::get('/business/checkins/{businessId}', 'BusinessController@showCheckinView');
 Route::get('/business/cancel', 'BusinessController@showCancelAccountView');
 Route::get('/business/notifications/{businessId}', 'BusinessController@showBusinessNotificationView');
-Route::post('/business/delete/{id}', 'BusinessController@deleteBusiness');
+Route::post('/business/deleteBusiness/{id}', 'BusinessController@deleteBusiness');
 Route::post('/business/createAccount', 'BusinessController@createBusinessAccount');
 Route::post('/business/create', 'BusinessController@createBusiness');
 Route::post('/business/updatePhoto/{businessId}', 'BusinessController@updateBusinessPhoto');

@@ -1051,10 +1051,10 @@ function getPrivateStripeKey() {
     return config('services.stripe.secret');
 }
 
-function setStripeApiKey($privateOrPublic) {
-    if($privateOrPublic == "secret") {
+function setStripeApiKey($secretOrPublic) {
+    if($secretOrPublic == "secret") {
         \Stripe\Stripe::setApiKey(getPrivateStripeKey());
-    } elseif($privateOrPublic == "public") {
+    } elseif($secretOrPublic == "public") {
         \Stripe\Stripe::setApiKey(getPublicStripeKey());
     }
 }

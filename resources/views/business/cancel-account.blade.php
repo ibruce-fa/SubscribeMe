@@ -10,9 +10,10 @@
                 <div class="card-body">
                 <a href="/business" class="btn theme-background text-white pull-left">Back</a>
 
-                    <button class="btn btn-danger pull-right">Delete Account</button>
+                    <button class="btn btn-danger pull-right show-sm-modal" data-modal-target="#confirm-delete-business-modal">Delete Account</button>
                 </div>
             </div>
         </div>
     </div>
+    @include('modals.custom.confirm-delete-business-modal')
 @endsection

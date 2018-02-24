@@ -255,19 +255,29 @@ class BusinessController extends Controller
 
     public function deleteBusiness(Request $request, $businessId)
     {
-        if(Auth::user()->email !== $request->email) {
+        setStripeApiKey('secret');
+        $user = (new User())->find(Auth::id());
+
+        if($user->email !== $request->email) {
             return redirect()->back()->with("errorMessage","Not authorized to make this request");
         }
+
         $business = (new Business())->find($businessId);
         if(!$business){
             return redirect()->back()->with("errorMessage","Business doesn't exist");
         }
 
         $subs = (new \App\Subscription())->where('business_id', $businessId)->get(); // delete all the subscriptions
-        foreach($subs as $sub)
-        {
-            Subscription::retrieve($sub->stripe_id)->cancel();
-            $sub->delete(); // delete all photos assoc with plans
+        if(count($subs) > 0) {
+            foreach($subs as $sub)
+            {
+                try {
+                    Subscription::retrieve($sub->stripe_id)->cancel();
+                } catch (Exception $e) {
+                    logger('subscription cancellation failed');
+                }
+                $sub->delete(); // delete all photos assoc with plans
+            }
         }
 
         if($plans = $business->plans()) {
@@ -277,23 +287,37 @@ class BusinessController extends Controller
                 $photos = (new Photo())->where('plan_id', $plan->id)->get();
                 foreach($photos as $photo)
                 {
-                    unlink(getFullPathToImage($photo->path));
+                    try {
+                        unlink(getFullPathToImage($photo->path));
+                    } catch (Exception $e) {
+                        logger('plan photo deletion failed');
+                    }
                     $photo->delete(); // delete all photos assoc with plans
                 }
                 $plan->delete(); // delete plan
             }
 
-        } else {
-            //test code, in reality it should just continue and delete business. else will be deleted
-            return redirect()->back()->with("errorMessage","plans don't exist");
         }
 
-        unlink(getFullPathToImage($business->photo_path));
-        unlink(getFullPathToImage($business->logo_path));
+        try {
+            unlink(getFullPathToImage($business->photo_path));
+            unlink(getFullPathToImage($business->logo_path));
+        } catch (Exception $e) {
+            logger('business photos deletion failed');
+        }
         // delete the business subscription first
-        $localSubscription = (new \App\Subscription())->find(Auth::user()->subscription_id);
-        Subscription::retrieve($localSubscription->stripe_id)->cancel();
-        $business->delete(); //  delete business
+        $localSubscription = (new \App\Subscription())->find($user->subscription_id);
+        try {
+            Subscription::retrieve($localSubscription->stripe_id)->cancel();
+            $business->delete(); //  delete business
+        } catch (Exception $e) {
+            return redirect('/business')->with('warningMessage',"Please try again, business was not deleted");
+        }
+        $user->business_account = "0";
+        $user->business_account_plan = null;
+        $user->business_id = null;
+        $user->subscription_id = null;
+        $user->save();
 
         return redirect('/business')->with('successMessage',"Your business subscription was canceled successfully");
 
@@ -389,8 +413,9 @@ class BusinessController extends Controller
         return view('business.business-notifications')->with('notifications', $notifications);
     }
 
-    public function showCancelAccountView(){
-        return view('business.cancel-account');
+    public function showCancelAccountView() {
+        $businessId = (new Business())->where('user_id', Auth::id())->value('id');
+        return view('business.cancel-account')->with('businessId', $businessId);
     }
 
 
