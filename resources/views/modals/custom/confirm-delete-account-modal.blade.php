@@ -7,10 +7,11 @@
             <h3 class="text-center">Are you sure you want to delete your account?</h3>
             <div id="">
                 <hr>
-                <form>
+                <form action="/account/deleteAccount" method="post">
                     <input class="form-control" name="email" type="text" placeholder="enter user account email">
                     <hr>
-                    <button class="btn btn-danger">Yes, Delete my account</button>
+                    {{csrf_field()}}
+                    <button class="btn btn-danger" type="submit">Yes, Delete my account</button>
                 </form>
             </div>
         </div>

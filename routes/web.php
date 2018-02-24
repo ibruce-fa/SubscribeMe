@@ -143,4 +143,5 @@ Route::get('/account/notifications', 'AccountController@accountNotificationView'
 Route::get('/account/delete', 'AccountController@showDeleteAccountView');
 Route::get('/account/support', 'AccountController@showSupportView');
 Route::post('/account/contactSupport', 'AccountController@contactSupport');
+Route::post('/account/deleteAccount', 'AccountController@deleteAccount');
 /** NOTIFICATION ROUTES END */

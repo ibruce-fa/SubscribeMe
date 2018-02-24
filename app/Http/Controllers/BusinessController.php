@@ -253,7 +253,7 @@ class BusinessController extends Controller
         return view('business.business-notifications')->with('notifications', $notifications);
     }
 
-    public function deleteBusiness(Request $request, $businessId)
+    public function deleteBusiness(Request $request, $businessId, $userDelete = null)
     {
         setStripeApiKey('secret');
         $user = (new User())->find(Auth::id());
@@ -311,7 +311,11 @@ class BusinessController extends Controller
             Subscription::retrieve($localSubscription->stripe_id)->cancel();
             $business->delete(); //  delete business
         } catch (Exception $e) {
-            return redirect('/business')->with('warningMessage',"Please try again, business was not deleted");
+            if ($userDelete) {
+                return redirect('/account/delete')->with('warningMessage', "Please try again, business was not deleted");
+            } else {
+                return redirect('/business')->with('warningMessage', "Please try again, business was not deleted");
+            }
         }
         $user->business_account = "0";
         $user->business_account_plan = null;
@@ -319,7 +323,11 @@ class BusinessController extends Controller
         $user->subscription_id = null;
         $user->save();
 
-        return redirect('/business')->with('successMessage',"Your business subscription was canceled successfully");
+        if($userDelete) {
+            return true;
+        } else {
+            return redirect('/business')->with('successMessage',"Your business subscription was canceled successfully");
+        }
 
     }
 

@@ -65,7 +65,7 @@ class AccountController extends Controller
 
         if($user->business_id) {
             $businessController = new BusinessController();
-            $businessController->deleteBusiness( $request, $user->business_id);
+            $businessController->deleteBusiness( $request, $user->business_id, true);
         }
 
         $localSubscriptions = (new Subscription())->where('user_id', Auth::id())->get();
@@ -76,6 +76,7 @@ class AccountController extends Controller
 
         (new User())->find(Auth::id())->delete();
         Auth::logout();
+
         return redirect('/')->with('successMessage',"Your account was canceled successfully");
 
     }
