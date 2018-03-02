@@ -13,7 +13,7 @@ var componentForm = {
 function initAutocomplete() {
     // Create the autocomplete object, restricting the search to geographical
     // location types.
-    console.log("initing autocomplete...");
+    // console.log("initing autocomplete...");
     autocomplete = new google.maps.places.Autocomplete(
         /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
         {types: ['geocode']});
@@ -25,7 +25,7 @@ function initAutocomplete() {
 
 function fillInAddress() {
     // Get the place details from the autocomplete object.
-    console.log("filling address...");
+    // console.log("filling address...");
     var place = autocomplete.getPlace();
 
     for (var component in componentForm) {
@@ -66,3 +66,11 @@ function geolocate() {
         });
     }
 }
+
+$('#autocomplete').attr('autocomplete','user-address');
+$('#autocomplete').parents('form').on('submit', function(e){
+   if($('#locality').val() == '') {
+       e.preventDefault();
+       alert('please enter an address');
+   }
+});

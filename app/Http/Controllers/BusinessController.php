@@ -286,14 +286,17 @@ class BusinessController extends Controller
             {
 
                 $photos = (new Photo())->where('plan_id', $plan->id)->get();
-                foreach($photos as $photo)
+                if($photos)
                 {
-                    try {
-                        unlink(getFullPathToImage($photo->path));
-                    } catch (Exception $e) {
-                        logger('plan photo deletion failed');
+                    foreach($photos as $photo)
+                    {
+                        try {
+                            unlink(getFullPathToImage($photo->path));
+                        } catch (Exception $e) {
+                            logger('plan photo deletion failed');
+                        }
+                        $photo->delete(); // delete all photos assoc with plans
                     }
-                    $photo->delete(); // delete all photos assoc with plans
                 }
                 $plan->delete(); // delete plan
             }
@@ -301,8 +304,12 @@ class BusinessController extends Controller
         }
 
         try {
-            unlink(getFullPathToImage($business->photo_path));
-            unlink(getFullPathToImage($business->logo_path));
+            if ($business->photo_path) {
+                unlink(getFullPathToImage($business->photo_path));
+            }
+            if ($business->logo_path) {
+                unlink(getFullPathToImage($business->logo_path));
+            }
         } catch (Exception $e) {
             logger('business photos deletion failed');
         }

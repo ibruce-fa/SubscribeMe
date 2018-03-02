@@ -9,16 +9,14 @@
                 <form method="post" action="/business/create" class="form-group-md">
                     <div class="card-body theme-form">
                         {{csrf_field()}}
-                        <input type="text" name="name" class="form-control" placeholder="Business Name">
-                        <input type="email" name="email" class="form-control" placeholder="Business Email">
-                        <input type="tel" name="phone" class="form-control" placeholder="Business Phone">
-                        <textarea type="text" name="description" class="form-control" placeholder="Business Description here..."></textarea>
+                        <input type="text" name="name" class="form-control" placeholder="Business Name" required>
+                        <input type="email" name="email" class="form-control" placeholder="Business Email" required>
+                        <input type="tel" name="phone" class="form-control" placeholder="Business Phone" required>
+                        <textarea type="text" name="description" class="form-control" placeholder="Business Description here..." required></textarea>
                         <hr>
                         <h4 class="text-white"><u>Address</u></h4>
-                        <div class="card-body">
-                            <input id="autocomplete" placeholder="Enter your address"
-                                   onFocus="geolocate()" class="form-control" type="text" autocomplete="user-address">
-                        </div>
+                        <input id="autocomplete" placeholder="Enter your address"
+                                   onFocus="geolocate()" class="form-control" type="text" autocomplete="off">
                         <input type="hidden" class="field" id="address" name="address">
                         <input type="hidden" class="field" id="locality" name="city">
                         <input type="hidden" class="field" id="administrative_area_level_1" name="state">

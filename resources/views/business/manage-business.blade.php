@@ -5,7 +5,7 @@
 @endsection
 
 @section('body')
-
+@include('partials.back')
 
     @if(!count($businesses))
         <a class="btn btn-default btn-lg text-left" href="{{ URL::previous() }}"><span class="fa fa-arrow-left"></span> </a>

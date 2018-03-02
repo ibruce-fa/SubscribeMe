@@ -6,7 +6,7 @@
 
 @section('body')
 
-    @include("alerts.plan-alerts")
+    @include('partials.back')
 
 
     <div class="container">

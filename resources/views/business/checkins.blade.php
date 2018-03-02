@@ -1,6 +1,7 @@
 @extends('layouts.app')
 {{--IT SHOULD BE NOTED THAT $checkin is a Subscription object--}}
 @section('body')
+    @include('partials.back')
    <div class="container-fluid">
        <div class="row">
            <div class="col-md-8 offset-md-2">

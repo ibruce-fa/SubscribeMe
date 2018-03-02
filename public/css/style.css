@@ -3,18 +3,18 @@ body {
 }
 
 .business-img-placeholder,
-.business-logo-placeholder{
+.business-logo-placeholder {
     max-width: 200px;
     height: 150px;
     border-radius: 50%;
     border: 1px solid #4cb996;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size:cover;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size:contain;
     background-repeat: no-repeat;
     position: relative;
-    /*left: 35%;*/
+    background-position: center;
     margin: auto;
 }
 
@@ -339,4 +339,9 @@ label {
 }
 textarea {
     min-height: 100px;
+}
+
+/*for google location*/
+.pac-container {
+    z-index: 1051 !important;
 }

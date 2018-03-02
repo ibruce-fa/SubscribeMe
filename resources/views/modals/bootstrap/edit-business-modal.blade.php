@@ -27,7 +27,17 @@
                     <label>Address:</label>
                 </div>
                 <div class="edit-input-div">
-                    <input type="text" name="address" class="form-control" value="{{$business->address}}">
+                    <div class="card-body">
+                        <input id="autocomplete" placeholder="Enter your address" value="{{$business->address}}"
+                               onFocus="geolocate()" class="form-control" type="text" autocomplete="user-address">
+                    </div>
+                    <input type="hidden" class="field" id="address" name="address">
+                    <input type="hidden" class="field" id="locality" name="city">
+                    <input type="hidden" class="field" id="administrative_area_level_1" name="state">
+                    <input type="hidden" class="field" id="postal_code" name="zip">
+                    <input type="hidden" class="field" id="country" name="country">
+                    <input type="hidden" class="field" id="lat" name="lat">
+                    <input type="hidden" class="field" id="lng" name="lng">
                 </div>
 
                 <div class="edit-label-div">
@@ -57,6 +67,6 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
             </div>
         </div>
-
+    {{csrf_field()}}
     </form>
 </div>
