@@ -13,6 +13,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Business;
 use App\User;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Stripe\Stripe;
@@ -32,16 +33,16 @@ class BusinessController extends Controller
     {
         if(Auth::user()->business_account != "1") {
             return redirect('/business/signup');
+        } elseif(!Business::where('user_id', Auth::id())->first()) {
+            return redirect('/business/manageBusiness');
         } else {
 
             $stats = DB::select($this->getBusinessAccountStatsQuery());
             $projectedMonthlyIncome = $this->calulateMonthlyIncome();
-            $businessIds = !count($stats) ? 0 :$stats[0]->bizCount;
             $planCount = !count($stats) ? 0 :$stats[0]->planCount;
             $subscriptionCount = !count($stats) ? 0 :$stats[0]->subCount;
             $data = [
-              'businessId'            => Auth::user()->business->id,
-              'businessCount'         => $businessIds,
+              'businessId'            => Auth::user()->business ? Auth::user()->business->id : 0,
               'planCount'             => $planCount,
               'subscriptionCount'     => $subscriptionCount,
               'name'                  => ucfirst(Auth::user()->first),

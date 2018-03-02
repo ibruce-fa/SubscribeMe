@@ -7,7 +7,7 @@ body {
     max-width: 200px;
     height: 150px;
     border-radius: 50%;
-    border: 1px solid #5672f9;
+    border: 1px solid #4cb996;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -22,7 +22,7 @@ body {
 
 /*.business-img-placeholder:hover {*/
     /*color: whitesmoke;*/
-    /*background: #5672f9;*/
+    /*background: #4cb996;*/
 /*}*/
 
 #scoreboard {
@@ -81,7 +81,7 @@ body {
 .card {
     padding: 5%;
     background: whitesmoke;
-    color: #5672f9;
+    color: #4cb996;
     box-shadow: 2px 2px 5px black;
 }
 
@@ -89,7 +89,7 @@ body {
 .plan-preview-card {
     padding: 2% 2% 0 2%;
     background: whitesmoke;
-    color: #5672f9;
+    color: #4cb996;
     clear: both;
     overflow: auto;
     box-shadow: 2px 2px 5px black;
@@ -112,12 +112,12 @@ body {
 }
 
 .plan-preview-card-footer div:hover {
-    background: #5672f9;
+    background: #4cb996;
     color: whitesmoke;
 }
 
 .plan-footer-buttons {
-    border-right: 1px solid #5672f9;
+    border-right: 1px solid #4cb996;
     min-height: 100% !important;
     height: 40px;
 }
@@ -132,12 +132,12 @@ body {
 
 .div-hover-white:hover {
     background: whitesmoke;
-    color: #5672f9;
+    color: #4cb996;
 }
 
 .new-plan-card {
     border: .5px dashed white;
-    background: #5672f9;
+    background: #4cb996;
     color: whitesmoke;
     height: 100px;
     text-align: center;
@@ -145,7 +145,7 @@ body {
 
 .new-plan-card:hover {
     background: lightgray;
-    color: #5672f9;
+    color: #4cb996;
 }
 
 .strike {
@@ -222,7 +222,7 @@ body {
 
 .panel-footer .btn {
     margin: 15px 0;
-    background-color: #5672f9;
+    background-color: #4cb996;
     color: whitesmoke;
 }
 
@@ -310,7 +310,7 @@ label {
 }
 
 #location-list li:hover {
-    background: #5672f9;
+    background: #4cb996;
     color: whitesmoke;
 }
 
@@ -319,11 +319,24 @@ label {
 }
 
 .theme-background {
-    background: #5672f9 !important;
+    background: #4cb996 !important;
     color: whitesmoke !important;
+}
+
+.theme-form input,
+.theme-form textarea {
+    background: white !important;
+    color: black !important;
 }
 
 .stripe-button-el {
     background: transparent !important;
     background-image: none !important;
+}
+
+.round-5 {
+    border-radius: 5% !important;
+}
+textarea {
+    min-height: 100px;
 }

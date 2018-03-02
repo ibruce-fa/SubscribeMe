@@ -22,6 +22,8 @@ class HomeController extends Controller
         $this->middleware('auth');
     }
 
+    private $maxResults = 25;
+
     /**
      * Show the application dashboard.
      *
@@ -29,12 +31,14 @@ class HomeController extends Controller
      */
     public function index(ESPlanRepository $ESPlanRepository, Request $request)
     {
-        $location = Location::find($request->get('location_id') ?: Auth::user()->location_id);
+        $location = (new Location())->find($request->get('location_id') ?: Auth::user()->location_id);
         $kms = $request->get('miles') ? ($request->get('miles') * 1.61) . "km" : '16.10km'; // default distance is 10 miles | 8.05km == 5 mi
         $lat = $location ? $location->lat : null;
         $lng = $location ? $location->lng : null;
+        $paginationIndex = $request->get('from');
+        $maxResults = $request->query('size');
 
-        $plans = $ESPlanRepository->search($request->get('searchField'), $lat, $lng, $kms);
+        $plans = $ESPlanRepository->search($request->get('searchField'), $lat, $lng, $kms, $paginationIndex);
 
         if($request->get('location_id') != Auth::user()->location_id && $request->get('location_id') > 0) {
             $user = Auth::user();
@@ -44,8 +48,11 @@ class HomeController extends Controller
 
 
         return view('home')
-            ->with('plans', $plans)
-            ->with('count', count($plans))
+            ->with('maxResults', $this->maxResults)
+            ->with('plans', $plans) /** TODO: get seperate 'hits' value from return results to complete pagination */
+            ->with('searchFrom', $paginationIndex ?: null)
+            ->with('searchField', $request->get('searchField') ?: '')
+            ->with('count', count($plans)) // this may change. With pagination, we need the total "hits" and the returned results
             ->with('miles', $request->get('miles') > 0 ? $request->get('miles') : 10)
             ->with('location', $location ?: new Location())
             ->with('queryString', !empty($request->get('searchField')) ? $request->get('searchField') : '');

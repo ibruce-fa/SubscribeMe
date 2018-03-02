@@ -28,14 +28,14 @@ class ESPlanRepository extends ESRepository implements RepositoryInterface
         $this->model  = new Plan();
     }
 
-    public function search($query = "", $lat = null, $lng = null, $distance = '80.5km')
+    public function search($query = "", $lat = null, $lng = null, $distance = '80.5km', $from = 0, $maxResults = 25)
     {
-        $items = $query ? $this->searchOnElasticsearch($query, $lat, $lng, $distance) : $this->getAllItems();
+        $items = $query ? $this->searchOnElasticsearch($query, $lat, $lng, $distance, $from) : $this->getAllItems();
 
         return $this->buildCollection($items);
     }
 
-    private function searchOnElasticsearch($query, $lat, $lng, $distance)
+    private function searchOnElasticsearch($query, $lat, $lng, $distance, $from = 0, $maxResults = 25)
     {
         $instance = $this->model;
 
@@ -43,6 +43,8 @@ class ESPlanRepository extends ESRepository implements RepositoryInterface
             'index' => $instance->getSearchIndex(),
             'type' => $instance->getSearchType(),
             'body' => [
+                "from" => !$from ? 0 : $from * $maxResults,
+                "size" => $maxResults,
                 'query' => [
                     'bool' => [
                         'should' => [

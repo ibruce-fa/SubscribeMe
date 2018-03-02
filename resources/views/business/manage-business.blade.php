@@ -6,22 +6,14 @@
 
 @section('body')
 
-    @include("alerts.plan-alerts")
 
     @if(!count($businesses))
         <a class="btn btn-default btn-lg text-left" href="{{ URL::previous() }}"><span class="fa fa-arrow-left"></span> </a>
+        <h2 class="text-center">To start, enter your business's details</h2>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-8 offset-md-2 text-center">
-                    <button class="btn btn-info biz-preview-card show-sm-modal" data-modal-target="#createBusinessModal">
-                        <span class="fa fa-plus fa-3x"></span><h3>Create new business</h3>
-                    </button>
-                </div>
-            </div>
-        </div>
+        @include('modals.custom.create-business-form')
         <hr>
-    @endif
+    @else
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12" href="#">
@@ -38,7 +30,7 @@
                         <div class="col-md-6">
                             {{--PRIMARY BUSINESS LOGO--}}
                             <p class="text-center">
-                                <a class="text-primary" id="update-business-logo" data-target="#business-logo-dropzone" onclick="triggerTargetClick(this)">update logo</a>
+                                <a class="text-primary btn theme-background" id="update-business-logo" data-target="#business-logo-dropzone" onclick="triggerTargetClick(this)">update logo</a>
                             <form action="/business/updateLogo/{{$business->id}}" class="dropzone hide" id="business-logo-dropzone">
                                 {{ csrf_field() }}
                                 {{ form_method_field("POST") }}
@@ -64,7 +56,7 @@
                         <div class="col-md-6">
                             {{--PRIMARY BUSINESS PHOTO--}}
                             <p class="text-center">
-                                <a class="text-primary" id="update-business_photo" data-target="#business-dropzone" onclick="triggerTargetClick(this)">update photo</a>
+                                <a class="text-primary btn theme-background" id="update-business_photo" data-target="#business-dropzone" onclick="triggerTargetClick(this)">update main photo</a>
                                 <form action="/business/updatePhoto/{{$business->id}}" class="dropzone hide" id="business-dropzone">
                                     {{ csrf_field() }}
                                     {{ form_method_field("POST") }}
@@ -126,9 +118,8 @@
         </div>
     </div>
 
-    <!-- CREATE BUSINESS Modal -->
-    @include('modals.custom.create-business-modal')
 
+    @endif
 @endsection
 
 @section('footer')

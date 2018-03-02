@@ -35,7 +35,7 @@
         <a class="col-md-4" href="/business/manageBusiness">
             <div class="card">
                 <span class="fa fa-briefcase fa-2x"></span>
-                <h3>{{$data['businessCount'] ? "Manage Business" : "Create Business"}}</h3>
+                <h3>Manage Business</h3>
             </div>
         </a>
 

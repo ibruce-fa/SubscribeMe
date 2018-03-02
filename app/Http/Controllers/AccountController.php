@@ -57,6 +57,7 @@ class AccountController extends Controller
 
     public function deleteAccount(Request $request)
     {
+        setStripeApiKey('secret');
         $email = $request->get('email');
         $user = Auth::user();
         if($email !=  $user->email) {
@@ -70,7 +71,11 @@ class AccountController extends Controller
 
         $localSubscriptions = (new Subscription())->where('user_id', Auth::id())->get();
         foreach ($localSubscriptions as $localSubscription) {
-            \Stripe\Subscription::retrieve($localSubscription->stripe_id)->cancel();
+            try {
+                \Stripe\Subscription::retrieve($localSubscription->stripe_id)->cancel();
+            } catch (Exception $e) {
+                logger(sprintf('problem with subscription %s - %s',$localSubscription->stripe_id, $e));
+            }
             $localSubscription->delete();
         }
 

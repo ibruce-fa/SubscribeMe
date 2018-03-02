@@ -73,11 +73,11 @@ label {
 }
 
 .nav-pills.with-background .nav-link:hover {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .nav-pills.with-background .nav-link.active {
-  background: #5672f9;
+  background: #4cb996;
   position: relative;
   transition: 0s;
 }
@@ -95,7 +95,7 @@ label {
   height: 0;
   border-left: 10px solid transparent;
   border-right: 10px solid transparent;
-  border-top: 10px solid #5672f9;
+  border-top: 10px solid #4cb996;
   clear: both;
   transition: all .2s ease-in 0s;
 }
@@ -142,7 +142,7 @@ ul.pagination li a {
 }
 
 ul.pagination .active a {
-  background-color: #5672f9 !important;
+  background-color: #4cb996 !important;
   color: #fff !important;
   border-color: transparent !important;
 }
@@ -159,10 +159,10 @@ ul.social-circle-icons li a {
   display: block;
   font-size: 15px;
   line-height: 38px;
-  color: #5672f9;
+  color: #4cb996;
   height: 38px;
   width: 38px;
-  border: 2px solid #5672f9;
+  border: 2px solid #4cb996;
   background: #fff;
   border-radius: 100%;
 }
@@ -170,7 +170,7 @@ ul.social-circle-icons li a {
 ul.social-circle-icons li a:hover {
   text-decoration: none;
   color: #fff;
-  background: #5672f9;
+  background: #4cb996;
 }
 
 .store-list h4 {
@@ -197,7 +197,7 @@ ul.social-circle-icons li a:hover {
 
 .store-list ul li a:hover {
   text-decoration: underline;
-  color: #5672f9;
+  color: #4cb996;
 }
 
 @media (max-width: 768px) {
@@ -237,7 +237,7 @@ iframe {
 a:focus, a:hover {
   text-decoration: none;
   outline: 0;
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .form-control {
@@ -252,7 +252,7 @@ a:focus, a:hover {
 .form-control:focus {
   color: #666;
   box-shadow: none;
-  border: 1px solid #5672f9;
+  border: 1px solid #4cb996;
   background-color: transparent;
 }
 
@@ -358,7 +358,7 @@ button {
   right: 0;
   width: 40px;
   height: 5px;
-  background-color: #5672f9;
+  background-color: #4cb996;
 }
 
 .section-title p {
@@ -436,7 +436,7 @@ button {
 }
 
 .btn-main, .btn-main-sm {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
 }
 
@@ -457,15 +457,15 @@ button {
 }
 
 .btn-secondary:hover {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
   border-color: #fff;
 }
 
 .btn-transparent {
   background: transparent;
-  color: #5672f9;
-  border: 1px solid #5672f9;
+  color: #4cb996;
+  border: 1px solid #4cb996;
 }
 
 .btn-transparent:hover {
@@ -510,7 +510,7 @@ button {
 }
 
 .btn:focus {
-  color: #5672f9;
+  color: #4cb996;
   box-shadow: none;
 }
 
@@ -550,7 +550,7 @@ button {
 }
 
 .page-title {
-  background: #5672f9;
+  background: #4cb996;
   padding: 35px 0;
 }
 
@@ -581,19 +581,19 @@ ul.pagination li a {
 }
 
 ul.pagination li a:hover {
-  background-color: #5672f9 !important;
+  background-color: #4cb996 !important;
   color: #fff !important;
   border-color: transparent !important;
 }
 
 ul.pagination .active a {
-  background-color: #5672f9 !important;
+  background-color: #4cb996 !important;
   color: #fff !important;
   border-color: transparent !important;
 }
 
 .page-search {
-  background: #5672f9;
+  background: #4cb996;
   padding: 30px 0;
 }
 
@@ -653,7 +653,7 @@ ul.pagination .active a {
 }
 
 .bg-4 {
-  background: #5672f9;
+  background: #4cb996;
 }
 
 .navigation {
@@ -696,7 +696,7 @@ ul.pagination .active a {
 }
 
 .main-nav .nav-item.active .nav-link {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .main-nav .search .nav-link i {
@@ -704,8 +704,8 @@ ul.pagination .active a {
   height: 43px;
   width: 43px;
   line-height: 43px;
-  color: #5672f9;
-  border: 1px solid #5672f9;
+  color: #4cb996;
+  border: 1px solid #4cb996;
   border-radius: 3px;
   text-align: center;
 }
@@ -715,9 +715,9 @@ ul.pagination .active a {
 }
 
 .main-nav .search .input-group .input-group-addon {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
-  border: 1px solid #5672f9;
+  border: 1px solid #4cb996;
 }
 
 .main-nav .search .input-group .input-group-addon i {
@@ -736,7 +736,7 @@ ul.pagination .active a {
 }
 
 .dropdown-item.active, .dropdown-item:active {
-  background: #5672f9;
+  background: #4cb996;
 }
 
 .dropdown-item {
@@ -948,7 +948,7 @@ ul.pagination .active a {
 }
 
 .user-dashboard-menu li.active a {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
 }
 
@@ -965,11 +965,11 @@ ul.pagination .active a {
 }
 
 .user-dashboard-menu li a:hover {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .user-dashboard-menu li a:hover span {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
 }
 
@@ -988,7 +988,7 @@ ul.pagination .active a {
 }
 
 .theme-background {
-  background: #5672f9 !important;
+  background: #4cb996 !important;
   color: whitesmoke !important;
 }
 
@@ -1141,13 +1141,13 @@ ul.pagination .active a {
 }
 
 .hero-area-2 .coupon-ig input {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
   border-color: transparent;
 }
 
 .hero-area-2 .coupon-ig .input-group-addon {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
   border-left: none;
 }
@@ -1289,7 +1289,7 @@ ul.pagination .active a {
 .category-block .category-list li a i {
   margin-right: 6px;
   font-size: 12px;
-  color: #5672f9;
+  color: #4cb996;
   vertical-align: middle;
 }
 
@@ -1373,7 +1373,7 @@ ul.pagination .active a {
   position: absolute;
   top: 10px;
   left: 10px;
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
   display: inline-block;
   padding: 4px 8px;
@@ -1408,7 +1408,7 @@ ul.pagination .active a {
 }
 
 .product-item .product-ratings .selected i {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .product-details .product-title {
@@ -1462,12 +1462,12 @@ ul.pagination .active a {
 }
 
 .product-details .content .nav .nav-item .nav-link:hover {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
 }
 
 .product-details .content .nav .nav-item .nav-link.active {
-  background: #5672f9;
+  background: #4cb996;
 }
 
 .product-details .content .tab-content {
@@ -1484,7 +1484,7 @@ ul.pagination .active a {
 }
 
 .product-slider .carousel-indicators li.active {
-  background: #5672f9;
+  background: #4cb996;
 }
 
 .product-table {
@@ -1592,7 +1592,7 @@ ul.pagination .active a {
 }
 
 .widget.price-range .slider-handle {
-  background: #5672f9;
+  background: #4cb996;
 }
 
 .widget.price-range .slider-track {
@@ -1609,7 +1609,7 @@ ul.pagination .active a {
 }
 
 .widget.price {
-  background: #5672f9;
+  background: #4cb996;
 }
 
 .widget.price h4 {
@@ -1644,7 +1644,7 @@ ul.pagination .active a {
 }
 
 .widget.category ul.category-list li a:hover {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .widget.category ul.category-list li:last-child {
@@ -1667,7 +1667,7 @@ ul.pagination .active a {
 }
 
 .widget.archive ul.archive-list li a:hover {
-  color: #5672f9;
+  color: #4cb996;
   text-decoration: underline;
 }
 
@@ -1680,7 +1680,7 @@ ul.pagination .active a {
 }
 
 .widget.coupon {
-  background: #5672f9;
+  background: #4cb996;
   padding: 35px 30px 40px 30px;
 }
 
@@ -1725,11 +1725,11 @@ ul.pagination .active a {
 }
 
 .widget.filter .form-check-label input[type=checkbox]:checked .form-check-label {
-  color: #5672f9 !important;
+  color: #4cb996 !important;
 }
 
 .widget.filter .form-check-label:hover {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .widget.user {
@@ -1769,7 +1769,7 @@ ul.pagination .active a {
 
 .widget.personal-info .form-group i, .widget.change-password .form-group i, .widget.change-email .form-group i {
   color: white;
-  background: #5672f9;
+  background: #4cb996;
   font-size: 25px;
   height: 50px;
   width: 50px;
@@ -1812,7 +1812,7 @@ ul.pagination .active a {
 }
 
 .widget.search .input-group .input-group-addon {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
   border: none;
 }
@@ -1919,7 +1919,7 @@ ul.pagination .active a {
 
 .stores ul.store-list li a:hover {
   text-decoration: underline;
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .store-coupon {
@@ -1974,7 +1974,7 @@ ul.pagination .active a {
 }
 
 .store-coupon .block .media .media-body ul li a {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .store-coupon .block .media .media-body p {
@@ -2024,10 +2024,10 @@ ul.pagination .active a {
   display: block;
   font-size: 15px;
   line-height: 38px;
-  color: #5672f9;
+  color: #4cb996;
   height: 38px;
   width: 38px;
-  border: 2px solid #5672f9;
+  border: 2px solid #4cb996;
   background: #fff;
   border-radius: 100%;
 }
@@ -2035,7 +2035,7 @@ ul.pagination .active a {
 .store-coupon .block .social-content ul.social-circle-icons li a:hover {
   text-decoration: none;
   color: #fff;
-  background: #5672f9;
+  background: #4cb996;
 }
 
 .store-coupon .block .social-content .share {
@@ -2080,7 +2080,7 @@ ul.pagination .active a {
 }
 
 .submit-coupon-sec form .form-group .input-group input:focus + .input-group-addon {
-  border: 1px solid #5672f9;
+  border: 1px solid #4cb996;
 }
 
 .submit-coupon-sec form .form-group .input-group .input-group-addon {
@@ -2110,14 +2110,14 @@ ul.pagination .active a {
 }
 
 .submit-coupon-sec form .coupon-type ul.coupon-types li a {
-  color: #5672f9;
+  color: #4cb996;
   display: block;
   font-size: 14px;
   text-decoration: none;
   padding: 25px 0;
   width: 170px;
   text-align: center;
-  border: 1px solid #5672f9;
+  border: 1px solid #4cb996;
   border-radius: 3px;
 }
 
@@ -2128,7 +2128,7 @@ ul.pagination .active a {
 }
 
 .submit-coupon-sec form .coupon-type ul.coupon-types li.active a {
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
 }
 
@@ -2145,7 +2145,7 @@ ul.pagination .active a {
 }
 
 .submit-coupon-sec p a {
-  color: #5672f9;
+  color: #4cb996;
   text-decoration: underline;
 }
 
@@ -2231,7 +2231,7 @@ article .post-slider .owl-nav [class*=owl-] {
 }
 
 article .post-slider .owl-nav [class*=owl-]:hover {
-  background-color: #5672f9;
+  background-color: #4cb996;
 }
 
 article h3 {
@@ -2248,7 +2248,7 @@ article ul li {
 }
 
 article ul li a {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 article p {
@@ -2328,7 +2328,7 @@ article.single-post p {
   line-height: 60px;
   text-transform: uppercase;
   background: #fff6f7;
-  border: 2px dashed #5672f9;
+  border: 2px dashed #4cb996;
   border-radius: 3px;
   margin-bottom: 40px;
 }
@@ -2372,7 +2372,7 @@ article.single-post p {
 }
 
 .footer .block ul li a:hover {
-  color: #5672f9;
+  color: #4cb996;
   text-decoration: underline;
 }
 
@@ -2414,7 +2414,7 @@ article.single-post p {
 }
 
 .footer .block-2.discount-coupon p a {
-  color: #5672f9;
+  color: #4cb996;
 }
 
 .footer-bottom {
@@ -2467,7 +2467,7 @@ article.single-post p {
 .top-to a {
   width: 40px;
   height: 40px;
-  background: #5672f9;
+  background: #4cb996;
   color: #fff;
   display: -webkit-box;
   display: -ms-flexbox;

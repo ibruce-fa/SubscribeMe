@@ -11,10 +11,15 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('index');
+    if(Auth::check()) {
+        return redirect('/home');
+    } else {
+        return view('index');
+    }
 });
 
 Route::get('/log/out', function () {

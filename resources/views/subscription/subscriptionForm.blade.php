@@ -16,10 +16,12 @@ $interval        = $data['interval'];
     <div class="container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <div class="panel panel-primary">
-                    <h1 class="text-center">Subscribe to {{$plan->stripe_plan_name}}</h1>
-                    <h3 class="text-center">at {{formatPrice($price)}} a {{$interval}}</h3>
-                    <div class="panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text-center">Subscribe to {{$plan->stripe_plan_name}}</h1>
+                        <h3 class="text-center">at {{formatPrice($price)}} a {{$interval}}</h3>
+                    </div>
+                    <div class="card-body">
                         <form action="/subscription/subscribe" class="text-center" method="POST">
                             <script
                                     src="https://checkout.stripe.com/checkout.js" class="stripe-button"

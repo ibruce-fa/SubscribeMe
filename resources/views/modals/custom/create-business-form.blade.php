@@ -1,24 +1,23 @@
-    <div id="createBusinessModal" class="sm-modal autoscroll" role="dialog">
-        <div class="modal-dialog">
+    <div id="" class="row" role="dialog">
+        <div class="col-md-6 offset-md-3">
 
             <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="hide-sm-modal pull-right btn btn-default" data-dismiss="modal">cancel</button>
-                    <h4 class="modal-title">Create Business</h4>
+            <div class="theme-background" style="border-radius: 5%">
+                <div class="card-header">
+                    <h4 class="text-white">Create Business</h4>
                 </div>
                 <form method="post" action="/business/create" class="form-group-md">
-                    <div class="modal-body">
+                    <div class="card-body theme-form">
                         {{csrf_field()}}
                         <input type="text" name="name" class="form-control" placeholder="Business Name">
                         <input type="email" name="email" class="form-control" placeholder="Business Email">
                         <input type="tel" name="phone" class="form-control" placeholder="Business Phone">
                         <textarea type="text" name="description" class="form-control" placeholder="Business Description here..."></textarea>
                         <hr>
-                        <h4><u>Address</u></h4>
+                        <h4 class="text-white"><u>Address</u></h4>
                         <div class="card-body">
                             <input id="autocomplete" placeholder="Enter your address"
-                                   onFocus="geolocate()" class="form-control" type="text">
+                                   onFocus="geolocate()" class="form-control" type="text" autocomplete="user-address">
                         </div>
                         <input type="hidden" class="field" id="address" name="address">
                         <input type="hidden" class="field" id="locality" name="city">
@@ -29,8 +28,8 @@
                         <input type="hidden" class="field" id="lng" name="lng">
 
                         <hr>
-                        <h4><u>Business hours</u>
-                            <label class=" pull-right checkbox-inline"><input type="checkbox" class="has-business-hours">Check to add hours</label>
+                        <h4 class="text-white"><u>Business hours</u>
+                            <label class=" pull-right checkbox-inline text-white"><input type="checkbox" class="has-business-hours "> Check to add hours</label>
                         </h4>
                         <div class="business-hours">
                             @foreach($days as $day)
@@ -47,8 +46,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                        <button type="button" class="btn btn-default pull-left hide-sm-modal" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                        <button type="button" class="btn btn-danger pull-left hide-sm-modal" data-dismiss="modal">Cancel</button>
                     </div>
                 </form>
             </div>

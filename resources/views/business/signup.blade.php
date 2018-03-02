@@ -15,12 +15,13 @@
                             <h3>{{$plan->stripe_plan_name}}</h3>
                         </div>
                         <div class="panel-body">
-                            <p><strong>1</strong> Business</p>
-                            <p><strong>3</strong> Service Plans</p>
+                            <h4><strong>1</strong> Business</h4>
+                            <h4><strong>Up to 10</strong> Service Plans</h4>
+                            <p> 7% fee per subscription</p>
                         </div>
                         <div class="panel-footer">
 
-                            <h3>Its free! :)</h3>
+                            <h3>Just $1 a month!</h3>
                             <a href="/subscription/subscribe/{{$plan->stripe_plan_id}}_month" class="btn btn-sm">Sign Up</a>
                         </div>
                     </div>

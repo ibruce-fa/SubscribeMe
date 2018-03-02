@@ -6,8 +6,3 @@
     </div>
 </div>
 
-<style>
-    .theme-background {
-        background: red !important;
-    }
-</style>

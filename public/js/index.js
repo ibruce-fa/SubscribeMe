@@ -45,7 +45,12 @@ function triggerTargetClick(obj) {
 
 function triggerTargetSubmit(obj) {
     event.preventDefault();
-    $($(obj).attr('data-target')).submit();
+    let form = $($(obj).attr('data-target'));
+    let paginationIndex = $(obj).attr('data-from');
+    if(paginationIndex > 0) {
+        form.append('<input type="hidden" name="from" value="'+paginationIndex+'">');
+    }
+    form.submit();
 }
 // When clicking here, we will trigger the dropzone that
 // lets us choose a NEW FEATURED PHOTO for the the PLAN

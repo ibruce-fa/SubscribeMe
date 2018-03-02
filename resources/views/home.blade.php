@@ -7,7 +7,7 @@
         <form action="/home" method="get" class="col-md-5 offset-md-1 " id="search-form">
             <div class="block d-flex">
                     <input type="hidden" name="location_id" id="location_id" value="{{getAuthUser()->location_id ?: 0}}">
-                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="searchField" name="searchField" placeholder="What are you looking for?" style="background: white ">
+                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" value="{{$searchField ?: ''}}" id="searchField" name="searchField" placeholder="What are you looking for?" style="background: white ">
             </div>
             <hr>
             <a class="text-white" data-toggle="collapse" data-target="#more-criteria" aria-expanded="false" aria-controls="more-criteria">
@@ -58,6 +58,27 @@
                 </div>
             </div>
         @endif
+
+        @if($count >= $maxResults)
+            {{--PAGINATION--}}
+            <div class="col-md-12">
+                @php
+                    $totalPages = ceil($count/$maxResults);
+                    $pages = ceil((request()->get('from') ?: 1)/10) * 10;
+                @endphp
+                @if($pages > 10)
+                <a href="#" data-from="{{$pages-11}}" onclick="triggerTargetSubmit(this)" data-target="#search-form"><span class="fa fa-arrow-left"></span> </a>
+                @endif
+                @for($i = $pages > 10 ? $pages - 10 : 1; $i <= $pages + 1; $i++)
+                    @if($pages < $i)
+                        <a href="#" data-from="{{$i}}" onclick="triggerTargetSubmit(this)" data-target="#search-form"><span class="fa fa-arrow-right"></span> </a>
+                    @else
+                        <a href="#" class="{{$searchFrom == $i ? 'text-info' : ''}}" data-from="{{$i}}" onclick="triggerTargetSubmit(this)" data-target="#search-form">{{$i}} | </a>
+                    @endif
+                @endfor
+            </div>
+        @endif
+
         @forelse($plans as $plan)
                 <div class="col-sm-12 col-md-4">
                     <!-- product card -->
