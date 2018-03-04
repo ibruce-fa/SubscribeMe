@@ -24,6 +24,20 @@ class UserController extends Controller
 
     }
 
+    public function activateUserAccount(Request $request)
+    {
+        $user = (new User())->where('email', $request->query('email'))->first();
+        if($user && $user->activated == 0 && $user->activation_token == $request->query('token')) {
+            $user->activated = "1";
+            $user->save();
+            return redirect('/login')->with('successMessage', "Your account has been activated! please log in");
+        } elseif($user->activated == 1) {
+            return redirect('/login')->with('warningMessage', "This link has expired");
+        } else {
+            return redirect('/login')->with('errorMessage', "Corrupted link");
+        }
+    }
+
     public function updateBusinessAccount($id, $accountPlan = null)
     {
         $user = $this->findUser($id);

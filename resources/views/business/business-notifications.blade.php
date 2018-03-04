@@ -7,7 +7,7 @@
     {{--@endforelse--}}
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <h3 class="text-center">Notifications</h3>
+            <h3 class="text-center">Business Notifications</h3>
             @forelse($notifications as $notification)
                 <div class="card">
                     <div class="card-footer">
@@ -21,7 +21,7 @@
             @empty
                 <div class="card">
                     <div class="card-footer">
-                        <h4><b>No notifications yet</b></h4>
+                        <h4 class="card-header"><b>No notifications yet</b></h4>
                     </div>
                 </div><br>
             @endforelse

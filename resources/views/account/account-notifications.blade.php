@@ -20,7 +20,7 @@
                 </div><br>
             @empty
                 <div class="card">
-                    <div class="card-footer">
+                    <div class="card-header">
                         <h4><b>No notifications yet</b></h4>
                     </div>
                 </div><br>

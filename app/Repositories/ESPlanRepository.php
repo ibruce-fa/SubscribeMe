@@ -43,8 +43,8 @@ class ESPlanRepository extends ESRepository implements RepositoryInterface
             'index' => $instance->getSearchIndex(),
             'type' => $instance->getSearchType(),
             'body' => [
-                "from" => !$from ? 0 : $from * $maxResults,
-                "size" => $maxResults,
+//                "from" => !$from ? 0 : $from * $maxResults,
+//                "size" => $maxResults,
                 'query' => [
                     'bool' => [
                         'should' => [

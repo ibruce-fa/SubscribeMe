@@ -1162,5 +1162,9 @@ function getNotificationTypes()
     ];
 }
 
+function sendAccountConfirmationEmail() {
+
+}
+
 
 

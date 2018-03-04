@@ -29,6 +29,10 @@ trait AuthenticatesUsers
     {
         $this->validateLogin($request);
 
+        if(!$this->isAccountActive($request)) {
+            return $this->sendFailedLoginResponse($request, false);
+        }
+
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
@@ -89,6 +93,18 @@ trait AuthenticatesUsers
     }
 
     /**
+     * Check to see if the account has been activated
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \App\User
+     */
+    protected function isAccountActive(Request $request)
+    {
+        $user = (new \App\User())->where($this->username(), $request->get($this->username()))->first();
+        return $user->activated;
+    }
+
+    /**
      * Send the response after the user was authenticated.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -120,11 +136,17 @@ trait AuthenticatesUsers
      * Get the failed login response instance.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  bool  $activated
      * @return \Illuminate\Http\RedirectResponse
      */
-    protected function sendFailedLoginResponse(Request $request)
+    protected function sendFailedLoginResponse(Request $request, $activated = true)
     {
-        $errors = [$this->username() => trans('auth.failed')];
+        if(!$activated) {
+            $errors = [$this->username() => trans('auth.inactive')];
+        } else {
+            $errors = [$this->username() => trans('auth.failed')];
+        }
+
 
         if ($request->expectsJson()) {
             return response()->json($errors, 422);

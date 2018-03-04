@@ -13,7 +13,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Mail;
 Route::get('/', function () {
     if(Auth::check()) {
         return redirect('/home');
@@ -27,12 +27,21 @@ Route::get('/log/out', function () {
     return redirect('/');
 });
 
+Route::get('/email', function(){
+    Mail::to('ib708090@gmail.com')->send(new \App\Mail\ConfirmAccount());
+    return redirect('/');
+});
+
 
 Auth::routes();
 
 /** USER ROUTES */
-Route::get('/user/activateSellerAccount/{id}', 'PlanController@activateSellerAccount');
+Route::get('/user/activateUserAccount', 'UserController@activateUserAccount');
 /** PLAN USER END */
+
+Route::get('/registered', function() {
+    return view('registered');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 

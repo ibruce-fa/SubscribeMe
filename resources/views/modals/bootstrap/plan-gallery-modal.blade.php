@@ -18,7 +18,7 @@
                         {{csrf_field()}}
                     </form>
                 </p>
-                <div style="background: url({{$hasFeaturedPhoto ? asset("/storage/".$plan->featured_photo_path) : ''}})"  class="featured-photo-thumb text-center {{!$hasFeaturedPhoto ? 'choose-featured-photo' : ''}}" data-target="#plan-dropzone-{{$plan->id}}" href="{{$hasFeaturedPhoto ? asset('/storage/'.$plan->featured_photo_path) : ''}}" {{$hasFeaturedPhoto ? 'data-lity' : ''}}>
+                <div style="background: url({{$hasFeaturedPhoto ? asset("/storage/".$plan->featured_photo_path) : ''}}) center"  class="featured-photo-thumb text-center {{!$hasFeaturedPhoto ? 'choose-featured-photo' : ''}}" data-target="#plan-dropzone-{{$plan->id}}" href="{{$hasFeaturedPhoto ? asset('/storage/'.$plan->featured_photo_path) : ''}}" {{$hasFeaturedPhoto ? 'data-lity' : ''}}>
                     @if(!$hasFeaturedPhoto)
                         <span class="fa fa-photo fa-2x" style="margin-top: 40%"></span>
                     @endif

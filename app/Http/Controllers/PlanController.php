@@ -6,27 +6,34 @@ use App\Business;
 use App\Http\Requests\GalleryUploadRequest;
 use App\Photo;
 use App\Plan;
+use App\Rating;
 use App\User;
 use Exception;
 use Faker\Provider\cs_CZ\DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 use Stripe\Stripe;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PlanController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     const STANDARD_CURRENCY = 'usd';
 
     const PHOTO_TYPE = 'plan';
 
     const MAX_GALLERY_COUNT = 4;
+
+    private $esClient;
+
+    public function __construct(Client $esClient)
+    {
+        $this->middleware('auth');
+        $this->esClient = $esClient;
+    }
 
     private function getSecretStripeKey()
     {
@@ -57,7 +64,7 @@ class PlanController extends Controller
                 'stripe_plan_id' => 'sm_standard',
                 'stripe_plan_name' => 'Standard Plan',
                 'year_price' => 10000,
-                'month_price' => 1200,
+                'month_price' => 100,
                 'sm_interval' => null,
                 'use_limit' => "0",
                 'is_app_plan' => "1",
@@ -72,6 +79,7 @@ class PlanController extends Controller
     {
 
         setStripeApiKey('secret');
+        $es = $this->esClient;
 
         $planName             = $request->stripe_plan_name;
         $businessId           = Auth::user()->business->id;
@@ -107,7 +115,7 @@ class PlanController extends Controller
             ));
         }
 
-        Plan::create([
+        $plan = Plan::create([
             'user_id'           => Auth::id(),
             'business_id'       => $businessId,
             'stripe_plan_id'    => $planIdentifier,
@@ -118,6 +126,20 @@ class PlanController extends Controller
             'description'       => $description,
             'featured_photo_path' => '',
         ]);
+
+        if($plan->business) {
+            $body = $plan->toSearchArray();
+            $location = ['lat' => $plan->business->lat,'lon' => $plan->business->lng];
+            $body['location'] = $location;
+            $body['rating'] = (new Rating())->where('plan_id', $plan->id)->avg('rate_number') ?: 0;
+
+            $es->index([
+                'index' => $plan->getSearchIndex(),
+                'type' => $plan->getSearchType(),
+                'id' => $plan->id,
+                'body' => $body,
+            ]);
+        }
 
         return redirect('/plan/managePlans')->with('successMessage','Service created successfully!');
 
@@ -175,7 +197,9 @@ class PlanController extends Controller
             $path = str_replace('public/','',$path); // fix path here so we can render properly. will likely be changed once we move to prod
             try {
                 $plan = Plan::where('user_id', Auth::id())->where('id',$id)->first();
-                unlink(getFullPathToImage($plan->featured_photo_path));
+                if ($plan->featured_photo_path) {
+                    unlink(getFullPathToImage($plan->featured_photo_path));
+                }
                 $plan->featured_photo_path = $path;
                 $plan->save();
             } catch (Exception $e) {

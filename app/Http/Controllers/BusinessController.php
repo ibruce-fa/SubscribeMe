@@ -28,6 +28,8 @@ class BusinessController extends Controller
     }
 
     private $failMessage = "The business you requested does not exist";
+    private $businessPhotoPath = 'public/images/business';
+    private $businessLogoPath = 'public/images/business/logos';
 
     public function index()
     {
@@ -140,7 +142,7 @@ class BusinessController extends Controller
             if($business->photo_path) {
                 unlink(getFullPathToImage($business->photo_path));
             }
-            $path = $request->file('file')->store('public/images/business');
+            $path = $request->file('file')->store($this->businessPhotoPath);
             $path = str_replace('public/','',$path); // fix path here so we can render properly. will likely be changed once we move to prod
             $business->photo_path = $path;
             $business->save();
@@ -158,7 +160,7 @@ class BusinessController extends Controller
             if($business->logo_path) {
                 unlink(getFullPathToImage($business->logo_path));
             }
-            $path = $request->file('file')->store('public/images/business/logos');
+            $path = $request->file('file')->store($this->businessLogoPath);
             $path = str_replace('public/','',$path); // fix path here so we can render properly. will likely be changed once we move to prod
             $business->logo_path = $path;
             $business->save();
@@ -204,7 +206,6 @@ class BusinessController extends Controller
         return $path;
     }
 
-    /** ^^^^^^^^ Frontend routes ^^^^^^^^ */
 
     public function createBusiness(Request $request)
     {

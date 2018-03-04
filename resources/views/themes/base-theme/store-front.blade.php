@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('body')
+  @php $showCarousel = false; @endphp
   <div class="col-12">
     <h3 class="text-center">
       @if($business->logo_path)
@@ -20,28 +21,31 @@
 
         <div class="col-lg-12">
 
-          <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel">
+          <div id="carouselIndicators" class="carousel slide my-4" data-ride="carousel" style="display: none;">
             <ol class="carousel-indicators">
-              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              <li data-target="#carouselIndicators" data-slide-to="1"></li>
+              <li data-target="#carouselIndicators" data-slide-to="0"></li>
+              <li data-target="#carouselIndicators" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner" role="listbox">
-              <div class="carousel-item active" style="height: 320px; max-height: 320px; background: url({{ $hasPhoto ? asset('/storage/'.$business->photo_path) : ''}}) no-repeat black; background-size: contain; background-position: center; ">
-                {{--<img style="max-height: 100%" class="d-block img-fluid" >--}}
-              </div>
+              @if($business->photo_path)
+                @php $showCarousel = true; @endphp
+                <div class="carousel-item active" style="height: 320px; max-height: 320px; background: url({{ $hasPhoto ? asset('/storage/'.$business->photo_path) : ''}}) no-repeat black; background-size: contain; background-position: center; ">
+                </div>
+              @endif
               @foreach($business->plans() as $plan)
                   @if($plan->featured_photo_path)
-                    <div class="carousel-item" style="height: 320px; max-height: 320px; background: url({{ asset('/storage/'.$plan->featured_photo_path) }}) no-repeat black; background-size: contain; background-position: center; ">
+                  @php $showCarousel = true; @endphp
+                    <div class="carousel-item active" style="height: 320px; max-height: 320px; background: url({{ asset('/storage/'.$plan->featured_photo_path) }}) no-repeat black; background-size: contain; background-position: center; ">
                     </div>
                   @endif
               @endforeach
             </div>
-            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
               <span class="carousel-control-prev-icon" aria-hidden="true"></span>
               <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="sr-only">Next</span>
             </a>
@@ -98,4 +102,9 @@
 
     </div>
     <!-- /.container -->
+  <script>
+    @if($showCarousel)
+      $('#carouselIndicators').show();
+    @endif
+  </script>
 @endsection

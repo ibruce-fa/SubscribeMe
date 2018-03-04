@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\ConfirmAccount;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Stripe\Stripe;
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/registered';
 
     /**
      * Create a new controller instance.
@@ -74,13 +76,22 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'description' => sprintf("account for %s %s | %s",$data['first'],$data['last'],$data['email']),
         ]);
+        $token  = rand(1,100)*rand(1,10) . time() . $data['email'];
 
-        return User::create([
+        $activationToken = md5($token);
+
+        $user = User::create([
             'first' => $data['first'],
             'last' => $data['last'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
-            'stripe_id' => $stripeCustomer->id
+            'stripe_id' => $stripeCustomer->id,
+            'activated' => "0",
+            'activation_token' => $activationToken
         ]);
+
+        Mail::to($data['email'])->send(new ConfirmAccount($data['first'],$data['email'],$activationToken));
+
+        return $user;
     }
 }
