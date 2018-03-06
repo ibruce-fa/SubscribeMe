@@ -65,6 +65,8 @@ class BusinessController extends Controller
             ->with('business',$business)
             ->with('hasPhoto',$hasPhoto)
             ->with('haslogo',$haslogo)
+            ->with('showCarousel',false)
+            ->with('photoActive',0)
             ->with('active',"home")
             ->with('owner',$owner);
     }

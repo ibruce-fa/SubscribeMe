@@ -127,19 +127,7 @@ class PlanController extends Controller
             'featured_photo_path' => '',
         ]);
 
-        if($plan->business) {
-            $body = $plan->toSearchArray();
-            $location = ['lat' => $plan->business->lat,'lon' => $plan->business->lng];
-            $body['location'] = $location;
-            $body['rating'] = (new Rating())->where('plan_id', $plan->id)->avg('rate_number') ?: 0;
-
-            $es->index([
-                'index' => $plan->getSearchIndex(),
-                'type' => $plan->getSearchType(),
-                'id' => $plan->id,
-                'body' => $body,
-            ]);
-        }
+        $this->updateEsIndex($plan, $es);
 
         return redirect('/plan/managePlans')->with('successMessage','Service created successfully!');
 
@@ -153,6 +141,8 @@ class PlanController extends Controller
             return redirect("/plan/managePlans")->with('errorMessage','YOU ARE NOT AUTHORIZED TO DO THIS! PLEASE DON\'T!');
         }
 
+        $this->updateEsIndex($smPlan, $this->esClient);
+
         $smPlan->stripe_plan_name   = $request->stripe_plan_name;
         $smPlan->use_limit          = $request->use_limit;
         $smPlan->description        = $request->description;
@@ -160,7 +150,7 @@ class PlanController extends Controller
             $smPlan->save();
             return redirect("/plan/managePlans")->with('successMessage','Plan updated successfully!');
         } catch (Exception $exception) {
-            echo $exception;
+            return redirect("/plan/managePlans")->with('successMessage','Could not update');
         }
     }
 
@@ -256,6 +246,23 @@ class PlanController extends Controller
         unlink(getFullPathToImage($photo->path));
         $photo->delete();
         return redirect("/plan/managePlans")->with('infoMessage',"Image removed successfully");
+    }
+
+    public function updateEsIndex(Plan $plan, Client $es)
+    {
+        if($plan->business) {
+            $body = $plan->toSearchArray();
+            $location = ['lat' => $plan->business->lat,'lon' => $plan->business->lng];
+            $body['location'] = $location;
+            $body['rating'] = (new Rating())->where('plan_id', $plan->id)->avg('rate_number') ?: 0;
+
+            $es->index([
+                'index' => $plan->getSearchIndex(),
+                'type' => $plan->getSearchType(),
+                'id' => $plan->id,
+                'body' => $body,
+            ]);
+        }
     }
 
 

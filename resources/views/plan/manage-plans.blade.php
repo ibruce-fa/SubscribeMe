@@ -49,12 +49,13 @@
                                         <span class="fa fa-photo fa-2x"></span>
                                     </div>
                                     <div class="col-3" data-target="#delete-plan-form" onclick="triggerTargetSubmit(this)">
-                                        <form action="/plan/delete/{{$plan->id}}" method="post" id="delete-plan-form">
+                                        <form action="/plan/delete/{{$plan->id}}" method="POST" id="delete-plan-form">
+                                            {{method_field('DELETE')}}
+                                            {{csrf_field()}}
                                             <span class="fa fa-trash fa-2x"></span>
                                         </form>
                                     </div>
-                                        {{method_field('DELETE')}}
-                                        {{csrf_field()}}
+
                                 {{--</div>--}}
                         </div>
                     </div>
