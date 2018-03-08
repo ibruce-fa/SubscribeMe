@@ -18,7 +18,14 @@ class Notification extends Model
         'type_id'   => 4,
         'type'              => 'welcome_user',
         'subject'           => 'Welcome to subscribe me!',
-        'body_template'     => 'notifications.templates.some-template' // body will be a template of some sort
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const TEST_NOTIFICATION = [
+        'type_id'           => 999,
+        'type'              => 'test',
+        'subject'           => 'This is a test subject!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
     ];
 //    const SUPPORT_NOTIFICATON          = ['type_id'=>3, 'name'=>'WELCOME_USER'];
 //    const NEW_SUBSCRIPTION_TYPE = 2;
@@ -30,7 +37,7 @@ class Notification extends Model
     /** email types */
 
 
-    public function getNotifications($type, $email = null, $id = null)
+    public function getNotifications($type = null, $email = null, $id = null)
     {
         return $this->where('type', $type)
                     ->where('recipient_email', $email)
@@ -51,10 +58,11 @@ class Notification extends Model
     public function sendNotification(Request $request = null, User $user, $notificationType)
     {
         if($notificationType == self::WELCOME_USER_NOTIFICATION['type_id']) {
-            $this->type         = self::WELCOME_USER_NOTIFICATION['type'];
-            $this->subject      = self::WELCOME_USER_NOTIFICATION['subject'];
-            $this->body         = view(self::WELCOME_USER_NOTIFICATION['body_template'])->with($user)->render(); // template?
-            $this->recipient_id = Auth::id();
+            $this->type                 = self::WELCOME_USER_NOTIFICATION['type'];
+            $this->subject              = self::WELCOME_USER_NOTIFICATION['subject'];
+            $this->is_template          = true;
+            $this->body_template        = self::WELCOME_USER_NOTIFICATION['body_template']; // template?
+            $this->recipient_id         = Auth::id();
             return $this->save();
             
 
@@ -77,9 +85,20 @@ class Notification extends Model
     }
 
 
-    public function getNotfication($notificationId){
+    public function getNotfication($notificationId)
+    {
         $notification = Notification::find($notificationId);
         return $notification;
+    }
+
+    public function renderNotificationView($notificationType)
+    {
+        if($notificationType == self::WELCOME_USER_NOTIFICATION['type']) {
+            return view($this->body_template)->with('user', Auth::user());
+        }
+
+        return false;
+
     }
 
 //    public function update($notificationId) {

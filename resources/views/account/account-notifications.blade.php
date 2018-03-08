@@ -12,10 +12,15 @@
                 <div class="card">
                     <div class="card-footer">
                         <p>From: <b>LocalDopeTv</b><hr></p>
-                        <h4><b>The subject goes here</b></h4>
+                        <h4><b>{{$notification->subject}}</b></h4>
                     </div>
                     <div class="card-body">
-                        The body of the message goes here and should be able to handle a lot of text know what i'm saying?
+                        @if($notification->is_template)
+                            @php /** @var \App\Notification $notification */ @endphp
+                            {!! $notification->renderNotificationView($notification->type) !!}
+                        @else
+                            {{$notification->body}}
+                        @endif
                     </div>
                 </div><br>
             @empty

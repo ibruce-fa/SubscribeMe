@@ -34,7 +34,7 @@ class AccountController extends Controller
     }
 
     public function accountNotificationView(){
-        $notifications = (new Notification())->getNotifications('consumer', Auth::user()->email);
+        $notifications = (new Notification())->getNotifications(null, Auth::user()->email, Auth::id());
         // maybe also get common
         return view('account.account-notifications')->with('notifications', $notifications);
     }

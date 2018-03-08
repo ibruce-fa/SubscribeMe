@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Notification;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Mockery\Matcher\Not;
 
 class UserController extends Controller
@@ -29,10 +30,11 @@ class UserController extends Controller
     public function activateUserAccount(Request $request)
     {
         $user = (new User())->where('email', $request->query('email'))->first();
-        $notification = new Notification();
+
         if($user && $user->activated == 0 && $user->activation_token == $request->query('token')) {
             $user->activated = "1";
             $user->save();
+            $notification = new Notification();
             $notification->sendNotification($request, $user, Notification::WELCOME_USER_NOTIFICATION['type_id']);
             return redirect('/login')->with('successMessage', "Your account has been activated! please log in");
         } elseif($user->activated == 1) {
@@ -55,6 +57,13 @@ class UserController extends Controller
 
         return 'success';
 
+    }
+
+    public function test(Request $request) {
+        $notification = new Notification();
+        $user = User::find(Auth::id());
+        $notification->sendNotification($request, $user, Notification::WELCOME_USER_NOTIFICATION['type_id']);
+        return redirect('/account')->with('successMessage','Notification sent successfully');
     }
 
     private function getUserObject()
