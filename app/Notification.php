@@ -11,11 +11,16 @@ use Illuminate\Support\Facades\Mail;
 class Notification extends Model
 {
     /** notification types */
-    const SUPPORT_NOTIFICATION                  = ['notification_id'=>1, 'name'=>'support', 'type'=>'','subject'=>'','body'=>''];
-    const SUPPORT_ACKNOWLEDGE_NOTIFICATION      = ['notification_id'=>1, 'name'=>'support', 'type'=>'','subject'=>'','body'=>''];
-    const SUPPORT_RESPONSE_NOTIFICATION         = ['notification_id'=>1, 'name'=>'support', 'type'=>'','subject'=>'','body'=>''];
-    const WELCOME_USER_NOTIFICATION             = ['notification_id'=>2, 'name'=>'welcome_user'];
-//    const SUPPORT_NOTIFICATON          = ['notification_id'=>3, 'name'=>'WELCOME_USER'];
+    const SUPPORT_NOTIFICATION                  = ['type_id'=>1, 'name'=>'support', 'type'=>'','subject'=>'','body_template'=>''];
+    const SUPPORT_ACKNOWLEDGE_NOTIFICATION      = ['type_id'=>2, 'name'=>'support', 'type'=>'','subject'=>'','body_template'=>''];
+    const SUPPORT_RESPONSE_NOTIFICATION         = ['type_id'=>3, 'name'=>'support', 'type'=>'','subject'=>'','body_template'=>''];
+    const WELCOME_USER_NOTIFICATION             = [
+        'type_id'   => 4,
+        'type'              => 'welcome_user',
+        'subject'           => 'Welcome to subscribe me!',
+        'body_template'     => 'notifications.templates.some-template' // body will be a template of some sort
+    ];
+//    const SUPPORT_NOTIFICATON          = ['type_id'=>3, 'name'=>'WELCOME_USER'];
 //    const NEW_SUBSCRIPTION_TYPE = 2;
 //    const SUPPORT               = 4;
 //    const CONFIRM_ACCOUNT_TYPE  = 1;
@@ -38,49 +43,39 @@ class Notification extends Model
         $this->type = $request->get('type');
         $this->recipient_id = $request->get('recipient_id') ?: 0;
         $this->subject = $request->get('subject');
-        $this->body = $request->get('body');
+        $this->body = $request->get('body_template');
         $this->save();
         
     }
 
-    public function sendNotification(Request $request = null, $notificationType, User $user)
+    public function sendNotification(Request $request = null, User $user, $notificationType)
     {
-        if($notificationType == self::WELCOME_USER_NOTIFICATION['notification_id']) {
-            $this->type     = self::WELCOME_USER_NOTIFICATION['type'];
-            $this->subject  = self::WELCOME_USER_NOTIFICATION['subject'];
-            $this->body     = self::WELCOME_USER_NOTIFICATION['body'];
+        if($notificationType == self::WELCOME_USER_NOTIFICATION['type_id']) {
+            $this->type         = self::WELCOME_USER_NOTIFICATION['type'];
+            $this->subject      = self::WELCOME_USER_NOTIFICATION['subject'];
+            $this->body         = view(self::WELCOME_USER_NOTIFICATION['body_template'])->with($user)->render(); // template?
             $this->recipient_id = Auth::id();
             return $this->save();
-        } elseif ($notificationType == self::SUPPORT_NOTIFICATION['notification_id']) {
+            
+
+        } elseif ($notificationType == self::SUPPORT_NOTIFICATION['type_id']) {
             $this->type         = $request->get('type');
             $this->recipient_id = $request->get('recipient_id') ?: 0;
             $this->subject      = $request->get('subject');
-            $this->body         = $request->get('body');
+            $this->body         = $request->get('body_template');
             $this->save(); // sends to us
             
             $userNotification           = new Notification(); // sends to the user 
             $userNotification->type     = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['type'];
             $userNotification->subject  = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['subject'];
-            $userNotification->body     = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['body'];
+            $userNotification->body     = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['body_template'];
             $userNotification->recipient_id = Auth::id();
-            $userNotification->save();
-            return true;
+
+            return $userNotification->save();;
         }
         return false;
     }
 
-    public function sendEmail($emailType, User $user = null, $dataArr = [])
-    {
-        if($emailType == self::CONFIRM_ACCOUNT_TYPE) {
-            if ($user) {
-                return Mail::to($user->email)->send(new ConfirmAccount($user->first, $user->email, $dataArr['activationToken']));
-            } else {
-                return false;
-            }
-        }
-
-        return false;
-    }
 
     public function getNotfication($notificationId){
         $notification = Notification::find($notificationId);

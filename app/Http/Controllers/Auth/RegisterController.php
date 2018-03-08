@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Email;
 use App\Mail\ConfirmAccount;
 use App\User;
 use App\Http\Controllers\Controller;
@@ -90,7 +91,7 @@ class RegisterController extends Controller
             'activation_token' => $activationToken
         ]);
 
-        Mail::to($data['email'])->send(new ConfirmAccount($data['first'],$data['email'],$activationToken));
+        Email::send($user, $activationToken, Email::CONFIRM_ACCOUNT_EMAIL);
 
         return $user;
     }

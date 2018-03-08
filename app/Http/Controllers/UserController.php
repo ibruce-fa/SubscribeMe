@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Notification;
 use App\User;
 use Illuminate\Http\Request;
+use Mockery\Matcher\Not;
 
 class UserController extends Controller
 {
@@ -27,9 +29,11 @@ class UserController extends Controller
     public function activateUserAccount(Request $request)
     {
         $user = (new User())->where('email', $request->query('email'))->first();
+        $notification = new Notification();
         if($user && $user->activated == 0 && $user->activation_token == $request->query('token')) {
             $user->activated = "1";
             $user->save();
+            $notification->sendNotification($request, $user, Notification::WELCOME_USER_NOTIFICATION['type_id']);
             return redirect('/login')->with('successMessage', "Your account has been activated! please log in");
         } elseif($user->activated == 1) {
             return redirect('/login')->with('warningMessage', "This link has expired");
