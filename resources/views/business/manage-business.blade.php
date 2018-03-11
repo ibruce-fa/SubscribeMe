@@ -5,15 +5,14 @@
 @endsection
 
 @section('body')
-@include('partials.back')
-
     @if(!count($businesses))
-        <a class="btn btn-default btn-lg text-left" href="{{ URL::previous() }}"><span class="fa fa-arrow-left"></span> </a>
+        <h2 class="text-center">Welcome to the merchant center</h2>
         <h2 class="text-center">To start, enter your business's details</h2>
 
         @include('modals.custom.create-business-form')
         <hr>
     @else
+    @include('partials.back')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12" href="#">

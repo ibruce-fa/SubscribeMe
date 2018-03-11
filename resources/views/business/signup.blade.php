@@ -4,9 +4,10 @@
 
     <div class="container-fluid">
         <div class="text-center">
-            <h2 class="">You don't have an account yet, but creating one is easy!</h2>
-            <h3 class="">Our plan is simple</h3>
-        </div>
+            <h1 class="theme-background p-2" style='font-family: "Muli", sans-serif;'>Business Signup</h1>
+            <h2 class="">You don't have an account yet, but creating one is easy and free!</h2>
+
+        </div><hr><br>
         <div class="row">
             @foreach($plans as $plan)
                 <div class="col-md-4 offset-md-4">
@@ -21,7 +22,6 @@
                         </div>
                         <div class="panel-footer">
 
-                            <h3>Just $1 a month!</h3>
                             <a href="/subscription/subscribe/{{$plan->stripe_plan_id}}_month" class="btn btn-sm">Sign Up</a>
                         </div>
                     </div>

@@ -33,9 +33,7 @@ class BusinessController extends Controller
 
     public function index()
     {
-        if(Auth::user()->business_account != "1") {
-            return redirect('/business/signup');
-        } elseif(!Business::where('user_id', Auth::id())->first()) {
+        if(!Business::where('user_id', Auth::id())->first()) {
             return redirect('/business/manageBusiness');
         } else {
 

@@ -80,6 +80,7 @@ class RegisterController extends Controller
         $token  = rand(1,100)*rand(1,10) . time() . $data['email'];
 
         $activationToken = md5($token);
+        $updatedAt = date("Y:m:d H:i:s");
 
         $user = User::create([
             'first' => $data['first'],

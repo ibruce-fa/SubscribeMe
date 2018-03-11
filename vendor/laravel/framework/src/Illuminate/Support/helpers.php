@@ -7,6 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Debug\Dumper;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\HigherOrderTapProxy;
+use Illuminate\Support\Facades\Auth;
 
 if (! function_exists('append_config')) {
     /**
@@ -1155,7 +1156,7 @@ function getRatingStars($rating)
 
 function hasNewNotifications()
 {
-    return \Illuminate\Support\Facades\Auth::user()->notification_count > 0;
+    return Auth::check() ? Auth::user()->notification_count > 0 : false;
 }
 
 function getThemeColorValue()
