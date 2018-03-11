@@ -88,6 +88,7 @@ class Notification extends Model
     public function sendWelcomeNotification($user)
     {
         $this->type                 = self::WELCOME_USER_NOTIFICATION['type'];
+        $this->sender_name          = env('APP_NAME');
         $this->subject              = self::WELCOME_USER_NOTIFICATION['subject'];
         $this->is_template          = true;
         $this->body_template        = self::WELCOME_USER_NOTIFICATION['body_template']; // template?

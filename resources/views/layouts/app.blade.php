@@ -53,7 +53,7 @@
                     Otruvez
                 </a>
                 <button class="navbar-toggler theme-background" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    {!! hasNewNotifications() ? '<span class="fa fa-bell text-danger"></span>' : '<span class="navbar-toggler-icon"></span>' !!}
                 </button>
                 @if(\Illuminate\Support\Facades\Auth::check())
                     <div class="collapse navbar-collapse" style="" id="navbarSupportedContent">
@@ -62,7 +62,7 @@
                                 <a class="nav-link" href="/home"><span class="fa fa-search "></span> Search </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/account"><span class="fa fa-user-circle "></span> My Account </a>
+                                <a class="nav-link {{hasNewNotifications() ? "text-danger" : ''}}" href="/account"><span class="fa fa-user-circle "></span> My Account </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/business"> <span class="fa fa-briefcase "></span> Business Account </a>

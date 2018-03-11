@@ -1,20 +1,20 @@
 @extends('layouts.app')
 @section('body')
     @include('partials.back')
-    {{--@forelse($notifications as $notification)--}}
-
-    {{--@empty--}}
-    {{--@endforelse--}}
+    @if($hasNewNotifications)
+        <p class="alert alert-info">New Notifications</p>
+    @endif
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <h3 class="text-center">Notifications</h3>
             @forelse($notifications as $notification)
                 <div class="card">
                     <div class="card-footer">
-                        <p>From: <b>LocalDopeTv</b><hr></p>
+                        <p>From: <b>{{$notification->sender_name}}</b><hr></p>
                         <h4><b>{{$notification->subject}}</b></h4>
+                        <button class="theme-background float-left round-5" data-toggle="collapse" data-target="#an-{{$notification->id}}">show</button>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body collapse" id="an-{{$notification->id}}">
                         @if($notification->is_template)
                             @php /** @var \App\Notification $notification */ @endphp
                             {!! $notification->renderNotificationView($notification->type) !!}

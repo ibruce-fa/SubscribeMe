@@ -1153,6 +1153,11 @@ function getRatingStars($rating)
     }
 }
 
+function hasNewNotifications()
+{
+    return \Illuminate\Support\Facades\Auth::user()->notification_count > 0;
+}
+
 function getThemeColorValue()
 {
     return '#4cb996';

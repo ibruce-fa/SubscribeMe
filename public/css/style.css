@@ -323,6 +323,14 @@ label {
     color: whitesmoke !important;
 }
 
+.red-background {
+    background: darkred !important;
+    color: whitesmoke !important;
+}
+
+.notification-text {
+    font-size: 18px;
+}
 .theme-form input,
 .theme-form textarea {
     background: white !important;

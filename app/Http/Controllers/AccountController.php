@@ -35,8 +35,12 @@ class AccountController extends Controller
 
     public function accountNotificationView(){
         $notifications = (new Notification())->getNotifications(null, Auth::user()->email, Auth::id());
+        $hasNewNotifications = hasNewNotifications();
+        $user = Auth::user();
+        $user->notification_count = 0;
+        $user->save();
         // maybe also get common
-        return view('account.account-notifications')->with('notifications', $notifications);
+        return view('account.account-notifications')->with('notifications', $notifications)->with('hasNewNotifications', $hasNewNotifications);
     }
 
     public function contactSupport(Request $request){
