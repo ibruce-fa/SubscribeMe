@@ -24,7 +24,7 @@ class ConfirmAccount extends Mailable
     {
         $this->token = $token;
         $this->email = $email;
-        $this->fname = $fname;
+        $this->fname = ucfirst($fname);
     }
 
     /**
@@ -34,9 +34,10 @@ class ConfirmAccount extends Mailable
      */
     public function build()
     {
-        $confirmAccountConfirm = sprintf("%s/user/activateUserAccount?email=%s&token=%s",env('APP_URL'),$this->email,$this->token);
-        return $this->view('email.confirm-account')
+        $activateUrl = "/user/activateUserAccount";
+        $confirmAccountURL = sprintf("%s%s?email=%s&token=%s",env('APP_URL'),$activateUrl, $this->email,$this->token);
+        return $this->markdown('emails.account.confirm-account')
             ->with('name', $this->fname)
-            ->with('url', $confirmAccountConfirm);
+            ->with('url', $confirmAccountURL);
     }
 }

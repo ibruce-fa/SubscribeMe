@@ -40,12 +40,18 @@ class AccountController extends Controller
     }
 
     public function contactSupport(Request $request){
+        $subject = $request->get('subject');
+        $body    = $request->get('body');
+
         try {
-            (new Notification())->createNotification($request);
+            (new Notification())->sendSupportNotification($request);
             return redirect('/account')->with('successMessage', "Your message was successfully sent. You will receive a response in 24-48 hours.");
         } catch (Exception $e) {
             // return with old values
-            return redirect('/account/support')->with('errorMessage', "Message was not sent successfully. Please try again.");
+            return redirect('/account/support')
+                    ->with('errorMessage', "Message was not sent successfully. Please try again.")
+                    ->with('subject', $subject)
+                    ->with('body', $body);
         }
 
     }

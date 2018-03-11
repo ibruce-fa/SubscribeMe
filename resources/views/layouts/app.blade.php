@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SubscribeMe</title>
+    <title>Otruvez</title>
 
     <!-- PLUGINS CSS STYLE -->
     {{--<link href="{{asset('classimax/plugins/jquery-ui/jquery-ui.min.css')}}" rel="stylesheet">--}}
@@ -50,7 +50,7 @@
             <nav class="navbar navbar-light navbar-expand-md navigation p-4" style="width: 100% !important">
                 <a class="navbar-brand" href="/">
                     {{--<img src="images/logo.png" alt="">--}}
-                    SubscribeMe
+                    Otruvez
                 </a>
                 <button class="navbar-toggler theme-background" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

@@ -35,7 +35,7 @@ class UserController extends Controller
             $user->activated = "1";
             $user->save();
             $notification = new Notification();
-            $notification->sendNotification($request, $user, Notification::WELCOME_USER_NOTIFICATION['type_id']);
+            $notification->sendWelcomeNotification($user);
             return redirect('/login')->with('successMessage', "Your account has been activated! please log in");
         } elseif($user->activated == 1) {
             return redirect('/login')->with('warningMessage', "This link has expired");

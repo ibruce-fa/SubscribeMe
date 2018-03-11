@@ -1153,18 +1153,9 @@ function getRatingStars($rating)
     }
 }
 
-function getNotificationTypes()
+function getThemeColorValue()
 {
-    return [
-        'common',
-        'consumer',
-        'business'
-    ];
+    return '#4cb996';
 }
-
-function sendAccountConfirmationEmail() {
-
-}
-
 
 

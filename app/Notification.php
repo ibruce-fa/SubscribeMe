@@ -11,14 +11,26 @@ use Illuminate\Support\Facades\Mail;
 class Notification extends Model
 {
     /** notification types */
-    const SUPPORT_NOTIFICATION                  = ['type_id'=>1, 'name'=>'support', 'type'=>'','subject'=>'','body_template'=>''];
-    const SUPPORT_ACKNOWLEDGE_NOTIFICATION      = ['type_id'=>2, 'name'=>'support', 'type'=>'','subject'=>'','body_template'=>''];
-    const SUPPORT_RESPONSE_NOTIFICATION         = ['type_id'=>3, 'name'=>'support', 'type'=>'','subject'=>'','body_template'=>''];
+
     const WELCOME_USER_NOTIFICATION             = [
-        'type_id'   => 4,
+        'type_id'           => 4,
         'type'              => 'welcome_user',
-        'subject'           => 'Welcome to subscribe me!',
+        'subject'           => 'Welcome to Otruvez!',
         'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const SUPPORT_ACKNOWLEDGE_NOTIFICATION      = [
+        'type_id'           => 2,
+        'type'              => 'support_acknowledge',
+        'subject'           => 'Otruvez Support',
+        'body_template'     => 'notifications.templates.support-acknowledge'
+    ];
+
+    const SUPPORT_RESPONSE_NOTIFICATION      = [
+        'type_id'           => 3,
+        'type'              => 'support_acknowledge',
+        'subject'           => 'Otruvez Support',
+        'body_template'     => 'notifications.templates.support-acknowledge'
     ];
 
     const TEST_NOTIFICATION = [
@@ -55,34 +67,6 @@ class Notification extends Model
         
     }
 
-    public function sendNotification(Request $request = null, User $user, $notificationType)
-    {
-        if($notificationType == self::WELCOME_USER_NOTIFICATION['type_id']) {
-            $this->type                 = self::WELCOME_USER_NOTIFICATION['type'];
-            $this->subject              = self::WELCOME_USER_NOTIFICATION['subject'];
-            $this->is_template          = true;
-            $this->body_template        = self::WELCOME_USER_NOTIFICATION['body_template']; // template?
-            $this->recipient_id         = Auth::id();
-            return $this->save();
-            
-
-        } elseif ($notificationType == self::SUPPORT_NOTIFICATION['type_id']) {
-            $this->type         = $request->get('type');
-            $this->recipient_id = $request->get('recipient_id') ?: 0;
-            $this->subject      = $request->get('subject');
-            $this->body         = $request->get('body_template');
-            $this->save(); // sends to us
-            
-            $userNotification           = new Notification(); // sends to the user 
-            $userNotification->type     = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['type'];
-            $userNotification->subject  = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['subject'];
-            $userNotification->body     = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['body_template'];
-            $userNotification->recipient_id = Auth::id();
-
-            return $userNotification->save();;
-        }
-        return false;
-    }
 
 
     public function getNotfication($notificationId)
@@ -101,12 +85,31 @@ class Notification extends Model
 
     }
 
-//    public function update($notificationId) {
-//
-//    }
+    public function sendWelcomeNotification($user)
+    {
+        $this->type                 = self::WELCOME_USER_NOTIFICATION['type'];
+        $this->subject              = self::WELCOME_USER_NOTIFICATION['subject'];
+        $this->is_template          = true;
+        $this->body_template        = self::WELCOME_USER_NOTIFICATION['body_template']; // template?
+        $this->recipient_id         = $user->id;
+        return $this->save();
+    }
 
-//    public function delete($notificationId) {
-//        $notification = new Notification();
-//        return $notification->delete();
-//    }
+    public function sendSupportNotification(Request $request)
+    {
+        $this->type         = $request->get('type');
+        $this->recipient_id = "0";
+        $this->subject      = $request->get('subject');
+        $this->body         = $request->get('body');
+        $this->save(); // sends to us
+
+        $userNotification               = new Notification(); // sends to the user
+        $userNotification->type         = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['type'];
+        $userNotification->subject      = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['subject'];
+        $userNotification->body         = self::SUPPORT_ACKNOWLEDGE_NOTIFICATION['body_template'];
+        $userNotification->recipient_id = Auth::id();
+
+        return $userNotification->save();
+    }
+
 }

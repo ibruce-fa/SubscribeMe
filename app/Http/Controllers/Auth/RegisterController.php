@@ -91,7 +91,7 @@ class RegisterController extends Controller
             'activation_token' => $activationToken
         ]);
 
-        Email::send($user, $activationToken, Email::CONFIRM_ACCOUNT_EMAIL);
+        Email::sendConfirmAccountEmail($user, $activationToken);
 
         return $user;
     }
