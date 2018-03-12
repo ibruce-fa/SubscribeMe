@@ -53,18 +53,14 @@ class Notification extends Model
     /** email types */
 
 
-    public function getNotifications($type = null, $email = null, $id = null, $businessId = null)
+    public function getNotifications($id = null)
     {
-        return $this->where('type', $type)
-                    ->orWhere('recipient_email', $email)
-                    ->orWhere('recipient_id', $id)
-                    ->orWhere('business_id', $businessId)
-                    ->get();
+        return $this->where('recipient_id', $id)->whereNull('business_id')->orderBy('id', 'desc')->get();
     }
 
     public function getBusinessNotifications($businessId)
     {
-        return $this->where('business_id', $businessId)->get();
+        return $this->where('business_id', $businessId)->orderBy('id', 'desc')->get();
     }
 
     /** THIS CODE SHOULD BE IN THE MODEL */
