@@ -16,7 +16,7 @@
                         <hr>
                         <h4 class="text-white"><u>Address</u></h4>
                         <input id="autocomplete" placeholder="Enter your address"
-                                   onFocus="geolocate()" class="form-control" type="text" autocomplete="off">
+                                   onFocus="geolocate()" class="form-control" type="text" autocomplete="new-address">
                         <input type="hidden" class="field" id="address" name="address">
                         <input type="hidden" class="field" id="locality" name="city">
                         <input type="hidden" class="field" id="administrative_area_level_1" name="state">

@@ -323,6 +323,10 @@ label {
     color: whitesmoke !important;
 }
 
+.theme-color {
+    color: #4cb996 !important;
+}
+
 .red-background {
     background: darkred !important;
     color: whitesmoke !important;
@@ -331,6 +335,12 @@ label {
 .notification-text {
     font-size: 18px;
 }
+
+.notification-list li {
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
 .theme-form input,
 .theme-form textarea {
     background: white !important;

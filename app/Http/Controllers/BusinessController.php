@@ -220,7 +220,11 @@ class BusinessController extends Controller
                 $newBusiness->save();
                 $user->business_id = $newBusiness->id;
                 $user->save();
-                $message = "Creation was successful";
+                $notification = new Notification();
+                $notification->sendBusinessWelcomeNotification($user, $newBusiness);
+                $message = "Business creation was successful";
+
+                // send email to business
             } catch (Exception $e) {
                 $message = $e->getMessage();
             }
@@ -250,7 +254,7 @@ class BusinessController extends Controller
 
     public function showBusinessNotificationView($businessId){
         $business = Business::find($businessId);
-        $notifications = (new Notification())->getNotifications('business', $business->email);
+        $notifications = (new Notification())->getBusinessNotifications($businessId);
         // maybe also get common
         return view('business.business-notifications')->with('notifications', $notifications);
     }
@@ -335,7 +339,7 @@ class BusinessController extends Controller
         if($userDelete) {
             return true;
         } else {
-            return redirect('/business')->with('successMessage',"Your business subscription was canceled successfully");
+            return redirect('/account')->with('successMessage',"Your business subscription was canceled successfully");
         }
 
     }

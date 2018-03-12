@@ -12,21 +12,25 @@ class Notification extends Model
 {
     /** notification types */
 
-    const WELCOME_USER_NOTIFICATION             = [
-        'type_id'           => 4,
+    const WELCOME_USER_NOTIFICATION         = [
         'type'              => 'welcome_user',
         'subject'           => 'Welcome to Otruvez!',
         'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
     ];
 
-    const SUPPORT_ACKNOWLEDGE_NOTIFICATION      = [
-        'type_id'           => 2,
+    const WELCOME_BUSINESS_NOTIFICATION     = [
+        'type'              => 'welcome_business',
+        'subject'           => 'Congrats! now sell some subscriptions',
+        'body_template'     => 'notifications.templates.welcome-business' // body will be a template of some sort
+    ];
+
+    const SUPPORT_ACKNOWLEDGE_NOTIFICATION  = [
         'type'              => 'support_acknowledge',
         'subject'           => 'Otruvez Support',
         'body_template'     => 'notifications.templates.support-acknowledge'
     ];
 
-    const SUPPORT_RESPONSE_NOTIFICATION      = [
+    const SUPPORT_RESPONSE_NOTIFICATION     = [
         'type_id'           => 3,
         'type'              => 'support_acknowledge',
         'subject'           => 'Otruvez Support',
@@ -49,12 +53,18 @@ class Notification extends Model
     /** email types */
 
 
-    public function getNotifications($type = null, $email = null, $id = null)
+    public function getNotifications($type = null, $email = null, $id = null, $businessId = null)
     {
         return $this->where('type', $type)
-                    ->where('recipient_email', $email)
+                    ->orWhere('recipient_email', $email)
                     ->orWhere('recipient_id', $id)
+                    ->orWhere('business_id', $businessId)
                     ->get();
+    }
+
+    public function getBusinessNotifications($businessId)
+    {
+        return $this->where('business_id', $businessId)->get();
     }
 
     /** THIS CODE SHOULD BE IN THE MODEL */
@@ -81,6 +91,10 @@ class Notification extends Model
             return view($this->body_template)->with('user', Auth::user());
         }
 
+        if($notificationType == self::WELCOME_BUSINESS_NOTIFICATION['type']) {
+            return view($this->body_template);
+        }
+
         return false;
 
     }
@@ -93,6 +107,18 @@ class Notification extends Model
         $this->is_template          = true;
         $this->body_template        = self::WELCOME_USER_NOTIFICATION['body_template']; // template?
         $this->recipient_id         = $user->id;
+        return $this->save();
+    }
+
+    public function sendBusinessWelcomeNotification($user, $business)
+    {
+        $this->type                 = self::WELCOME_BUSINESS_NOTIFICATION['type'];
+        $this->sender_name          = env('APP_NAME');
+        $this->subject              = self::WELCOME_BUSINESS_NOTIFICATION['subject'];
+        $this->is_template          = true;
+        $this->body_template        = self::WELCOME_BUSINESS_NOTIFICATION['body_template']; // template?
+        $this->recipient_id         = $user->id;
+        $this->business_id          = $business->id;
         return $this->save();
     }
 
