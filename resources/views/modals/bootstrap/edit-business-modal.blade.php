@@ -48,7 +48,7 @@
                 </div>
 
                 <hr>
-                <h5><b><a data-toggle="collapse" data-target="hours">Click to view business hours</a></b></h5>
+                <h5><b><a data-toggle="" data-target="hours">Business hours</a></b></h5>
                 <div class="business-hours hours" style="display: block">
                     @foreach($days as $day)
                         <div class="edit-label-div">

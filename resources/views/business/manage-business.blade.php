@@ -6,8 +6,8 @@
 
 @section('body')
     @if(!count($businesses))
-        <h2 class="text-center">Welcome to the merchant center</h2>
-        <h2 class="text-center">To start, enter your business's details</h2>
+        <h2 class="text-center">Merchant center</h2>
+        <h4 class="text-center">To start selling subscriptions, enter your business's details</h4>
 
         @include('modals.custom.create-business-form')
         <hr>

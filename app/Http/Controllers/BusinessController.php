@@ -211,8 +211,8 @@ class BusinessController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        if ($user->business_account == 1)
-        {
+//        if ($user->business_account == 1)
+//        {
             try {
                 $newBusiness = new Business($request->all());
                 $newBusiness->user_id = Auth::id();
@@ -225,13 +225,13 @@ class BusinessController extends Controller
                 $message = $e->getMessage();
             }
 
-        } elseif ($user->business_account == 2) {
-            $message = 'Your account is suspended. Please bring your account to up to date';
-        } else {
-            throw new AccessDeniedException("You must have a business account to perform this action");
-        }
+//        } elseif ($user->business_account == 2) {
+//            $message = 'Your account is suspended. Please bring your account to up to date';
+//        } else {
+//            throw new AccessDeniedException("You must have a business account to perform this action");
+//        }
 
-        return redirect('/business/manageBusiness')->with('successMessage', $message);
+        return redirect('/business')->with('successMessage', $message);
     }
 
     public function updateBusiness(Request $request, $id)
@@ -315,19 +315,19 @@ class BusinessController extends Controller
             logger('business photos deletion failed');
         }
         // delete the business subscription first
-        $localSubscription = (new \App\Subscription())->find($user->subscription_id);
-        try {
-            Subscription::retrieve($localSubscription->stripe_id)->cancel();
+//        $localSubscription = (new \App\Subscription())->find($user->subscription_id);
+//        try {
+//            Subscription::retrieve($localSubscription->stripe_id)->cancel();
             $business->delete(); //  delete business
-        } catch (Exception $e) {
-            if ($userDelete) {
-                return redirect('/account/delete')->with('warningMessage', "Please try again, business was not deleted");
-            } else {
-                return redirect('/business')->with('warningMessage', "Please try again, business was not deleted");
-            }
-        }
-        $user->business_account = "0";
-        $user->business_account_plan = null;
+//        } catch (Exception $e) {
+//            if ($userDelete) {
+//                return redirect('/account/delete')->with('warningMessage', "Please try again, business was not deleted");
+//            } else {
+//                return redirect('/business')->with('warningMessage', "Please try again, business was not deleted");
+//            }
+//        }
+//        $user->business_account = "0";
+//        $user->business_account_plan = null;
         $user->business_id = null;
         $user->subscription_id = null;
         $user->save();
