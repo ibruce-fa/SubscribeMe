@@ -10,13 +10,75 @@ use Illuminate\Support\Facades\Mail;
 
 class Notification extends Model
 {
-    /** notification types */
+    /** CONSUMER notification types */
 
-    const WELCOME_USER_NOTIFICATION         = [
+    const WELCOME_USER_NOTIFICATION         = [ // done
         'type'              => 'welcome_user',
         'subject'           => 'Welcome to Otruvez!',
         'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
     ];
+
+    const SUBSCRIBE_USER_NOTIFICATION         = [ //  in progress
+        'type'              => 'subscribe_user',
+        'subject'           => 'New Subscription to ', // concatenate Company name at the end
+        'body_template'     => 'notifications.templates.subscribe-user' // body will be a template of some sort
+    ];
+
+    const UNSUBSCRIBE_USER_NOTIFICATION         = [
+        'type'              => 'unsubscribe_user',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const NOTIFY_PLAN_DELETION_NOTIFICATION         = [
+        'type'              => 'notify_plan_deletion',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const NOTIFY_PLAN_MODIFICATION_NOTIFICATION         = [
+        'type'              => 'notify_plan_modification',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const NOTIFY_BUSINESS_DELETION_NOTIFICATION         = [
+        'type'              => 'notify_business_deletion',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION         = [
+        'type'              => 'notify_business_modification',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const BUSINESS_TO_USERS_NOTIFICATION         = [
+        'type'              => 'business_to_users',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const PAYMENT_UNSUCCESSFUL_NOTIFICATION         = [
+        'type'              => 'payment_unsuccessful',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const ALL_USERS_NOTIFICATION         = [
+        'type'              => 'welcome_user',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    const USER_FAREWELL_NOTIFICATION         = [
+        'type'              => 'welcome_user',
+        'subject'           => 'Welcome to Otruvez!',
+        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+    ];
+
+    /** CONSUMER notification types END */
 
     const WELCOME_BUSINESS_NOTIFICATION     = [
         'type'              => 'welcome_business',
@@ -62,17 +124,6 @@ class Notification extends Model
     {
         return $this->where('business_id', $businessId)->orderBy('id', 'desc')->get();
     }
-
-    /** THIS CODE SHOULD BE IN THE MODEL */
-    public function createNotification(Request $request) {
-        $this->type = $request->get('type');
-        $this->recipient_id = $request->get('recipient_id') ?: 0;
-        $this->subject = $request->get('subject');
-        $this->body = $request->get('body_template');
-        $this->save();
-        
-    }
-
 
 
     public function getNotfication($notificationId)
@@ -133,6 +184,10 @@ class Notification extends Model
         $userNotification->recipient_id = Auth::id();
 
         return $userNotification->save();
+    }
+
+    public function completeSubject($str1, $str2) {
+        return sprintf('%s%s',$str1, $str2);
     }
 
 }
