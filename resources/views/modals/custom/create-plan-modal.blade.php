@@ -24,8 +24,38 @@
                     <label>Annual Price</label>
                     <input type="number" name="year_price" class="form-control" placeholder="Annual Price">
 
-                    <label>How many times can customers use this service per month?</label>
-                    <input type="number" name="use_limit" class="form-control" placeholder="How many times can this service be used ">
+
+
+                    <hr style="color: {{getThemeColorValue()}} !important;">
+                    <label class="theme-color">How many times can customers use this service per month?</label>
+                    <div class="row" >
+
+                        <div class="col-1 pt-2">
+                            <input type="radio" name="which_usage_interval" checked>
+                        </div>
+                        <div class="col-3">
+                            <input type="number" name="use_limit" class="form-control" placeholder="#">
+                        </div>
+                        <div class="col-8 pt-3">
+                            <h4 class="theme-color">times a month</h4>
+                        </div>
+
+                        <div class="col-5"><hr class="theme-color"></div>
+                        <div class="col-2 text-center pr-0 pl-0 pt-1">or</div>
+                        <div class="col-5"><hr class="theme-color"></div>
+
+                        <div class="col-1 pt-2">
+                            <input type="radio" name="which_usage_interval">
+                        </div>
+                        <div class="col-3">
+                            <input type="number" name="use_limit" class="form-control" placeholder="#">
+                        </div>
+                        <div class="col-8 pt-3">
+                            <h4 class="theme-color">times a year</h4>
+                        </div>
+
+                    </div>
+                    <hr style="color: {{getThemeColorValue()}}">
 
                     <label>Service Description</label>
                     <textarea name="description" class="form-control" placeholder="Service Description here..."></textarea>
