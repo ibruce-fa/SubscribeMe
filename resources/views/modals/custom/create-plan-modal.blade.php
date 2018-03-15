@@ -1,4 +1,4 @@
-<div id="createPlan" class="sm-modal autoscroll" role="dialog">
+<div id="createPlan" class="sm-modal autoscroll" role="dialog" style="display: block">
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -7,7 +7,7 @@
                 <button type="button" class="hide-sm-modal pull-right btn btn-default" data-dismiss="modal">cancel</button>
                 <h4 class="modal-title">Create Plan</h4>
             </div>
-            <form method="post" action="/plan/createPlan" class="form-group-md">
+            <form method="post" action="/plan/createPlan" class="form-group-md" id="create-plan-form">
                 <div class="modal-body">
                     <label>Plan Name</label>
                     <input type="text" name="stripe_plan_name" class="form-control" placeholder="Plan Name">
@@ -27,32 +27,34 @@
 
 
                     <hr style="color: {{getThemeColorValue()}} !important;">
-                    <label class="theme-color">How many times can customers use this service per month?</label>
+                    <h6 class="theme-color">How many times can customers use this service per month or year? <br></h6>
+                    <p class="text-muted">*leave blank if no limit is imposed*</p>
+
                     <div class="row" >
 
-                        <div class="col-1 pt-2">
-                            <input type="radio" name="which_usage_interval" checked>
-                        </div>
-                        <div class="col-3">
-                            <input type="number" name="use_limit" class="form-control" placeholder="#">
-                        </div>
-                        <div class="col-8 pt-3">
-                            <h4 class="theme-color">times a month</h4>
-                        </div>
+                            <div class="col-1 pt-2">
+                                <input type="radio" name="which_usage_interval" class="which_usage_interval" data-input="#use_limit_month" data-input-other="#use_limit_year" data-label="#ulm-label" data-label-other="#uly-label" checked>
+                            </div>
+                            <div class="col-3">
+                                <input type="number" min="0" name="use_limit_month" id="use_limit_month" class="form-control" placeholder="#">
+                            </div>
+                            <div class="col-8 pt-3">
+                                <h4 class="theme-color" id="ulm-label">times a month</h4>
+                            </div>
 
                         <div class="col-5"><hr class="theme-color"></div>
                         <div class="col-2 text-center pr-0 pl-0 pt-1">or</div>
                         <div class="col-5"><hr class="theme-color"></div>
 
-                        <div class="col-1 pt-2">
-                            <input type="radio" name="which_usage_interval">
-                        </div>
-                        <div class="col-3">
-                            <input type="number" name="use_limit" class="form-control" placeholder="#">
-                        </div>
-                        <div class="col-8 pt-3">
-                            <h4 class="theme-color">times a year</h4>
-                        </div>
+                            <div class="col-1 pt-2">
+                                <input type="radio" name="which_usage_interval" class="which_usage_interval" data-input="#use_limit_year" data-input-other="#use_limit_month" data-label="#uly-label" data-label-other="#ulm-label">
+                            </div>
+                            <div class="col-3">
+                                <input type="number" min="0" name="use_limit_year" id="use_limit_year" class="form-control" placeholder="#" disabled="">
+                            </div>
+                            <div class="col-8 pt-3">
+                                <h4 style="color: lightgrey" id="uly-label">times a year</h4>
+                            </div>
 
                     </div>
                     <hr style="color: {{getThemeColorValue()}}">
@@ -63,7 +65,7 @@
                     {{csrf_field()}}
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn theme-background">Submit</button>
                     <button type="button" class="btn btn-default pull-left hide-sm-modal" data-dismiss="modal">Cancel</button>
                 </div>
             </form>

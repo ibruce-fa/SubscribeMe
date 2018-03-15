@@ -52,6 +52,18 @@ function triggerTargetSubmit(obj) {
     }
     form.submit();
 }
+
+
+$('.which_usage_interval').on('change', function () {
+    var zis = $(this);
+    if(zis.prop('checked')) {
+        $(zis.attr('data-input')).prop('disabled', false);
+        $(zis.attr('data-input-other')).prop('disabled', true).val('');
+        $(zis.attr('data-label')).addClass('theme-color');
+        $(zis.attr('data-label-other')).removeClass('theme-color').css('color', 'lightgrey');
+        console.log('works');
+    }
+});
 // When clicking here, we will trigger the dropzone that
 // lets us choose a NEW FEATURED PHOTO for the the PLAN
 

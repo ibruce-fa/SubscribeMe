@@ -84,7 +84,10 @@ class PlanController extends Controller
         $planName             = $request->stripe_plan_name;
         $businessId           = Auth::user()->business->id;
         $planIdentifier       = uniqid(sprintf("%u_%u",$businessId,Auth::id()));
-        $useLimit             = $request->use_limit;
+        $useLimitMonth        = abs($request->use_limit_month);
+        $useLimitYear         = abs($request->use_limit_year);
+//        return redirect()->back()->with('successMessage', $useLimitMonth);
+        $limitInterval        = $useLimitMonth ? 'month' : $useLimitYear ? 'year' : null;
         $monthPrice           = $request->month_price * 100;
         $yearPrice            = $request->year_price * 100;
         $description          = $request->description;
@@ -122,7 +125,9 @@ class PlanController extends Controller
             'stripe_plan_name'  => $planName,
             'month_price'       => $monthPrice,
             'year_price'        => $yearPrice,
-            'use_limit'         => $useLimit,
+            'use_limit_month'   => $useLimitMonth,
+            'use_limit_year'    => $useLimitYear,
+            'limit_interval'    => $limitInterval,
             'description'       => $description,
             'featured_photo_path' => '',
         ]);
