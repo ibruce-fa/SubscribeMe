@@ -56,7 +56,7 @@ class BusinessController extends Controller
 
     public function viewStore(Request $request, $id) {
         $business = Business::find($id);
-        $owner    = $business->user->id == Auth::id();
+        $owner = $business->user ? $business->user->id == Auth::id() : false;
         $hasPhoto   = !empty($business->photo_path);
         $haslogo    = !empty($business->logo_path);
         return view('themes.base-theme.store-front')
@@ -71,7 +71,7 @@ class BusinessController extends Controller
 
     public function about(Request $request, $id) {
         $business = Business::find($id);
-        $owner    = $business->user->id == Auth::id();
+        $owner = $business->user ? $business->user->id == Auth::id() : false;
         $hasPhoto   = !empty($business->photo_path);
         $haslogo    = !empty($business->logo_path);
         return view('themes.base-theme.about')
@@ -84,7 +84,7 @@ class BusinessController extends Controller
 
     public function contact(Request $request, $id) {
         $business = Business::find($id);
-        $owner    = $business->user->id == Auth::id();
+        $owner = $business->user ? $business->user->id == Auth::id() : false;
         $hasPhoto   = !empty($business->photo_path);
         $haslogo    = !empty($business->logo_path);
         return view('themes.base-theme.contact')
@@ -100,7 +100,7 @@ class BusinessController extends Controller
         $business           = $plan->business;
         $hasPhoto           = !empty($business->photo_path);
         $haslogo            = !empty($business->logo_path);
-        $owner              = $business->user->id == Auth::id();
+        $owner              = $business->user ? $business->user->id == Auth::id() : false;
         $publicStripeKey    = getPublicStripeKey();
         $rating             = (new Rating())->where('plan_id', $planId)->avg('rate_number');
         $reviews            = (new Review())->where('business_id', $business->id)->orderBy('id','desc')->get();

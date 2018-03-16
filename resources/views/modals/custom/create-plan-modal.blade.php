@@ -1,4 +1,4 @@
-<div id="createPlan" class="sm-modal autoscroll" role="dialog" style="display: block">
+<div id="createPlan" class="sm-modal autoscroll" role="dialog" style="">
     <div class="modal-dialog">
 
         <!-- Modal content-->

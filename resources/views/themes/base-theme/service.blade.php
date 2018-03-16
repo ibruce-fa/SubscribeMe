@@ -23,7 +23,11 @@ $intervals = ['month','year'];
                             <li class="list-inline-item"><i class="fa fa-location-arrow"></i> <a href="">{{$business->city}}, {{$business->state}}</a></li>
                         </ul>
                     </div>
-                    <div class="hd-img-top img-fluid" style="background: url({{asset('/storage/'.$plan->featured_photo_path)}}) no-repeat black; height: 320px; max-height: 320px; background-size: contain; background-position: center; "> </div>
+                    @if($plan->featured_photo_path)
+                        <div class="hd-img-top img-fluid" style="background: url({{asset('/storage/'.$plan->featured_photo_path)}}) no-repeat black; height: 320px; max-height: 320px; background-size: contain; background-position: center; "> </div>
+                    @else
+                        <hr>
+                    @endif
                     @if(count($plan->photos))
                         <h5 class="card-body btn theme-background text-default" data-toggle="collapse" href="#photoGallery">
                             <span class="fa fa-photo"></span> View more photos
@@ -38,17 +42,12 @@ $intervals = ['month','year'];
                         @endforeach
                     </div>
                     <div class="card-body">
-                        <h5>Usage Limit:</h5>
-                        <p class="card-text"><strong>{{$plan->use_limit}} times a month</strong></p>
-                        <hr>
-
-                        <h4>Service description</h4>
+                        <h4>Description</h4>
                         <p class="card-text">{{$plan->description}}</p>
-                        <h5></h5>
-                        <span class="text-warning">
-                            {{getRatingStars($rating)}}
-                        </span>
-                        {{round($rating, 1)}} stars
+                        <hr>
+                        <h5>Usage Limit:</h5>
+                        <p class="card-text theme-color"><strong>{{getUseLimit($plan)}}</strong></p>
+
                     </div>
                 </div>
                 <!-- /.card -->
@@ -56,6 +55,12 @@ $intervals = ['month','year'];
                 <div class="card card-outline-secondary my-4 no-shadow">
                     <div class="card-header">
                         Service Reviews
+
+                        <div class="float-right">
+                            <span class="text-warning">
+                                {{getRatingStars($rating)}}
+                            </span>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div id="review-container">

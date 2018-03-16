@@ -1164,4 +1164,15 @@ function getThemeColorValue()
     return '#4cb996';
 }
 
+function getUseLimit(\App\Plan $plan){
+    if($plan->limit_interval) {
+        if($plan->use_limit_year) {
+            return sprintf('%s time(s) a %s',$plan->use_limit_year,$plan->limit_interval);
+        } elseif($plan->use_limit_month) {
+            return sprintf('%s time(s) a %s',$plan->use_limit_month,$plan->limit_interval);
+        }
+    }
+
+    return "no limit on uses";
+}
 
