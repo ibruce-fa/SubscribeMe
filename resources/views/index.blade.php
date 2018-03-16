@@ -1,39 +1,25 @@
 @extends('layouts.app')
 
 @section('body')
-<section class="hero-area bg-1 text-center overly">
+<section class="hero-area text-center  bg-white" style="min-height: 100% !important;">
 	<!-- Container Start -->
 	<div class="container">
 		<div class="row">
+
 			<div class="col-md-12">
 				<!-- Header Contetnt -->
 				<div class="content-block">
-					<h1>Buy & Sell Subscriptions </h1>
-					<p>Join the millions who buy and sell from each other <br> everyday in local communities around the world</p>
-					<div class="short-popular-category-list text-center">
-						<h2>Popular Category</h2>
-						<ul class="list-inline">
-							<li class="list-inline-item">
-								<a href=""><i class="fa fa-bed"></i> Hotel</a></li>
-							<li class="list-inline-item">
-								<a href=""><i class="fa fa-grav"></i> Fitness</a>
-							</li>
-							<li class="list-inline-item">
-								<a href=""><i class="fa fa-car"></i> Cars</a>
-							</li>
-							<li class="list-inline-item">
-								<a href=""><i class="fa fa-cutlery"></i> Restaurants</a>
-							</li>
-							<li class="list-inline-item">
-								<a href=""><i class="fa fa-coffee"></i> Cafe</a>
-							</li>
-						</ul>
-					</div>
+				<img src="{{asset('/storage/images/logos/o-logo-w-tagline.png')}}" style="width: 70%; height: auto">
 					
 				</div>
 				<!-- Advance Search -->
 
 			</div>
+			{{--<div class="col-3"></div>--}}
+			{{--<div class="col-2"><span class="fa fa-coffee fa-2x"></span></div>--}}
+			{{--<div class="col-2"><span class="fa fa-server fa-2x"></span></div>--}}
+			{{--<div class="col-2"><span class="fa fa-wrench fa-2x"></span></div>--}}
+			{{--<div class="col-3"></div>--}}
 		</div>
 	</div>
 	<!-- Container End -->
@@ -48,19 +34,23 @@
 =            Popular deals section            =
 ============================================-->
 
-<section class="popular-deals section bg-gray">
+<section class="popular-deals section bg-gray theme-background">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-md-12 mb-0">
 				<div class="section-title">
-					<h2>Trending Ads</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, magnam.</p>
+					<h2 class="text-white">How it works</h2>
+					<p class="text-white">First, find a service that you use often or just need in general</p>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<!-- offer 01 -->
-<div class="col-sm-12 col-lg-4">
+			<div class="col-6 offset-3 mb-4 mt-0 round-5">
+				<span class="fa fa-search fa-2x theme-color" style="position: relative; top: 40px; left: 10px"></span>
+				<input class="form-control bg-white theme-color text-center" type="text" placeholder="nails" readonly="">
+			</div>
+<div class="col-sm-12 col-lg-4 hidden-sm hidden-xs">
 				<!-- product card -->
 	<div class="product-item bg-light">
 		<div class="card">
@@ -94,7 +84,7 @@
 		</div>
 	</div>
 </div>
-			<div class="col-sm-12 col-lg-4">
+			<div class="col-sm-12 col-lg-4 hidden-sm hidden-xs">
 				<!-- product card -->
 <div class="product-item bg-light">
 	<div class="card">
