@@ -12,13 +12,13 @@ class Notification extends Model
 {
     /** CONSUMER notification types */
 
-    const WELCOME_USER_NOTIFICATION         = [ // done
+    const WELCOME_USER_NOTIFICATION             = [ // done
         'type'              => 'welcome_user',
         'subject'           => 'Welcome to Otruvez!',
         'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
     ];
 
-    const SUBSCRIBE_USER_NOTIFICATION         = [ //  in progress
+    const SUBSCRIBE_USER_NOTIFICATION           = [ //  in progress
         'type'              => 'subscribe_user',
         'subject'           => 'New Subscription to ', // concatenate Company name at the end
         'body_template'     => 'notifications.templates.subscribe-user' // body will be a template of some sort

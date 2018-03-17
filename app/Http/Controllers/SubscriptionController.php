@@ -177,19 +177,29 @@ class SubscriptionController extends Controller
         $userId       = Auth::id();
         $plan         = Plan::find($planId);
         $subscription = Subscription::find($subscriptionId);
+        $planInterval = $plan->limit_interval;
 
+        if(!$planInterval) {
+            return 'This service does not require checkin';
+        }
 
-        if ($subscription->uses >= $plan->use_limit) {
-            if ($subscription->last_usage_date != currentMonthAndYear()) { // this means the period is over and we need to reset
-                $subscription->last_usage_date = currentMonthAndYear();
-                $subscription->uses = 0;
-            } else {
-                return 'You have exceeded your limit for this month';
+        $planUseLimit = $planInterval == 'year' ? $plan->use_limit_year : $plan->use_limit_month;
+
+        if ($subscription->uses >= $planUseLimit)
+        {
+            if($planInterval == 'year' && extractLimitYear($subscription->last_usage_date) == currentYear() ||
+               $planInterval == 'month' && extractLimitMonth($subscription->last_usage_date) == currentMonth()
+              )
+            {
+                    return 'You have exceeded your limit for this month';
             }
+
         }
 
         $checkinCode = rand(10000,99999);
         $subscription->checkin_code = $checkinCode;
+        $subscription->last_usage_date = currentMonthAndYear();
+        $subscription->uses = 0;
         $subscription->is_checking_in = "1";
         $subscription->save();
 

@@ -1064,6 +1064,24 @@ function currentMonthAndYear() {
     return date('m').date('Y');
 }
 
+function currentMonth() {
+    return date('m');
+}
+
+function currentYear() {
+    return date('Y');
+}
+
+function extractLimitYear($date)
+{
+    return substr($date,2);
+}
+
+function extractLimitMonth($date)
+{
+    return substr($date,0,2);
+}
+
 /** this method is used to unlink photos during deletes */
 function getFullPathToImage($dbPath) {
     return storage_path('app/public/') . $dbPath;
@@ -1176,3 +1194,4 @@ function getUseLimit(\App\Plan $plan){
     return "no limit on uses";
 }
 
+// logo: <img src="{{asset("/storage/images/logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">
