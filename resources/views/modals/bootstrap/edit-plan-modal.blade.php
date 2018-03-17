@@ -15,10 +15,7 @@
                     <input type="text" name="stripe_plan_name" class="form-control" value="{{$plan->stripe_plan_name}}">
                 </div>
                 <div class="">
-                    <label>Allowed uses per month: </label>
-                </div>
-                <div class="">
-                    <input type="number" name="use_limit" class="form-control" value="{{$plan->use_limit}}">
+                    <label> {{getUseLimit($plan)}} </label>
                 </div>
 
                 <div class="">

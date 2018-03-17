@@ -31,12 +31,9 @@
                         {{--</div>--}}
                 {{--</div>--}}
                 <div class="">
-                    <label>Allowed uses per month: </label>
+                    <label>{{getUseLimit($plan)}} </label>
                 </div>
-                <div class="">
-                    <p>{{$plan->use_limit}}</p>
-                    <hr>
-                </div>
+
 
                 <div class="">
                     <label>Service Description:</label>
