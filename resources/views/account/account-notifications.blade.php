@@ -19,7 +19,7 @@
                         <button class="theme-background float-left round-5" data-toggle="collapse" data-target="#an-{{$notification->id}}">show</button>
                     </div>
                     <div class="card-body collapse" id="an-{{$notification->id}}">
-                        @if($notification->is_template)
+                        @if($notification->is_template == true)
                             @php /** @var \App\Notification $notification */ @endphp
                             @if($notification->type == \App\Notification::SUBSCRIBED_USER_NOTIFICATION['type'])
                                 {!! $notification->renderNotificationView($notification->type, ['subscriptionId' => $notification->subscription_id]) !!}
@@ -27,7 +27,7 @@
                                 {!! $notification->renderNotificationView($notification->type) !!}
                             @endif
                         @else
-                            {{$notification->body}}
+                            {!! $notification->body !!}
                         @endif
                     </div>
                 </div><br>

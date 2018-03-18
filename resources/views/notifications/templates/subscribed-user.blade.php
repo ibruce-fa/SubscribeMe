@@ -7,17 +7,12 @@
     <li>description: <p style="color: black">{{$description}}</p></li>
 </ul>
 
-{{--maybe--}}
 <hr>
 <div class="row text-center">
     @if($logoPath)
-
         <div class="col-12">
             <h3 class="text-center">{{$companyName}} thanks you</h3>
         </div>
-        {{--<div class="col-md-8 offset-md-2">--}}
             <div style="margin: auto; margin-bottom: 5px; width: 200px; height: 200px; background: url({{ asset('/storage/'.$logoPath) }}) no-repeat; background-size: contain"> </div>
-        {{--</div>--}}
     @endif
-    {{--<img src="{!! $logoPath !!}" style="width: 200px; maheight: auto">--}}
 </div>

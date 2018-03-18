@@ -139,8 +139,10 @@ class SubscriptionController extends Controller
     {
         /** @var User $user */
         setStripeApiKey("secret");
-        $user              = Auth::user();
-        $localSubscription = Subscription::find($subscriptionId);
+        $user               = Auth::user();
+        $localSubscription  = Subscription::find($subscriptionId);
+        $business           = Business::find($localSubscription->business_id);
+        Notification::where('subscription_id',$subscriptionId)->delete();
 
         try {
             $stripeSubscription = \Stripe\Subscription::retrieve($localSubscription->stripe_id);
@@ -148,9 +150,10 @@ class SubscriptionController extends Controller
             return redirect()->back()->with("errorMessage", "There was a problem canceling your subscription. please try again or contact customer service {$localSubscription->stripe_id} {$subscriptionId}");
         }
 
+        (new Notification())->sendUnsubscribedUserNotification($user,$business, $localSubscription);
         $stripeSubscription->cancel(); // need a catch here
         $localSubscription->delete();
-        Notification::where('subscription_id',$subscriptionId)->delete();
+
 
         $isBusinessAcoount    = $request->is_business_account;
 
