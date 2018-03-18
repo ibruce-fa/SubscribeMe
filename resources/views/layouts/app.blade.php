@@ -58,7 +58,7 @@
                     <div class="collapse navbar-collapse" style="" id="navbarSupportedContent">
                         <ul class="navbar-nav" >
                             <li class="nav-item">
-                                <a class="nav-link" href="/home"><span class="fa fa-search "></span> Search </a>
+                                <a class="nav-link" href="/home"><span class="fa fa-search "></span> Find Subscriptions </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link {{hasNewNotifications() ? "text-danger" : ''}}" href="/account"><span class="fa fa-user-circle "></span> My Account </a>

@@ -1182,7 +1182,7 @@ function getThemeColorValue()
     return '#4cb996';
 }
 
-function getUseLimit(\App\Plan $plan){
+function getUseLimitString(\App\Plan $plan){
     if($plan->limit_interval) {
         if($plan->use_limit_year) {
             return sprintf('%s time(s) a %s',$plan->use_limit_year,$plan->limit_interval);
@@ -1192,6 +1192,11 @@ function getUseLimit(\App\Plan $plan){
     }
 
     return "no limit on uses";
+}
+
+function getBusinessLogoImg($business)
+{
+    return asset('/storage/'.$business->logo_path);
 }
 
 // logo: <img src="{{asset("/storage/images/logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">

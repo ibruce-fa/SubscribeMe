@@ -22,7 +22,7 @@ class CreateSubscriptionsTable extends Migration
             $table->string('plan_id');
             $table->integer('business_id')->default(0);
             $table->integer('price')->default(0);
-            $table->string('sm_interval')->default(0);
+            $table->string('o_interval')->default(0);
             $table->integer('is_checking_in')->nullable();
             $table->integer('last_usage_date')->default(0);
             $table->integer('checkin_code')->default(0);

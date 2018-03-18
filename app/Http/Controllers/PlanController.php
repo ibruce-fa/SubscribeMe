@@ -65,7 +65,7 @@ class PlanController extends Controller
                 'stripe_plan_name' => 'Standard Plan',
                 'year_price' => 10000,
                 'month_price' => 100,
-                'sm_interval' => null,
+                'o_interval' => null,
                 'use_limit' => "0",
                 'is_app_plan' => "1",
                 'created_at' => date("Y-m-d H:i:s"),

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Business;
+use App\Notification;
 use App\Plan;
 use App\Subscription;
 use App\SubscriptionService;
@@ -80,7 +82,7 @@ class SubscriptionController extends Controller
         $businessId     = $request->business_id;
         $isAppPlan      = $request->is_app_plan;
         $price          = $request->price;
-        $interval       = $request->sm_interval;
+        $interval       = $request->o_interval;
         $user           = Auth::user();
         // First create the subscription in stripe
         $newStripeSubscription = $user->newSubscription($planName,$planIdentifier)->create($stripeToken);
@@ -91,7 +93,7 @@ class SubscriptionController extends Controller
         $newStripeSubscription->last_usage_date     = currentMonthAndYear(); // restart this process
         $newStripeSubscription->business_id         = $businessId;
         $newStripeSubscription->price               = $price;
-        $newStripeSubscription->sm_interval         = $interval;
+        $newStripeSubscription->o_interval         = $interval;
         $newStripeSubscription->plan_id             = $smPlanId;
         $newStripeSubscription->save();
 
@@ -99,6 +101,8 @@ class SubscriptionController extends Controller
             (new UserController())->activateBusinessAccount($user->id, $planIdentifier,$newStripeSubscription->id);
             return redirect('/business');
         }
+        $business = Business::find($businessId);
+        (new Notification())->sendSubscribedUserNotification($user,$business, $newStripeSubscription);
 
         return redirect('/subscription/subscribed')
             ->with('interval', $interval)
@@ -146,6 +150,7 @@ class SubscriptionController extends Controller
 
         $stripeSubscription->cancel(); // need a catch here
         $localSubscription->delete();
+        Notification::where('subscription_id',$subscriptionId)->delete();
 
         $isBusinessAcoount    = $request->is_business_account;
 

@@ -409,7 +409,7 @@ class BusinessController extends Controller
             if(count($subs)) {
                 foreach ($subs as $sub)
                 {
-                    if($sub->sm_interval == 'year')
+                    if($sub->o_interval == 'year')
                     {
                         $income += ($sub->price/12);
                     } else {

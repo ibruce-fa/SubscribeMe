@@ -31,7 +31,7 @@
                         {{--</div>--}}
                 {{--</div>--}}
                 <div class="">
-                    <label>{{getUseLimit($plan)}} </label>
+                    <label>{{getUseLimitString($plan)}} </label>
                 </div>
 
 

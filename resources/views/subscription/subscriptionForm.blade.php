@@ -37,7 +37,7 @@ $interval        = $data['interval'];
                             <input type="hidden" name="is_app_plan" value="{{$plan->is_app_plan}}">
                             <input type="hidden" name="business_id" value="{{$plan->business_id}}">
                             <input type="hidden" name="price" value="{{$price}}">
-                            <input type="hidden" name="sm_interval" value="{{$interval}}">
+                            <input type="hidden" name="o_interval" value="{{$interval}}">
                             {{csrf_field()}}
                             <input type="hidden" name="user_id" value="{{\Illuminate\Support\Facades\Auth::id()}}">
                         </form>

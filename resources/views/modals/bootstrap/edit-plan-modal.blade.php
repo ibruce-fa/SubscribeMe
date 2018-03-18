@@ -15,7 +15,7 @@
                     <input type="text" name="stripe_plan_name" class="form-control" value="{{$plan->stripe_plan_name}}">
                 </div>
                 <div class="">
-                    <label> {{getUseLimit($plan)}} </label>
+                    <label> {{getUseLimitString($plan)}} </label>
                 </div>
 
                 <div class="">

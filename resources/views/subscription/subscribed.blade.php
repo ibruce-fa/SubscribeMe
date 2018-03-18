@@ -23,8 +23,8 @@
                     <h2 class="text-center"><u>Details</u></h2>
                     <h3 class="text-center">Price: <strong>{{formatPrice(session('price'))}}</strong> per <strong>{{session('interval')}}</strong></h3>
                     <hr>
-                    <p class="text-center">To use this service now, <a href="/account/mysubscriptions">click here to go to your subscriptions</a></p>
-                    <a href="/home" class="btn btn-primary">Find more services</a>
+                    <h3 class="text-center">To use this service now, <a class="theme-color" href="/account/mysubscriptions">click here to go to your active subscriptions</a></h3>
+                    <a href="/home" class="btn theme-background">Find more services</a>
                 </div>
             </div>
         </div>

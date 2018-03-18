@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 trait AuthenticatesUsers
 {
     use RedirectsUsers, ThrottlesLogins;
+    public $inactive = 0;
+    public $active = 1;
+    public $nonexistent = -1;
+
 
     /**
      * Show the application's login form.
@@ -29,7 +33,7 @@ trait AuthenticatesUsers
     {
         $this->validateLogin($request);
 
-        if(!$this->isAccountActive($request)) {
+        if($this->isAccountActive($request) == 0) {
             return $this->sendFailedLoginResponse($request, false);
         }
 
@@ -96,12 +100,12 @@ trait AuthenticatesUsers
      * Check to see if the account has been activated
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \App\User
+     * @return mixed
      */
     protected function isAccountActive(Request $request)
     {
         $user = (new \App\User())->where($this->username(), $request->get($this->username()))->first();
-        return $user->activated;
+        return $user ? $user->activated : -1;
     }
 
     /**
