@@ -11,7 +11,7 @@
                 {{--FEATURED PHOTO START--}}
                 <? $hasFeaturedPhoto = !empty($plan->featured_photo_path); ?>
                 <p class="text-center">
-                    <a class="text-primary" data-target="#plan-dropzone-{{$plan->id}}" onclick="triggerTargetClick(this)">update</a>
+                    <a class="text-primary" data-target="#plan-dropzone-{{$plan->id}}" onclick="triggerTargetClick(event, this)">update</a>
                     <form method="POST" action="/plan/featuredPhoto/{{$plan->id}}" class="dropzone text-center hide" id="plan-dropzone-{{$plan->id}}" >
                         <span data-dz-message class="fa fa-photo fa-1x dz-message"><br>Add a featured image</span>
                         {{form_method_field("POST")}}
@@ -24,7 +24,7 @@
                     @endif
                 </div>
                 <p class="text-center">
-                    <a href="{{asset('/storage/'.$plan->featured_photo_path)}}" class="text-danger" data-target="#delete-featured-photo-form-{{$plan->id}}" onclick="triggerTargetSubmit(this)">remove</a>
+                    <a href="{{asset('/storage/'.$plan->featured_photo_path)}}" class="text-danger" data-target="#delete-featured-photo-form-{{$plan->id}}" onclick="triggerTargetSubmit(event, this)">remove</a>
                     <form method="POST" action="/plan/featuredPhoto/{{$plan->id}}" id="delete-featured-photo-form-{{$plan->id}}">
                         {{form_method_field("DELETE")}}
                         {{csrf_field()}}
@@ -37,7 +37,7 @@
 
                             @if(count($plan->photos) < 4)
                                 <button class="btn theme-background text-center">
-                                    <a class="text-default" data-target="#gallery-dropzone-{{$plan->id}}" onclick="triggerTargetClick(this)">{{sprintf('choose up to %s more',4 - count($plan->photos))}}</a>
+                                    <a class="text-default" data-target="#gallery-dropzone-{{$plan->id}}" onclick="triggerTargetClick(event, this)">{{sprintf('choose up to %s more',4 - count($plan->photos))}}</a>
                                     <form method="POST" action="/plan/galleryPhoto/{{$plan->id}}" class="dropzone hide" id="gallery-dropzone-{{$plan->id}}">
                                         {{csrf_field()}}
                                     </form>
@@ -62,7 +62,7 @@
                             </div>
                             @if($hasGalleryPhoto)
                                 <div class="text-center">
-                                    <a href="{{asset('/storage/'.$path)}}" class="delete-gallery-photo text-danger" data-target="#delete-gallery-photo-form-{{$photoId}}" onclick="triggerTargetSubmit(this)"><span class="fa fa-close"></span> </a>
+                                    <a href="{{asset('/storage/'.$path)}}" class="delete-gallery-photo text-danger" data-target="#delete-gallery-photo-form-{{$photoId}}" onclick="triggerTargetSubmit(event, this)"><span class="fa fa-close"></span> </a>
                                 <form class="hide" method="POST" action="/plan/galleryPhoto/{{$photoId}}" id="delete-gallery-photo-form-{{$photoId}}">
                                     <input name="_method" type="hidden" value="DELETE">
                                     {{csrf_field()}}

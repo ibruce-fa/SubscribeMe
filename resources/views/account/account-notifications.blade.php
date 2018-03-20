@@ -15,7 +15,7 @@
                             <span class="float-right">{{formatDate($notification->created_at, "m-d-Y")}}</span>
                         <hr>
                         </p>
-                        <h4><b>{{$notification->subject}}</b></h4>
+                        <h6><b>{{$notification->subject}}</b></h6>
                         <button class="theme-background float-left round-5" data-toggle="collapse" data-target="#an-{{$notification->id}}">show</button>
                     </div>
                     <div class="card-body collapse" id="an-{{$notification->id}}">

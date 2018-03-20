@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Business;
 use App\Http\Requests\GalleryUploadRequest;
+use App\Notification;
 use App\Photo;
 use App\Plan;
 use App\Rating;
+use App\Subscription;
 use App\User;
 use Exception;
 use Faker\Provider\cs_CZ\DateTime;
@@ -86,7 +88,6 @@ class PlanController extends Controller
         $planIdentifier       = uniqid(sprintf("%u_%u",$businessId,Auth::id()));
         $useLimitMonth        = abs($request->use_limit_month);
         $useLimitYear         = abs($request->use_limit_year);
-//        return redirect()->back()->with('successMessage', $useLimitMonth);
         $limitInterval        = $useLimitMonth ? 'month' : $useLimitYear ? 'year' : null;
         $monthPrice           = $request->month_price * 100;
         $yearPrice            = $request->year_price * 100;
@@ -163,7 +164,18 @@ class PlanController extends Controller
     {
         // in the future, i'd like to obfuscate the plan id to prevent data mining
         $smPlan = Plan::find($id);
+        $business = $smPlan->business;
         $planName = $smPlan->stripe_plan_name;
+        $subscriptions = Subscription::where('plan_id', $id)->get();
+        if($subscriptions) {
+            foreach ($subscriptions as $subscription) {
+                (new Notification())->sendNotifyPlanDeletionNotification(Auth::user(),$business,$subscription);
+            }
+            return redirect("/plan/managePlans")->with('infoMessage',"$planName deleted successfully. $id");
+        } else {
+            return redirect("/plan/managePlans")->with('infoMessage',"$planName deleted successfully.  no notifications");
+        }
+
 
         if($smPlan && $smPlan->user_id != Auth::id()) {
             return redirect("/plan/managePlans")->with('errorMessage','YOU ARE NOT AUTHORIZED TO DO THIS! PLEASE DON\'T!');

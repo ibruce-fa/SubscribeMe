@@ -22,20 +22,20 @@ class Notification extends Model
 
     const SUBSCRIBED_USER_NOTIFICATION           = [ //  done for USER but need flash notification for businesses
         'type'              => 'subscribed_user',
-        'subject'           => 'New Subscription to ', // concatenate Company name at the end
+        'subject'           => 'You have a new subscription!', // concatenate Company name at the end
         'body_template'     => 'notifications.templates.subscribed-user' // body will be a template of some sort
     ];
 
-    const UNSUBSCRIBED_USER_NOTIFICATION         = [
+    const UNSUBSCRIBED_USER_NOTIFICATION         = [ // done
         'type'              => 'unsubscribed_user',
-        'subject'           => 'Confirmation: Canceled subscription to ',
+        'subject'           => 'Confirmation: Canceled subscription',
         'body_template'     => 'notifications.templates.unsubscribed-user' // body will be a template of some sort
     ];
 
-    const NOTIFY_PLAN_DELETION_NOTIFICATION         = [
+    const NOTIFY_PLAN_DELETION_NOTIFICATION         = [ // done
         'type'              => 'notify_plan_deletion',
-        'subject'           => 'Welcome to Otruvez!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+        'subject'           => "Subscription canceled. Service no longer available",
+        'body_template'     => 'notifications.templates.notify-plan-deletion' // body will be a template of some sort
     ];
 
     const NOTIFY_PLAN_MODIFICATION_NOTIFICATION         = [
@@ -161,7 +161,6 @@ class Notification extends Model
         }
 
         if($notificationType == self::UNSUBSCRIBED_USER_NOTIFICATION['type']) {
-            // the problem we're having is that we're trying to use values that come from a deleted subscription
             $subscription       = Subscription::find($data['subscriptionId']);
             $plan               = Plan::find($subscription->plan_id);
             $business           = Business::find($subscription->business_id);
@@ -170,6 +169,21 @@ class Notification extends Model
                 'companyName'       => $business->name,
                 'serviceName'       => $plan->stripe_plan_name,
                 'confirmationId'    => $subscription->stripe_id,
+                'logoPath'          => $business->logo_path ?: ''// html
+            ]);
+        }
+
+        if($notificationType == self::NOTIFY_PLAN_DELETION_NOTIFICATION['type']) {
+            $subscription       = Subscription::find($data['subscriptionId']);
+            $plan               = Plan::find($subscription->plan_id);
+            $business           = Business::find($subscription->business_id);
+            $refund             = $data['refund'];
+
+            return view($this->body_template)->with([
+                'companyName'       => $business->name,
+                'serviceName'       => $plan->stripe_plan_name,
+                'confirmationId'    => $subscription->stripe_id,
+                'refund'            => $refund,
                 'logoPath'          => $business->logo_path ?: ''// html
             ]);
         }
@@ -193,7 +207,7 @@ class Notification extends Model
     {
         $this->type                 = self::SUBSCRIBED_USER_NOTIFICATION['type'];
         $this->body_template        = self::SUBSCRIBED_USER_NOTIFICATION['body_template']; // template?
-        $this->subject              = sprintf("%s %s", self::SUBSCRIBED_USER_NOTIFICATION['subject'], $business->name);
+        $this->subject              = self::SUBSCRIBED_USER_NOTIFICATION['subject'];
         $this->sender_name          = $business->name;
         $this->is_template          = true;
         $this->recipient_id         = $user->id;
@@ -206,10 +220,24 @@ class Notification extends Model
         $this->type                 = self::UNSUBSCRIBED_USER_NOTIFICATION['type'];
         $this->body_template        = self::UNSUBSCRIBED_USER_NOTIFICATION['body_template'];
         $this->body                 = $this->renderNotificationView(self::UNSUBSCRIBED_USER_NOTIFICATION['type'],['subscriptionId' => $subscription->id])->render(); // template?
-        $this->subject              = sprintf("%s %s", self::UNSUBSCRIBED_USER_NOTIFICATION['subject'], $business->name);
+        $this->subject              = self::UNSUBSCRIBED_USER_NOTIFICATION['subject'];
         $this->sender_name          = $business->name;
         $this->is_template          = "0";
         $this->recipient_id         = $user->id;
+        $this->subscription_id      = $subscription->id;
+        return $this->save();
+    }
+
+    public function sendNotifyPlanDeletionNotification($user, $business, $subscription)
+    {
+        $this->type                 = self::NOTIFY_PLAN_DELETION_NOTIFICATION['type'];
+        $this->body_template        = self::NOTIFY_PLAN_DELETION_NOTIFICATION['body_template'];
+        // the REFUND status will need to be worked out stills
+        $this->body                 = $this->renderNotificationView(self::NOTIFY_PLAN_DELETION_NOTIFICATION['type'],['subscriptionId' => $subscription->id,'refund' => true])->render(); // template?
+        $this->subject              = self::NOTIFY_PLAN_DELETION_NOTIFICATION['subject'];
+        $this->sender_name          = $business->name;
+        $this->is_template          = "0";
+        $this->recipient_id         = $subscription->user_id;
         $this->subscription_id      = $subscription->id;
         return $this->save();
     }

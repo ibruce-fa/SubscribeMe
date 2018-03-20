@@ -35,7 +35,7 @@
         </form>
         <div class="col-md-2 col-sm-12">
             <div class="block d-flex">
-                <button class="btn btn-default form-control" style="background: white" onclick="triggerTargetSubmit(this)" data-target="#search-form"><span class="fa fa-search"></span></button>
+                <button class="btn btn-default form-control" style="background: white" onclick="triggerTargetSubmit(event, this)" data-target="#search-form"><span class="fa fa-search"></span></button>
             </div>
         </div>
     </div>
@@ -67,13 +67,13 @@
                     $pages = ceil((request()->get('from') ?: 1)/10) * 10;
                 @endphp
                 @if($pages > 10)
-                <a href="#" data-from="{{$pages-11}}" onclick="triggerTargetSubmit(this)" data-target="#search-form"><span class="fa fa-arrow-left"></span> </a>
+                <a href="#" data-from="{{$pages-11}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form"><span class="fa fa-arrow-left"></span> </a>
                 @endif
                 @for($i = $pages > 10 ? $pages - 10 : 1; $i <= $pages + 1; $i++)
                     @if($pages < $i)
-                        <a href="#" data-from="{{$i}}" onclick="triggerTargetSubmit(this)" data-target="#search-form"><span class="fa fa-arrow-right"></span> </a>
+                        <a href="#" data-from="{{$i}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form"><span class="fa fa-arrow-right"></span> </a>
                     @else
-                        <a href="#" class="{{$searchFrom == $i ? 'text-info' : ''}}" data-from="{{$i}}" onclick="triggerTargetSubmit(this)" data-target="#search-form">{{$i}} | </a>
+                        <a href="#" class="{{$searchFrom == $i ? 'text-info' : ''}}" data-from="{{$i}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form">{{$i}} | </a>
                     @endif
                 @endfor
             </div>

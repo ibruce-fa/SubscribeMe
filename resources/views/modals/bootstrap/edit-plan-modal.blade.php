@@ -14,9 +14,6 @@
                 <div class="">
                     <input type="text" name="stripe_plan_name" class="form-control" value="{{$plan->stripe_plan_name}}">
                 </div>
-                <div class="">
-                    <label> {{getUseLimitString($plan)}} </label>
-                </div>
 
                 <div class="">
                     <label>Service Description:</label>

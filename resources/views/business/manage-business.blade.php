@@ -29,7 +29,7 @@
                         <div class="col-md-6">
                             {{--PRIMARY BUSINESS LOGO--}}
                             <p class="text-center">
-                                <a class="text-primary btn theme-background" id="update-business-logo" data-target="#business-logo-dropzone" onclick="triggerTargetClick(this)">update logo</a>
+                                <a class="text-primary btn theme-background" id="update-business-logo" data-target="#business-logo-dropzone" onclick="triggerTargetClick(event, this)">update logo</a>
                             <form action="/business/updateLogo/{{$business->id}}" class="dropzone hide" id="business-logo-dropzone">
                                 {{ csrf_field() }}
                                 {{ form_method_field("POST") }}
@@ -43,7 +43,7 @@
                             </div>
                             @if($haslogo)
                                 <p class="text-center">
-                                    <a class="text-danger" id="delete-business-logo" data-target="#delete-business-logo-form" onclick="triggerTargetSubmit(this)">remove</a>
+                                    <a class="text-danger" id="delete-business-logo" data-target="#delete-business-logo-form" onclick="triggerTargetSubmit(event, this)">remove</a>
                                 <form method="post" action="/business/deleteLogo/{{$business->id}}" class="hide" id="delete-business-logo-form">
                                     {{ csrf_field() }}
                                     {{ form_method_field("DELETE") }}
@@ -55,7 +55,7 @@
                         <div class="col-md-6">
                             {{--PRIMARY BUSINESS PHOTO--}}
                             <p class="text-center">
-                                <a class="text-primary btn theme-background" id="update-business_photo" data-target="#business-dropzone" onclick="triggerTargetClick(this)">update main photo</a>
+                                <a class="text-primary btn theme-background" id="update-business_photo" data-target="#business-dropzone" onclick="triggerTargetClick(event, this)">update main photo</a>
                                 <form action="/business/updatePhoto/{{$business->id}}" class="dropzone hide" id="business-dropzone">
                                     {{ csrf_field() }}
                                     {{ form_method_field("POST") }}
@@ -69,7 +69,7 @@
                             </div>
                             @if($hasPhoto)
                             <p class="text-center">
-                                <a class="text-danger" id="delete-business-photo" data-target="#delete-business-photo-form" onclick="triggerTargetSubmit(this)">remove</a>
+                                <a class="text-danger" id="delete-business-photo" data-target="#delete-business-photo-form" onclick="triggerTargetSubmit(event, this)">remove</a>
                                 <form method="post" action="/business/deletePhoto/{{$business->id}}" class="hide" id="delete-business-photo-form">
                                     {{ csrf_field() }}
                                     {{ form_method_field("DELETE") }}

@@ -48,8 +48,8 @@
                                     <div class="col-3 show-sm-modal" data-toggle="modal" data-modal-target="#plan-gallery-{{$plan->id}}">
                                         <span class="fa fa-photo fa-2x"></span>
                                     </div>
-                                    <div class="col-3" data-target="#delete-plan-form" onclick="triggerTargetSubmit(this)">
-                                        <form action="/plan/delete/{{$plan->id}}" method="POST" id="delete-plan-form">
+                                    <div class="col-3" data-target="#delete-plan-form-{{$plan->id}}" onclick="triggerTargetSubmit(event, this)">
+                                        <form action="/plan/delete/{{$plan->id}}" method="POST" id="delete-plan-form-{{$plan->id}}">
                                             {{method_field('DELETE')}}
                                             {{csrf_field()}}
                                             <span class="fa fa-trash fa-2x"></span>

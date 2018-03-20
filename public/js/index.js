@@ -38,13 +38,15 @@ $('.has-business-hours').on('change', function(){
 // });
 
 
-function triggerTargetClick(obj) {
-    event.preventDefault();
+function triggerTargetClick(e, obj) {
+    e = e || window.event;
+    e.preventDefault();
     $($(obj).attr('data-target')).trigger('click');
 }
 
-function triggerTargetSubmit(obj) {
-    event.preventDefault();
+function triggerTargetSubmit(e, obj) {
+    e = e || window.event;
+    e.preventDefault();
     let form = $($(obj).attr('data-target'));
     let paginationIndex = $(obj).attr('data-from');
     if(paginationIndex > 0) {
@@ -55,7 +57,7 @@ function triggerTargetSubmit(obj) {
 
 
 $('.which_usage_interval').on('change', function () {
-    var zis = $(this);
+    let zis = $(this);
     if(zis.prop('checked')) {
         $(zis.attr('data-input')).prop('disabled', false);
         $(zis.attr('data-input-other')).prop('disabled', true).val('');
