@@ -38,10 +38,10 @@ class Notification extends Model
         'body_template'     => 'notifications.templates.notify-plan-deletion' // body will be a template of some sort
     ];
 
-    const NOTIFY_PLAN_MODIFICATION_NOTIFICATION         = [
+    const NOTIFY_PLAN_MODIFICATION_NOTIFICATION         = [ // in progress
         'type'              => 'notify_plan_modification',
-        'subject'           => 'Welcome to Otruvez!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+        'subject'           => 'Details on a subscription you own have changed',
+        'body_template'     => 'notifications.templates.notify-plan-modification' // body will be a template of some sort
     ];
 
     const NOTIFY_BUSINESS_DELETION_NOTIFICATION         = [
@@ -101,19 +101,6 @@ class Notification extends Model
         'body_template'     => 'notifications.templates.support-acknowledge'
     ];
 
-    const TEST_NOTIFICATION = [
-        'type_id'           => 999,
-        'type'              => 'test',
-        'subject'           => 'This is a test subject!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
-    ];
-//    const SUPPORT_NOTIFICATON          = ['type_id'=>3, 'name'=>'WELCOME_USER'];
-//    const NEW_SUBSCRIPTION_TYPE = 2;
-//    const SUPPORT               = 4;
-//    const CONFIRM_ACCOUNT_TYPE  = 1;
-//    const NEW_SUBSCRIPTION_TYPE = 2;
-//    const NEW_USER_TYPE         = 3;
-//    const SUPPORT               = 4;
     /** email types */
 
 
@@ -174,9 +161,9 @@ class Notification extends Model
         }
 
         if($notificationType == self::NOTIFY_PLAN_DELETION_NOTIFICATION['type']) {
-            $subscription       = Subscription::find($data['subscriptionId']);
-            $plan               = Plan::find($subscription->plan_id);
-            $business           = Business::find($subscription->business_id);
+            $subscription       = $data['subscription'];
+            $plan               = $data['plan'];
+            $business           = $data['business'];
             $refund             = $data['refund'];
 
             return view($this->body_template)->with([
@@ -184,6 +171,21 @@ class Notification extends Model
                 'serviceName'       => $plan->stripe_plan_name,
                 'confirmationId'    => $subscription->stripe_id,
                 'refund'            => $refund,
+                'logoPath'          => $business->logo_path ?: ''// html
+            ]);
+        }
+
+        if($notificationType == self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['type']) {
+            $subscription       = $data['subscription'];
+            $plan               = Plan::find($subscription->plan_id);
+            $business           = Business::find($subscription->business_id);
+
+            return view($this->body_template)->with([
+                'oldName'           => $data['oldName'],
+                'oldDescription'    => $data['oldDescription'],
+                'newName'           => $plan->stripe_plan_name,
+                'newDescription'    => $plan->description,
+                'companyName'       => $business->name,
                 'logoPath'          => $business->logo_path ?: ''// html
             ]);
         }
@@ -228,13 +230,25 @@ class Notification extends Model
         return $this->save();
     }
 
-    public function sendNotifyPlanDeletionNotification($user, $business, $subscription)
+    public function sendNotifyPlanDeletionNotification($business, $subscription, $data)
     {
         $this->type                 = self::NOTIFY_PLAN_DELETION_NOTIFICATION['type'];
         $this->body_template        = self::NOTIFY_PLAN_DELETION_NOTIFICATION['body_template'];
-        // the REFUND status will need to be worked out stills
-        $this->body                 = $this->renderNotificationView(self::NOTIFY_PLAN_DELETION_NOTIFICATION['type'],['subscriptionId' => $subscription->id,'refund' => true])->render(); // template?
+        $this->body                 = $this->renderNotificationView(self::NOTIFY_PLAN_DELETION_NOTIFICATION['type'],$data)->render(); // template?
         $this->subject              = self::NOTIFY_PLAN_DELETION_NOTIFICATION['subject'];
+        $this->sender_name          = $business->name;
+        $this->is_template          = "0";
+        $this->recipient_id         = $subscription->user_id;
+        $this->subscription_id      = $subscription->id;
+        return $this->save();
+    }
+
+    public function sendNotifyPlanModificationNotification($business, $subscription, $data)
+    {
+        $this->type                 = self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['type'];
+        $this->body_template        = self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['body_template'];
+        $this->body                 = $this->renderNotificationView(self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['type'],$data)->render(); // template?
+        $this->subject              = self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['subject'];
         $this->sender_name          = $business->name;
         $this->is_template          = "0";
         $this->recipient_id         = $subscription->user_id;

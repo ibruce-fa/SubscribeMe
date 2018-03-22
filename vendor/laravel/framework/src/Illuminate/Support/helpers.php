@@ -1182,7 +1182,7 @@ function getThemeColorValue()
     return '#4cb996';
 }
 
-function getUseLimitString(\App\Plan $plan){
+function getUseLimitString($plan){
     if($plan->limit_interval) {
         if($plan->use_limit_year) {
             return sprintf('%s time(s) a %s',$plan->use_limit_year,$plan->limit_interval);

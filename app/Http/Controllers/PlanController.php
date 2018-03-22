@@ -147,17 +147,32 @@ class PlanController extends Controller
             return redirect("/plan/managePlans")->with('errorMessage','YOU ARE NOT AUTHORIZED TO DO THIS! PLEASE DON\'T!');
         }
 
-        $this->updateEsIndex($smPlan, $this->esClient);
+        $business   = $smPlan->business;
+        $data       = [
+            'oldName'           => $smPlan->stripe_plan_name,
+            'oldDescription'    => $smPlan->description,
+        ];
 
-        $smPlan->stripe_plan_name   = $request->stripe_plan_name;
-        $smPlan->use_limit          = $request->use_limit;
-        $smPlan->description        = $request->description;
         try {
+            $this->updateEsIndex($smPlan, $this->esClient);
+            // may need to update the use limits
+            $smPlan->stripe_plan_name   = $request->stripe_plan_name;
+            $smPlan->description        = $request->description;
             $smPlan->save();
-            return redirect("/plan/managePlans")->with('successMessage','Plan updated successfully!');
+            $subscriptions              = Subscription::where('plan_id', $id)->get();
+
+            if($subscriptions) {
+                foreach ($subscriptions as $subscription) {
+                    $data['subscription'] = $subscription;
+                    (new Notification())->sendNotifyPlanModificationNotification($business, $subscription, $data);
+                }
+            }
+
         } catch (Exception $exception) {
-            return redirect("/plan/managePlans")->with('successMessage','Could not update');
+            return redirect("/plan/managePlans")->with('successMessage','Could not update' . " $exception");
         }
+
+        return redirect("/plan/managePlans")->with('successMessage','Plan updated successfully!');
     }
 
     public function deletePlan(Request $request, $id)
@@ -169,12 +184,20 @@ class PlanController extends Controller
         $subscriptions = Subscription::where('plan_id', $id)->get();
         if($subscriptions) {
             foreach ($subscriptions as $subscription) {
-                (new Notification())->sendNotifyPlanDeletionNotification(Auth::user(),$business,$subscription);
+                // need to calculate REFUND, maybe if create date is within "X"
+                Notification::where('subscription_id', $subscription->id)->delete();
+                $data = [
+                    'subscription'  => $subscription,
+                    'plan'          => $smPlan,
+                    'business'      => $business,
+                    'refund'        => true
+                ];
+                (new Notification())->sendNotifyPlanDeletionNotification($business, $subscription, $data);
+
             }
-            return redirect("/plan/managePlans")->with('infoMessage',"$planName deleted successfully. $id");
-        } else {
-            return redirect("/plan/managePlans")->with('infoMessage',"$planName deleted successfully.  no notifications");
         }
+
+
 
 
         if($smPlan && $smPlan->user_id != Auth::id()) {
@@ -186,6 +209,7 @@ class PlanController extends Controller
             return redirect("/plan/managePlans")->with('warningMessage',"There was a problem. Please try again");
         }
 
+        Subscription::where('plan_id', $id)->delete();
         $planId =  $smPlan->stripe_plan_id;
         setStripeApiKey('secret');
         $plan = \Stripe\Plan::retrieve($planId."_month");
