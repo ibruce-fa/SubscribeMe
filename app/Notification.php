@@ -38,7 +38,7 @@ class Notification extends Model
         'body_template'     => 'notifications.templates.notify-plan-deletion' // body will be a template of some sort
     ];
 
-    const NOTIFY_PLAN_MODIFICATION_NOTIFICATION         = [ // in progress
+    const NOTIFY_PLAN_MODIFICATION_NOTIFICATION         = [ // done
         'type'              => 'notify_plan_modification',
         'subject'           => 'Details on a subscription you own have changed',
         'body_template'     => 'notifications.templates.notify-plan-modification' // body will be a template of some sort
@@ -46,14 +46,14 @@ class Notification extends Model
 
     const NOTIFY_BUSINESS_DELETION_NOTIFICATION         = [
         'type'              => 'notify_business_deletion',
-        'subject'           => 'Welcome to Otruvez!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+        'subject'           => 'Subscription canceled. Business no longer exists',
+        'body_template'     => 'notifications.templates.notify-business-deletion' // body will be a template of some sort
     ];
 
     const NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION         = [
         'type'              => 'notify_business_modification',
-        'subject'           => 'Welcome to Otruvez!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+        'subject'           => "We've changed some details about our business",
+        'body_template'     => 'notifications.templates.notify-business-modification' // body will be a template of some sort
     ];
 
     const BUSINESS_TO_USERS_NOTIFICATION         = [
@@ -69,12 +69,6 @@ class Notification extends Model
     ];
 
     const ALL_USERS_NOTIFICATION         = [
-        'type'              => 'welcome_user',
-        'subject'           => 'Welcome to Otruvez!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
-    ];
-
-    const USER_FAREWELL_NOTIFICATION         = [
         'type'              => 'welcome_user',
         'subject'           => 'Welcome to Otruvez!',
         'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
@@ -190,6 +184,19 @@ class Notification extends Model
             ]);
         }
 
+        if($notificationType == self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type']) {
+            return view($this->body_template)->with([
+                'business'  => $data['business']
+            ]);
+        }
+
+        if($notificationType == self::NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION['type']) {
+            return view($this->body_template)->with([
+                'business' => $data['business'],
+                'days'      => $data['days']
+            ]);
+        }
+
         return false;
 
     }
@@ -243,12 +250,41 @@ class Notification extends Model
         return $this->save();
     }
 
+    public function sendNotifyBusinessDeletionNotification($business, $subscription)
+    {
+        $this->type                 = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type'];
+        $this->body_template        = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['body_template'];
+        $this->body                 = $this->renderNotificationView(self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type'],['business' => $business])->render(); // template?
+        $this->subject              = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['subject'];
+        $this->sender_name          = env('APP_NAME');
+        $this->is_template          = "0";
+        $this->recipient_id         = $subscription->user_id;
+        $this->subscription_id      = $subscription->id;
+        return $this->save();
+    }
+
     public function sendNotifyPlanModificationNotification($business, $subscription, $data)
     {
         $this->type                 = self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['type'];
         $this->body_template        = self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['body_template'];
         $this->body                 = $this->renderNotificationView(self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['type'],$data)->render(); // template?
         $this->subject              = self::NOTIFY_PLAN_MODIFICATION_NOTIFICATION['subject'];
+        $this->sender_name          = $business->name;
+        $this->is_template          = "0";
+        $this->recipient_id         = $subscription->user_id;
+        $this->subscription_id      = $subscription->id;
+        return $this->save();
+    }
+
+    public function sendNotifyBusinessModificationNotification($business, $subscription)
+    {
+        $data                       = [];
+        $data['days']               = ['monday','tuesday','wednesday','thursday','friday','saturday','sunday'];
+        $data['business']           = $business;
+        $this->type                 = self::NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION['type'];
+        $this->body_template        = self::NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION['body_template'];
+        $this->body                 = $this->renderNotificationView(self::NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION['type'],$data)->render(); // template?
+        $this->subject              = self::NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION['subject'];
         $this->sender_name          = $business->name;
         $this->is_template          = "0";
         $this->recipient_id         = $subscription->user_id;

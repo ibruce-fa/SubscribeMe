@@ -246,10 +246,15 @@ class BusinessController extends Controller
         if($business && $user->business_account == 1)
         {
             $business->update($request->all());
-            return redirect('/business/manageBusiness');
+            $subscriptions = \App\Subscription::where('business_id', $id)->get();
+            foreach($subscriptions as $subscription)
+            {
+                (new Notification())->sendNotifyBusinessModificationNotification($business, $subscription);
+            }
+            return redirect('/business/manageBusiness')->with('successMessage','Business details updated successfully');
         }
 
-        return $this->failMessage;
+        return redirect('/business/manageBusiness')->with('warningMessage','Business does not exist or is inactive');
     }
 
     public function showBusinessNotificationView($businessId){
