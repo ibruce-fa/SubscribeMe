@@ -12,7 +12,7 @@
         @include('modals.custom.create-business-form')
         <hr>
     @else
-    @include('partials.back')
+    @include('partials.business-back')
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12" href="#">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('body')
-    @include('partials.back')
+    @include('partials.account-back')
     @if($hasNewNotifications)
         <p class="alert alert-info">New Notifications</p>
     @endif
@@ -10,8 +10,8 @@
             @forelse($notifications as $notification)
                 <div class="card">
                     <div class="card-footer">
-                        <p>
-                            From: <b>{{$notification->sender_name}}</b>
+                        <p style="font-size: 18px">
+                        From: <b class="theme-color">{{$notification->sender_name}}</b>
                             <span class="float-right">{{formatDate($notification->created_at, "m-d-Y")}}</span>
                         <hr>
                         </p>

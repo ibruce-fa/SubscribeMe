@@ -44,13 +44,13 @@ class Notification extends Model
         'body_template'     => 'notifications.templates.notify-plan-modification' // body will be a template of some sort
     ];
 
-    const NOTIFY_BUSINESS_DELETION_NOTIFICATION         = [
+    const NOTIFY_BUSINESS_DELETION_NOTIFICATION         = [ // done
         'type'              => 'notify_business_deletion',
         'subject'           => 'Subscription canceled. Business no longer exists',
         'body_template'     => 'notifications.templates.notify-business-deletion' // body will be a template of some sort
     ];
 
-    const NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION         = [
+    const NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION         = [ // done
         'type'              => 'notify_business_modification',
         'subject'           => "We've changed some details about our business",
         'body_template'     => 'notifications.templates.notify-business-modification' // body will be a template of some sort
@@ -58,8 +58,8 @@ class Notification extends Model
 
     const BUSINESS_TO_USERS_NOTIFICATION         = [
         'type'              => 'business_to_users',
-        'subject'           => 'Welcome to Otruvez!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+        'subject'           => 'A message to our customers',
+        'body_template'     => 'notifications.templates.business-to-users' // body will be a template of some sort
     ];
 
     const PAYMENT_UNSUCCESSFUL_NOTIFICATION         = [
@@ -68,32 +68,32 @@ class Notification extends Model
         'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
     ];
 
-    const ALL_USERS_NOTIFICATION         = [
-        'type'              => 'welcome_user',
-        'subject'           => 'Welcome to Otruvez!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
-    ];
+//    const ALL_USERS_NOTIFICATION         = [
+//        'type'              => 'welcome_user',
+//        'subject'           => 'Welcome to Otruvez!',
+//        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+//    ];
 
     /** CONSUMER notification types END */
 
-    const WELCOME_BUSINESS_NOTIFICATION     = [
+    const WELCOME_BUSINESS_NOTIFICATION     = [ // done
         'type'              => 'welcome_business',
         'subject'           => 'Congrats! now sell some subscriptions',
         'body_template'     => 'notifications.templates.welcome-business' // body will be a template of some sort
     ];
 
-    const SUPPORT_ACKNOWLEDGE_NOTIFICATION  = [
-        'type'              => 'support_acknowledge',
-        'subject'           => 'Otruvez Support',
-        'body_template'     => 'notifications.templates.support-acknowledge'
-    ];
-
-    const SUPPORT_RESPONSE_NOTIFICATION     = [
-        'type_id'           => 3,
-        'type'              => 'support_acknowledge',
-        'subject'           => 'Otruvez Support',
-        'body_template'     => 'notifications.templates.support-acknowledge'
-    ];
+//    const SUPPORT_ACKNOWLEDGE_NOTIFICATION  = [
+//        'type'              => 'support_acknowledge',
+//        'subject'           => 'Otruvez Support',
+//        'body_template'     => 'notifications.templates.support-acknowledge'
+//    ];
+//
+//    const SUPPORT_RESPONSE_NOTIFICATION     = [
+//        'type_id'           => 3,
+//        'type'              => 'support_acknowledge',
+//        'subject'           => 'Otruvez Support',
+//        'body_template'     => 'notifications.templates.support-acknowledge'
+//    ];
 
     /** email types */
 
@@ -186,7 +186,8 @@ class Notification extends Model
 
         if($notificationType == self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type']) {
             return view($this->body_template)->with([
-                'business'  => $data['business']
+                'business'      => $data['business'],
+                'plan'  => $data['plan']
             ]);
         }
 
@@ -220,6 +221,7 @@ class Notification extends Model
         $this->sender_name          = $business->name;
         $this->is_template          = true;
         $this->recipient_id         = $user->id;
+        $this->business_id          = $business->id;
         $this->subscription_id      = $subscription->id;
         return $this->save();
     }
@@ -252,9 +254,12 @@ class Notification extends Model
 
     public function sendNotifyBusinessDeletionNotification($business, $subscription)
     {
+        $data = [];
+        $data['business']           = $business;
+        $data['plan']       = Plan::find($subscription->plan_id);
         $this->type                 = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type'];
         $this->body_template        = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['body_template'];
-        $this->body                 = $this->renderNotificationView(self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type'],['business' => $business])->render(); // template?
+        $this->body                 = $this->renderNotificationView(self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type'],$data)->render(); // template?
         $this->subject              = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['subject'];
         $this->sender_name          = env('APP_NAME');
         $this->is_template          = "0";

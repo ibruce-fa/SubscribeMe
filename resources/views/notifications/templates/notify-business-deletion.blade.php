@@ -1,9 +1,9 @@
-<h4>{{$business->name}} has chosen to end their partnership with us. Any subscriptions you had with them will be canceled</h4>
+<h4><span class="theme-color">{{$business->name}}</span> has chosen to end their partnership with us. The following subscription will be canceled:"</h4>
 <hr>
 <ul style="width: 100%">
 
-    <li>Note: if you have already paid and have not used the service, please expect a refund within 3-5 business days</li>
+    <li>Subscription name: <h4 class="theme-color">{{$plan->stripe_plan_name}}</h4></li>
 
 </ul>
 
-<p>We apologize for any inconvenience this may have caused</p>
+<p>We apologize for any inconvenience this may have caused. <br>Thank you for your business.</p>

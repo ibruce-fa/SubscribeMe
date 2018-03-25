@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('body')
-    @include('partials.back')
+    @include('partials.account-back')
     <h3 class="text-center"> My Subscriptions</h3>
     <div class="container">
         <div class="row">

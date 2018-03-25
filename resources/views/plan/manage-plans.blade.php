@@ -6,12 +6,12 @@
 
 @section('body')
 
-    @include('partials.back')
+    @include('partials.business-back')
 
 
     <div class="container">
         <div class="row "><br><br>
-            <h3 class="text-center col-12 card-header">Manage your services</h3>
+            <h3 class="text-center col-12">Manage your services</h3>
         </div>
     </div>
     <div class="container">

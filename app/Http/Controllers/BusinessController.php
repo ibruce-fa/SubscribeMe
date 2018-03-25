@@ -278,6 +278,7 @@ class BusinessController extends Controller
             return redirect()->back()->with("errorMessage","Business doesn't exist");
         }
 
+        $sentToUser = [];
         $subs = (new \App\Subscription())->where('business_id', $businessId)->get(); // delete all the subscriptions
         if(count($subs) > 0) {
             foreach($subs as $sub)
@@ -287,6 +288,13 @@ class BusinessController extends Controller
                 } catch (Exception $e) {
                     logger('subscription cancellation failed');
                 }
+                if(!in_array($sub->user_id, $sentToUser)) // only send out one broad email
+                {
+                    $sentToUser[] = $sub->user_id;
+                    // send email
+                }
+
+                (new Notification())->sendNotifyBusinessDeletionNotification($business, $sub);
                 $sub->delete(); // delete all photos assoc with plans
             }
         }
