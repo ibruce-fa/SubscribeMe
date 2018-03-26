@@ -160,11 +160,11 @@ class PlanController extends Controller
             $smPlan->description        = $request->description;
             $smPlan->save();
             $subscriptions              = Subscription::where('plan_id', $id)->get();
-
+            $notification               = new Notification();
             if($subscriptions) {
                 foreach ($subscriptions as $subscription) {
                     $data['subscription'] = $subscription;
-                    (new Notification())->sendNotifyPlanModificationNotification($business, $subscription, $data);
+                    $notification->sendNotifyPlanModificationNotification($business, $subscription, $data);
                 }
             }
 
@@ -182,6 +182,7 @@ class PlanController extends Controller
         $business = $smPlan->business;
         $planName = $smPlan->stripe_plan_name;
         $subscriptions = Subscription::where('plan_id', $id)->get();
+        $notification         = new Notification();
         if($subscriptions) {
             foreach ($subscriptions as $subscription) {
                 // need to calculate REFUND, maybe if create date is within "X"
@@ -192,7 +193,7 @@ class PlanController extends Controller
                     'business'      => $business,
                     'refund'        => true
                 ];
-                (new Notification())->sendNotifyPlanDeletionNotification($business, $subscription, $data);
+                $notification->sendNotifyPlanDeletionNotification($business, $subscription, $data);
 
             }
         }

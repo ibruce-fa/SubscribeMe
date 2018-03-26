@@ -20,6 +20,12 @@ class Notification extends Model
         'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
     ];
 
+    const WELCOME_BUSINESS_NOTIFICATION     = [ // done
+        'type'              => 'welcome_business',
+        'subject'           => 'Congrats! now sell some subscriptions',
+        'body_template'     => 'notifications.templates.welcome-business' // body will be a template of some sort
+    ];
+
     const SUBSCRIBED_USER_NOTIFICATION           = [ //  done for USER but need flash notification for businesses
         'type'              => 'subscribed_user',
         'subject'           => 'You have a new subscription!', // concatenate Company name at the end
@@ -56,10 +62,10 @@ class Notification extends Model
         'body_template'     => 'notifications.templates.notify-business-modification' // body will be a template of some sort
     ];
 
-    const BUSINESS_TO_USERS_NOTIFICATION         = [
-        'type'              => 'business_to_users',
+    const MESSAGE_TO_CUSTOMERS_NOTIFICATION         = [ // done
+        'type'              => 'message_to_customers',
         'subject'           => 'A message to our customers',
-        'body_template'     => 'notifications.templates.business-to-users' // body will be a template of some sort
+        'body_template'     => 'notifications.templates.message-to-customers' // body will be a template of some sort
     ];
 
     const PAYMENT_UNSUCCESSFUL_NOTIFICATION         = [
@@ -75,12 +81,6 @@ class Notification extends Model
 //    ];
 
     /** CONSUMER notification types END */
-
-    const WELCOME_BUSINESS_NOTIFICATION     = [ // done
-        'type'              => 'welcome_business',
-        'subject'           => 'Congrats! now sell some subscriptions',
-        'body_template'     => 'notifications.templates.welcome-business' // body will be a template of some sort
-    ];
 
 //    const SUPPORT_ACKNOWLEDGE_NOTIFICATION  = [
 //        'type'              => 'support_acknowledge',
@@ -100,7 +100,7 @@ class Notification extends Model
 
     public function getNotifications($id = null)
     {
-        return $this->where('recipient_id', $id)->whereNull('business_id')->orderBy('id', 'desc')->get();
+        return $this->where('recipient_id', $id)->orderBy('id', 'desc')->get();
     }
 
     public function getBusinessNotifications($businessId)
@@ -305,6 +305,20 @@ class Notification extends Model
         $this->sender_name          = env('APP_NAME');
         $this->is_template          = true;
         $this->recipient_id         = $user->id;
+        $this->business_id          = $business->id;
+        return $this->save();
+    }
+
+    public function sendMessageToCustomersNotification($business, $subscription, $data)
+    {
+        $this->type                 = self::MESSAGE_TO_CUSTOMERS_NOTIFICATION['type'];
+        $this->subject              = $data['subject'];
+        $this->body                 = $data['body'];
+        $this->body_template        = self::MESSAGE_TO_CUSTOMERS_NOTIFICATION['body_template']; // template?
+        $this->sender_name          = $business->name;
+        $this->is_template          = "0";
+        $this->recipient_id         = $subscription->user_id;
+        $this->subscription_id      = $subscription->id;
         $this->business_id          = $business->id;
         return $this->save();
     }

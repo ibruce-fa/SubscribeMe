@@ -247,9 +247,10 @@ class BusinessController extends Controller
         {
             $business->update($request->all());
             $subscriptions = \App\Subscription::where('business_id', $id)->get();
+            $notification         = new Notification();
             foreach($subscriptions as $subscription)
             {
-                (new Notification())->sendNotifyBusinessModificationNotification($business, $subscription);
+                $notification->sendNotifyBusinessModificationNotification($business, $subscription);
             }
             return redirect('/business/manageBusiness')->with('successMessage','Business details updated successfully');
         }
@@ -262,6 +263,36 @@ class BusinessController extends Controller
         $notifications = (new Notification())->getBusinessNotifications($businessId);
         // maybe also get common
         return view('business.business-notifications')->with('notifications', $notifications);
+    }
+
+    public function showNotifyCustomersView(){
+        $business = Business::find(Auth::user()->business_id);
+        if(!$business) {
+            return redirect('/business')->with('warningMessage', "You are not authorized to make this request");
+        }
+        // maybe also get common
+        return view('business.notify-customers')->with('business', $business);
+    }
+
+    public function notifyCustomers(Request $request){
+        $business = Business::find(Auth::user()->business_id);
+        if(!$business) {
+            return redirect('/business')->with('warningMessage', "You are not authorized to make this request");
+        }
+        $data = [];
+        $data['body']       = $request->get('body');
+        $data['subject']    = $request->get('subject');
+        // ToDo: this will later need to be revised with a proper groupBy(). Could not use groupby because of SQL setting
+        $subscriptions      = \App\Subscription::where('business_id', $business->id)->get();
+        $notification       = new Notification();
+        if(count($subscriptions)) {
+            foreach ($subscriptions as $subscription) {
+                $notification->sendMessageToCustomersNotification($business, $subscription, $data);
+            }
+        } else {
+            return redirect('/business')->with('infoMessage', "You do not have any subscribers yet");
+        }
+        return redirect('/business')->with('successMessage', "Your message has been transmitted");
     }
 
     public function deleteBusiness(Request $request, $businessId, $userDelete = null)
@@ -280,6 +311,7 @@ class BusinessController extends Controller
 
         $sentToUser = [];
         $subs = (new \App\Subscription())->where('business_id', $businessId)->get(); // delete all the subscriptions
+        $notification         = new Notification();
         if(count($subs) > 0) {
             foreach($subs as $sub)
             {
@@ -294,7 +326,7 @@ class BusinessController extends Controller
                     // send email
                 }
 
-                (new Notification())->sendNotifyBusinessDeletionNotification($business, $sub);
+                $notification->sendNotifyBusinessDeletionNotification($business, $sub);
                 $sub->delete(); // delete all photos assoc with plans
             }
         }
