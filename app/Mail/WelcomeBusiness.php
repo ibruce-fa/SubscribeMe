@@ -23,6 +23,8 @@ class WelcomeBusiness extends Mailable
     {
         $this->business     = $business;
         $this->messageBody  = $messageBody;
+        $this->subject("Thanks for partnering with Otruvez");
+        $this->from("sales@otruvez.com");
     }
 
     /**

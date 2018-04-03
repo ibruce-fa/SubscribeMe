@@ -23,6 +23,8 @@ class MessageToCustomers extends Mailable
     {
         $this->business     = $business;
         $this->messageBody  = $messageBody;
+        $this->subject($business->name . " has a message for you");
+        $this->from("support@otruvez.com");
     }
 
     /**

@@ -25,6 +25,8 @@ class ConfirmAccount extends Mailable
         $this->token = $token;
         $this->email = $email;
         $this->fname = ucfirst($fname);
+        $this->subject("Please confirm your new account");
+        $this->from("support@otruvez.com");
     }
 
     /**
@@ -34,6 +36,7 @@ class ConfirmAccount extends Mailable
      */
     public function build()
     {
+
         $activateUrl = "/user/activateUserAccount";
         $confirmAccountURL = sprintf("%s%s?email=%s&token=%s",env('APP_URL'),$activateUrl, $this->email,$this->token);
         return $this->markdown('emails.account.confirm-account')

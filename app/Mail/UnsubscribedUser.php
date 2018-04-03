@@ -21,6 +21,8 @@ class UnsubscribedUser extends Mailable
     public function __construct($messageBody)
     {
         $this->messageBody  = $messageBody;
+        $this->subject("Subscription cancellation confirmation");
+        $this->from("support@otruvez.com");
     }
 
 

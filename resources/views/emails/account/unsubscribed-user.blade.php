@@ -1,10 +1,10 @@
 @component('mail::message')
-    {{$body}}
+    {!! $body !!}
 
-    @component('mail::button', ['url' => $url])
-        Notifications
-    @endcomponent
+@component('mail::button', ['url' => $url])
+    Notifications
+@endcomponent
 
-    Thanks,<br>
+    Thanks,
     {{ config('app.name') }}
 @endcomponent

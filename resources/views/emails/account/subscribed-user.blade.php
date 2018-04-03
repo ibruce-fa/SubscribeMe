@@ -1,10 +1,10 @@
 @component('mail::message')
-{{$body}}
+{!! $body !!}
 
 @component('mail::button', ['url' => $url])
 Go to your subscriptions
 @endcomponent
 
-Thanks,<br>
+Thanks,
 {{ config('app.name') }}
 @endcomponent

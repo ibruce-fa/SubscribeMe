@@ -21,6 +21,8 @@ class NotifyBusinessModification extends Mailable
     public function __construct($business)
     {
         $this->business = $business;
+        $this->subject($business->name . " has made some changes");
+        $this->from("support@otruvez.com");
     }
 
     /**

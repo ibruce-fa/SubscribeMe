@@ -37,19 +37,19 @@ class Email extends Model
         return Mail::to($toUser->email)->queue(new NotifyPlanModification($business));
     }
 
-    public static function sendSubscribedUserEmail(User $toUser, $body) { //
+    public static function sendSubscribedUserEmail(User $toUser, $body) { // done
         return Mail::to($toUser->email)->queue(new SubscribedUser($body));
     }
 
-    public static function sendUnsubscribedUserEmail(User $toUser, $body) {
+    public static function sendUnsubscribedUserEmail(User $toUser, $body) { //done
         return Mail::to($toUser->email)->queue(new UnsubscribedUser($body));
     }
 
-    public static function sendWelcomeBusinessEmail(User $toUser, Business $business, $body) {
+    public static function sendWelcomeBusinessEmail(User $toUser, Business $business, $body) { // done
         return Mail::to($toUser->email)->queue(new WelcomeBusiness($business, $body));
     }
 
-    public static function sendMessageToCustomersEmail(User $toUser, Business $business, $body) {
+    public static function sendMessageToCustomersEmail(User $toUser, Business $business, $body) { // done
         return Mail::to($toUser->email)->queue(new MessageToCustomers($business, $body));
     }
 }

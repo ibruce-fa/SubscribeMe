@@ -21,6 +21,8 @@ class NotifyBusinessDeletion extends Mailable
     public function __construct($business)
     {
         $this->business = $business;
+        $this->subject($business->name . " is no longer with us");
+        $this->from("support@otruvez.com");
     }
 
     /**

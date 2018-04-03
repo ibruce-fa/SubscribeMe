@@ -21,6 +21,8 @@ class NotifyPlanModification extends Mailable
     public function __construct($business)
     {
         $this->business = $business;
+        $this->subject("Details on your subscription have changed");
+        $this->from("support@otruvez.com");
     }
 
     /**

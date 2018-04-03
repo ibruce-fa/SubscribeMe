@@ -7,6 +7,6 @@ Thank you for registering. Click the button below to confirm your account and lo
 Confirm Account
 @endcomponent
 
-Thanks,<br>
+Thanks,
 {{ config('app.name') }}
 @endcomponent

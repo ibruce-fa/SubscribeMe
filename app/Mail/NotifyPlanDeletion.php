@@ -21,6 +21,8 @@ class NotifyPlanDeletion extends Mailable
     public function __construct($business)
     {
         $this->business = $business;
+        $this->subject("We've canceled a subscription for you");
+        $this->from("support@otruvez.com");
     }
 
     /**

@@ -21,6 +21,8 @@ class SubscribedUser extends Mailable
     public function __construct($messageBody)
     {
         $this->messageBody  = $messageBody;
+        $this->subject("Thanks for your subscription!");
+        $this->from("support@otruvez.com");
     }
 
 

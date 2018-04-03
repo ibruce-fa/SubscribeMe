@@ -1,9 +1,9 @@
 @component('mail::message')
-{{$body}}
+{!! $body !!}
 @component('mail::button', ['url' => $url])
 Business Profile
 @endcomponent
 
-Thanks,<br>
+Thanks,
 {{ config('app.name') }}
 @endcomponent

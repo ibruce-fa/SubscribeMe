@@ -7,6 +7,6 @@ Please check your notifications to see more details
 Notifications
 @endcomponent
 
-Thanks,<br>
+Thanks,
 {{ config('app.name') }}
 @endcomponent
