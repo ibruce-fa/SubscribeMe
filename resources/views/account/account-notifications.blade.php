@@ -21,11 +21,7 @@
                     <div class="card-body collapse" id="an-{{$notification->id}}">
                         @if($notification->is_template == "1")
                             @php /** @var \App\Notification $notification */ @endphp
-                            @if($notification->type == \App\Notification::SUBSCRIBED_USER_NOTIFICATION['type'])
-                                {!! $notification->renderNotificationView($notification->type, ['subscriptionId' => $notification->subscription_id]) !!}
-                            @else
                                 {!! $notification->renderNotificationView($notification->type) !!}
-                            @endif
                         @else
                             {!! $notification->body !!}
                         @endif

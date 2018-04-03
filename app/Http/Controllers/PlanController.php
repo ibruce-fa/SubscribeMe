@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Business;
+use App\Email;
 use App\Http\Requests\GalleryUploadRequest;
 use App\Notification;
 use App\Photo;

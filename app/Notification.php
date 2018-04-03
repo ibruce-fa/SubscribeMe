@@ -142,6 +142,11 @@ class Notification extends Model
         return $notification;
     }
 
+    /**
+     * @param $notificationType
+     * @param array $data
+     * @return $this|bool|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function renderNotificationView($notificationType, $data = [])
     {
         if($notificationType == self::WELCOME_USER_NOTIFICATION['type']) {
@@ -153,7 +158,7 @@ class Notification extends Model
         }
 
         if($notificationType == self::SUBSCRIBED_USER_NOTIFICATION['type']) {
-            $subscription       = Subscription::find($data['subscriptionId']);
+            $subscription       = $data['subscription'];
             $plan               = Plan::find($subscription->plan_id);
             $business           = Business::find($subscription->business_id);
 
@@ -225,7 +230,7 @@ class Notification extends Model
             ]);
         }
 
-        return false;
+        return view();
 
     }
 
@@ -242,15 +247,19 @@ class Notification extends Model
 
     public function sendSubscribedUserNotification($user, $business, $subscription)
     {
+
         $this->type                 = self::SUBSCRIBED_USER_NOTIFICATION['type'];
         $this->body_template        = self::SUBSCRIBED_USER_NOTIFICATION['body_template']; // template?
         $this->subject              = self::SUBSCRIBED_USER_NOTIFICATION['subject'];
         $this->sender_name          = $business->name;
-        $this->is_template          = true;
+        $this->is_template          = "0";
+        $this->body                 = $this->renderNotificationView(self::SUBSCRIBED_USER_NOTIFICATION['type'],['subscription' => $subscription])->render();;
         $this->recipient_id         = $user->id;
         $this->business_id          = $business->id;
         $this->subscription_id      = $subscription->id;
-        return $this->save();
+        $this->save();
+
+        return Email::sendSubscribedUserEmail($user, $this->body);
     }
 
     public function sendUnsubscribedUserNotification($user, $business, $subscription)
@@ -263,7 +272,9 @@ class Notification extends Model
         $this->is_template          = "0";
         $this->recipient_id         = $user->id;
         $this->subscription_id      = $subscription->id;
-        return $this->save();
+        $this->save();
+
+        return Email::sendUnsubscribedUserEmail($user, $this->body);
     }
 
     public function sendNotifyPlanDeletionNotification($business, $subscription, $data)
@@ -276,14 +287,17 @@ class Notification extends Model
         $this->is_template          = "0";
         $this->recipient_id         = $subscription->user_id;
         $this->subscription_id      = $subscription->id;
-        return $this->save();
+        $this->save();
+
+        $user = User::find($subscription->user_id);
+        return Email::sendNotifyPlanDeletionEmail($user, $business);
     }
 
     public function sendNotifyBusinessDeletionNotification($business, $subscription)
     {
-        $data = [];
+        $data                       = [];
         $data['business']           = $business;
-        $data['plan']       = Plan::find($subscription->plan_id);
+        $data['plan']               = Plan::find($subscription->plan_id);
         $this->type                 = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type'];
         $this->body_template        = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['body_template'];
         $this->body                 = $this->renderNotificationView(self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type'],$data)->render(); // template?
@@ -292,7 +306,10 @@ class Notification extends Model
         $this->is_template          = "0";
         $this->recipient_id         = $subscription->user_id;
         $this->subscription_id      = $subscription->id;
-        return $this->save();
+        $this->save();
+
+        $user = User::find($subscription->user_id);
+        return Email::sendNotifyBusinessDeletionEmail($user, $business);
     }
 
     public function sendNotifyPlanModificationNotification($business, $subscription, $data)
@@ -305,7 +322,10 @@ class Notification extends Model
         $this->is_template          = "0";
         $this->recipient_id         = $subscription->user_id;
         $this->subscription_id      = $subscription->id;
-        return $this->save();
+        $this->save();
+
+        $user = User::find($subscription->user_id);
+        return Email::sendNotifyPlanModificationEmail($user, $business);
     }
 
     public function sendNotifyBusinessModificationNotification($business, $subscription)
@@ -321,7 +341,10 @@ class Notification extends Model
         $this->is_template          = "0";
         $this->recipient_id         = $subscription->user_id;
         $this->subscription_id      = $subscription->id;
-        return $this->save();
+        $this->save();
+
+        $user = User::find($subscription->user_id);
+        return Email::sendNotifyBusinessModificationEmail($user, $business);
     }
 
     public function sendBusinessWelcomeNotification($user, $business)
@@ -329,11 +352,14 @@ class Notification extends Model
         $this->type                 = self::WELCOME_BUSINESS_NOTIFICATION['type'];
         $this->subject              = self::WELCOME_BUSINESS_NOTIFICATION['subject'];
         $this->body_template        = self::WELCOME_BUSINESS_NOTIFICATION['body_template']; // template?
+        $this->body                 = $this->renderNotificationView(self::WELCOME_BUSINESS_NOTIFICATION['type'])->render();
         $this->sender_name          = env('APP_NAME');
         $this->is_template          = true;
         $this->recipient_id         = $user->id;
         $this->business_id          = $business->id;
-        return $this->save();
+        $this->save();
+
+        return Email::sendWelcomeBusinessEmail($user,$business,$this->body);
     }
 
     public function sendMessageToCustomersNotification($business, $subscription, $data)
@@ -347,7 +373,11 @@ class Notification extends Model
         $this->recipient_id         = $subscription->user_id;
         $this->subscription_id      = $subscription->id;
         $this->business_id          = $business->id;
-        return $this->save();
+        $this->save();
+
+        $user = User::find($subscription->user_id);
+
+        return Email::sendMessageToCustomersEmail($user,$business,$this->body);
     }
 
     public function sendSupportNotification(Request $request)
