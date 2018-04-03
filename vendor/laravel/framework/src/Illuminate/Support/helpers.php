@@ -1199,4 +1199,19 @@ function getBusinessLogoImg($business)
     return asset('/storage/'.$business->logo_path);
 }
 
+function getAccountNotificationsUrl()
+{
+    return sprintf('%s/account/notifications',config('app.url'));
+}
+
+function getAccountSubscriptionsUrl()
+{
+    return sprintf('%s/account/mysubscriptions',config('app.url'));
+}
+
+function getBusinessNotificationsUrl($businessId)
+{
+    return sprintf('%s/business/notifications/',config('app.url'), $businessId);
+}
+
 // logo: <img src="{{asset("/storage/images/logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">

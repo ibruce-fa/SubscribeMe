@@ -14,65 +14,92 @@ class Notification extends Model
 {
     /** CONSUMER notification types */
 
+    /**
+     * email: false
+     */
     const WELCOME_USER_NOTIFICATION             = [ // done
         'type'              => 'welcome_user',
         'subject'           => 'Welcome to Otruvez!',
         'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
     ];
 
+    /**
+     * email: true
+     */
     const WELCOME_BUSINESS_NOTIFICATION     = [ // done
         'type'              => 'welcome_business',
         'subject'           => 'Congrats! now sell some subscriptions',
         'body_template'     => 'notifications.templates.welcome-business' // body will be a template of some sort
     ];
 
+    /**
+     * email: true
+     */
     const SUBSCRIBED_USER_NOTIFICATION           = [ //  done for USER but need flash notification for businesses
         'type'              => 'subscribed_user',
         'subject'           => 'You have a new subscription!', // concatenate Company name at the end
         'body_template'     => 'notifications.templates.subscribed-user' // body will be a template of some sort
     ];
 
+    /**
+     * email: true
+     */
     const UNSUBSCRIBED_USER_NOTIFICATION         = [ // done
         'type'              => 'unsubscribed_user',
         'subject'           => 'Confirmation: Canceled subscription',
         'body_template'     => 'notifications.templates.unsubscribed-user' // body will be a template of some sort
     ];
 
+    /**
+     * email: true
+     */
     const NOTIFY_PLAN_DELETION_NOTIFICATION         = [ // done
         'type'              => 'notify_plan_deletion',
         'subject'           => "Subscription canceled. Service no longer available",
         'body_template'     => 'notifications.templates.notify-plan-deletion' // body will be a template of some sort
     ];
 
+    /**
+     * email: true
+     */
     const NOTIFY_PLAN_MODIFICATION_NOTIFICATION         = [ // done
         'type'              => 'notify_plan_modification',
         'subject'           => 'Details on a subscription you own have changed',
         'body_template'     => 'notifications.templates.notify-plan-modification' // body will be a template of some sort
     ];
 
+    /**
+     * email: true
+     */
     const NOTIFY_BUSINESS_DELETION_NOTIFICATION         = [ // done
         'type'              => 'notify_business_deletion',
         'subject'           => 'Subscription canceled. Business no longer exists',
         'body_template'     => 'notifications.templates.notify-business-deletion' // body will be a template of some sort
     ];
 
+    /**
+     * email: true
+     */
     const NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION         = [ // done
         'type'              => 'notify_business_modification',
         'subject'           => "We've changed some details about our business",
         'body_template'     => 'notifications.templates.notify-business-modification' // body will be a template of some sort
     ];
 
+    /**
+     * email: true
+     */
     const MESSAGE_TO_CUSTOMERS_NOTIFICATION         = [ // done
         'type'              => 'message_to_customers',
         'subject'           => 'A message to our customers',
         'body_template'     => 'notifications.templates.message-to-customers' // body will be a template of some sort
     ];
 
-    const PAYMENT_UNSUCCESSFUL_NOTIFICATION         = [
-        'type'              => 'payment_unsuccessful',
-        'subject'           => 'Welcome to Otruvez!',
-        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
-    ];
+//    const PAYMENT_UNSUCCESSFUL_NOTIFICATION         = [
+//        'type'              => 'payment_unsuccessful',
+//        'subject'           => 'Welcome to Otruvez!',
+//        'body_template'     => 'notifications.templates.welcome-user' // body will be a template of some sort
+//    ];
 
 //    const ALL_USERS_NOTIFICATION         = [
 //        'type'              => 'welcome_user',
