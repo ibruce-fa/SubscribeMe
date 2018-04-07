@@ -13,11 +13,9 @@ php artisan make:mail MessageToCustomers --markdown=emails.account.message-to-cu
 curl 'localhost:9200/plans/_search?pretty' -d '
 {
     "query": {
-        "match_phrase": { "stripe_plan_name": {"query":"jawn","analyzer":"english"} },
-        "location"
+        "match_phrase": { "stripe_plan_name": {"query":"ad","analyzer":"english"} }
     }
 }'
-
 
 curl -XPUT 'localhost:9200/plans/plans' -d '
 {

@@ -38,7 +38,8 @@ class HomeController extends Controller
         $paginationIndex = $request->get('from');
         $maxResults = $request->query('size');
 
-        $plans = $ESPlanRepository->search($request->get('searchField'), $lat, $lng, $kms, $paginationIndex);
+        $results = $ESPlanRepository->search($request->get('searchField'), $lat, $lng, $kms, $paginationIndex);
+        var_dump($results['actualTotal']);
 
         if($request->get('location_id') != Auth::user()->location_id && $request->get('location_id') > 0) {
             $user = Auth::user();
@@ -49,10 +50,11 @@ class HomeController extends Controller
 
         return view('home')
             ->with('maxResults', $this->maxResults)
-            ->with('plans', $plans) /** TODO: get seperate 'hits' value from return results to complete pagination */
+            ->with('plans', $results['plans']) /** TODO: get seperate 'hits' value from return results to complete pagination */
             ->with('searchFrom', $paginationIndex ?: null)
+            ->with('maxPages', 5)
             ->with('searchField', $request->get('searchField') ?: '')
-            ->with('count', count($plans)) // this may change. With pagination, we need the total "hits" and the returned results
+            ->with('totalResultCount', $results['actualTotal']) // this may change. With pagination, we need the total "hits" and the returned results
             ->with('miles', $request->get('miles') > 0 ? $request->get('miles') : 10)
             ->with('location', $location ?: new Location())
             ->with('queryString', !empty($request->get('searchField')) ? $request->get('searchField') : '');

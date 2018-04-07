@@ -48,7 +48,7 @@
                 <div class="search-result bg-gray">
                                                         {{--using default distance here--}}
                     <h4>Results For "{{$queryString}}" </h4>
-                    <p>{{$count}} {{$count == 1 ? 'result' : 'results'}} within {{$miles}} miles of {{$location->city}}, {{$location->state}}</p>
+                    <p>{{$totalResultCount}} {{$totalResultCount == 1 ? 'result' : 'results'}} within {{$miles}} miles of {{$location->city}}, {{$location->state}}</p>
                 </div>
             </div>
         @else
@@ -59,23 +59,36 @@
             </div>
         @endif
 
-        @if($count >= $maxResults)
+        @if($totalResultCount >= $maxResults)
             {{--PAGINATION--}}
             <div class="col-md-12">
                 @php
-                    $totalPages = ceil($count/$maxResults);
-                    $pages = ceil((request()->get('from') ?: 1)/10) * 10;
+                    $totalPages             = ceil($totalResultCount/$maxResults); // total pages needed for pagination
+                    $currentPageInterval    = $searchFrom ? floor($searchFrom/125) + 1 : 1; // we will paginate in increments of 5. this determines which interval of 5 we will be on
+                    $loopStart              = $currentPageInterval < 2 ? 1 : ($currentPageInterval - 1) * 5; // which multiple of 5 we should start our loop based on the current interval
+                    $loopEnd                = $totalPages - $loopStart >= 5 ? ($currentPageInterval * 5) : $totalPages + 1 - $loopStart;
+                    $rightArrow             = $totalPages > 5 && (!$searchFrom || $searchFrom < 125)  || ( ( $totalResultCount - ( floor($searchFrom/125) * 125 ) ) / $maxResults ) > 5;
+                    $rightArrowFrom         = ($currentPageInterval * 125 );
+                    var_dump($currentPageInterval);
+                    var_dump($loopStart);
+                    var_dump($loopEnd);
                 @endphp
-                @if($pages > 10)
-                <a href="#" data-from="{{$pages-11}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form"><span class="fa fa-arrow-left"></span> </a>
-                @endif
-                @for($i = $pages > 10 ? $pages - 10 : 1; $i <= $pages + 1; $i++)
-                    @if($pages < $i)
-                        <a href="#" data-from="{{$i}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form"><span class="fa fa-arrow-right"></span> </a>
-                    @else
-                        <a href="#" class="{{$searchFrom == $i ? 'text-info' : ''}}" data-from="{{$i}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form">{{$i}} | </a>
-                    @endif
+                
+                @for($i = $loopStart; $i <= $loopEnd; $i++)
+                    <a href="#" class="{{ !$searchFrom && $i == 1 || $searchFrom == ($i - 1) * $maxResults ? 'theme-color' : ''}}" data-from="{{$i == 1 ? $i - 1 : ($i - 1) * $maxResults}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form">| {{$i}}</a>
+                    
                 @endfor
+                @if($rightArrow)
+                    <a href="#" data-from="{{$rightArrowFrom}}"><span class="fa fa-arrow-right"></span></a>
+                @endif
+
+                {{--@for($i = $pages > 10 ? $pages - 10 : 1; $i <= $pages + 1; $i++)--}}
+                    {{--@if($pages < $i)--}}
+                        {{--<a href="#" data-from="{{$i}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form"><span class="fa fa-arrow-right"></span> </a>--}}
+                    {{--@else--}}
+                        {{--<a href="#" class="{{$searchFrom == $i ? 'text-info' : ''}}" data-from="{{$i}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form">{{$i}} | </a>--}}
+                    {{--@endif--}}
+                {{--@endfor--}}
             </div>
         @endif
 

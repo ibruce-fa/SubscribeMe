@@ -21,6 +21,8 @@ class ESPlanRepository extends ESRepository implements RepositoryInterface
 
     private $model;
 
+    private $actualTotal;
+
     public function __construct(Client $client) {
 
         parent::__construct($client);
@@ -119,9 +121,15 @@ class ESPlanRepository extends ESRepository implements RepositoryInterface
             return $source;
         }, $hits);
 
-        // We have to convert the results array into Eloquent Models.
-        $plan = $this->model;
-        return $plan::hydrate($sources);
+        $plans = $this->model;
+
+        $results = [
+            // We have to convert the results array into Eloquent Models.
+            'plans' => $plans::hydrate($sources),
+            'actualTotal' => $items['hits']['total']
+        ];
+
+        return $results;
     }
 }
 
