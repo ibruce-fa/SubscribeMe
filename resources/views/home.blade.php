@@ -69,11 +69,15 @@
                     $loopEnd                = $totalPages - $loopStart >= 5 ? ($currentPageInterval * 5) : $totalPages + 1 - $loopStart;
                     $rightArrow             = $totalPages > 5 && (!$searchFrom || $searchFrom < 125)  || ( ( $totalResultCount - ( floor($searchFrom/125) * 125 ) ) / $maxResults ) > 5;
                     $rightArrowFrom         = ($currentPageInterval * 125 );
+                    $leftArrow              = $currentPageInterval > 1;
+                    $leftArrowFrom          = ($currentPageInterval - 1) * 125;
                     var_dump($currentPageInterval);
                     var_dump($loopStart);
                     var_dump($loopEnd);
                 @endphp
-                
+                @if($leftArrow)
+                    <a href="#" data-from="{{$rightArrowFrom}}"><span class="fa fa-arrow-right"></span></a>
+                @endif
                 @for($i = $loopStart; $i <= $loopEnd; $i++)
                     <a href="#" class="{{ !$searchFrom && $i == 1 || $searchFrom == ($i - 1) * $maxResults ? 'theme-color' : ''}}" data-from="{{$i == 1 ? $i - 1 : ($i - 1) * $maxResults}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form">| {{$i}}</a>
                     
