@@ -50,6 +50,11 @@
                     @if(!empty($searchField))
                         <h4>Results For "{{$queryString}}" </h4>
                         <p>{{$totalResultCount}} {{$totalResultCount == 1 ? 'result' : 'results'}} within {{$miles}} miles of {{$location->city}}, {{$location->state}}</p>
+                        @if($searchFrom)
+                            <p class="theme-color small">Showing {{$searchFrom+1}} - {{$searchFrom+25}}</p>
+                        @else
+                            <p class="theme-color small">Showing 1 - {{$maxResults}}</p>
+                        @endif
                     @else
                         <p>Local services in the {{$location->city}}, {{$location->state}} area</p>
                     @endif
