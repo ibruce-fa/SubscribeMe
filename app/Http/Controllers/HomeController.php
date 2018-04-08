@@ -49,7 +49,7 @@ class HomeController extends Controller
         $searchFrom = $paginationIndex ?: null;
         $totalResultCount = $results['actualTotal'];
 
-
+        // pagination variables
         $totalPages             = ceil($results['actualTotal']/$maxResults); // total pages needed for pagination
         $currentPageInterval    = $searchFrom ? floor($searchFrom/125) + 1 : 1; // we will paginate in increments of 5. this determines which interval of 5 we will be on
         $loopStart              = $currentPageInterval < 2 ? 1 : ($currentPageInterval - 1) * 5; // which multiple of 5 we should start our loop based on the current interval
@@ -61,7 +61,7 @@ class HomeController extends Controller
 
         return view('home')
             ->with('maxResults', $maxResults)
-            ->with('plans', $results['plans']) /** TODO: get seperate 'hits' value from return results to complete pagination */
+            ->with('plans', $results['plans'])
             ->with('searchFrom', $searchFrom)
             ->with('maxPages', 5)
             ->with('searchField', $request->get('searchField') ?: '')
