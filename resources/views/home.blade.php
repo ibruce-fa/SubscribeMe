@@ -47,8 +47,13 @@
             <div class="col-md-12">
                 <div class="search-result bg-gray">
                                                         {{--using default distance here--}}
-                    <h4>Results For "{{$queryString}}" </h4>
-                    <p>{{$totalResultCount}} {{$totalResultCount == 1 ? 'result' : 'results'}} within {{$miles}} miles of {{$location->city}}, {{$location->state}}</p>
+                    @if(!empty($searchField))
+                        <h4>Results For "{{$queryString}}" </h4>
+                        <p>{{$totalResultCount}} {{$totalResultCount == 1 ? 'result' : 'results'}} within {{$miles}} miles of {{$location->city}}, {{$location->state}}</p>
+                    @else
+                        <p>Local services in the {{$location->city}}, {{$location->state}} area</p>
+                    @endif
+
                 </div>
             </div>
         @else
@@ -59,24 +64,11 @@
             </div>
         @endif
 
-        @if($totalResultCount >= $maxResults)
+        @if($totalResultCount >= $maxResults && !empty($searchField))
             {{--PAGINATION--}}
             <div class="col-md-12">
-                @php
-                    $totalPages             = ceil($totalResultCount/$maxResults); // total pages needed for pagination
-                    $currentPageInterval    = $searchFrom ? floor($searchFrom/125) + 1 : 1; // we will paginate in increments of 5. this determines which interval of 5 we will be on
-                    $loopStart              = $currentPageInterval < 2 ? 1 : ($currentPageInterval - 1) * 5; // which multiple of 5 we should start our loop based on the current interval
-                    $loopEnd                = $totalPages - $loopStart >= 5 ? ($currentPageInterval * 5) : $totalPages + 1 - $loopStart;
-                    $rightArrow             = $totalPages > 5 && (!$searchFrom || $searchFrom < 125)  || ( ( $totalResultCount - ( floor($searchFrom/125) * 125 ) ) / $maxResults ) > 5;
-                    $rightArrowFrom         = ($currentPageInterval * 125 );
-                    $leftArrow              = $currentPageInterval > 1;
-                    $leftArrowFrom          = ($currentPageInterval - 1) * 125;
-                    var_dump($currentPageInterval);
-                    var_dump($loopStart);
-                    var_dump($loopEnd);
-                @endphp
                 @if($leftArrow)
-                    <a href="#" data-from="{{$rightArrowFrom}}"><span class="fa fa-arrow-right"></span></a>
+                    <a href="#" data-from="{{$rightArrowFrom}}"><span class="fa fa-arrow-left"></span></a>
                 @endif
                 @for($i = $loopStart; $i <= $loopEnd; $i++)
                     <a href="#" class="{{ !$searchFrom && $i == 1 || $searchFrom == ($i - 1) * $maxResults ? 'theme-color' : ''}}" data-from="{{$i == 1 ? $i - 1 : ($i - 1) * $maxResults}}" onclick="triggerTargetSubmit(event, this)" data-target="#search-form">| {{$i}}</a>
