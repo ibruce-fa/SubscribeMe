@@ -1052,6 +1052,10 @@ function getPrivateStripeKey() {
     return config('services.stripe.secret');
 }
 
+function getWebHookKey() {
+    return config('services.stripe.webhook');
+}
+
 function setStripeApiKey($secretOrPublic) {
     if($secretOrPublic == "secret") {
         \Stripe\Stripe::setApiKey(getPrivateStripeKey());

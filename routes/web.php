@@ -162,3 +162,7 @@ Route::get('/account/support', 'AccountController@showSupportView');
 Route::post('/account/contactSupport', 'AccountController@contactSupport');
 Route::post('/account/deleteAccount', 'AccountController@deleteAccount');
 /** NOTIFICATION ROUTES END */
+
+/** WEBHOOK ROUTES */
+Route::get('/stripeWebhook/failedPayment', 'WebhookController@failedPayment'); // [charge.failed , invoice.payment_failed]
+/** WEBHOOK ROUTES END */

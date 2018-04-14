@@ -33,6 +33,7 @@ return [
         'model' => App\User::class,
         'public' => env('STRIPE_KEY','pk_test_GQCUjPm3eovgzCUVD2RmzTjU'),
         'secret' => env('STRIPE_SECRET','sk_test_nsFME4mazT714NbSa8IDpejm'),
+        'webhook' => env('WEBHOOK_KEY','whsec_Z1z2IVZ9qJL012EwnAvbczRFizlOBK0E'),
     ],
 
     'search' => [
