@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Notification;
+use App\Plan;
 use App\Subscription;
 use App\User;
 use Illuminate\Http\Request;
@@ -41,17 +43,27 @@ class WebhookController extends Controller
 
     public function failedPayment(Request $request) {
         setStripeApiKey('secret');
-        $webhoookSecret = getwebHookKey();
         $event = $this->verifyStripeEvent($request);
 
         if (isset($event) && in_array($event->type, $this->getFailedPaymentEventList())) {
-            $user = User::where('stripe_id', $event->data->object->customer)->first();
-            $subscription = Subscription::where('stripe_id', $event->data->object->lines->data[0]->id)->first();
-            // need to add field for subscription status
+            $user           = User::where('stripe_id', $event->data->object->customer)->first();
+            $subscription   = Subscription::where('stripe_id', $event->data->object->lines->data[0]->id)->first();
+
+            if($subscription) {
+                $plan = Plan::find($subscription->plan_id);
+                $subscription->status = "0";
+                $subscription->save();
+                $data['subscription']   = $subscription;
+                $data['plan']           = $plan;
+                $data['user']           = $user;
+
+                (new Notification())->sendFailedPaymentNotification($data);
+
+            }
             // need to retrieve the subscription as well
         }
 
-        return 'true';
+        return 1;
     }
 
 }

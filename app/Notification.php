@@ -32,6 +32,12 @@ class Notification extends Model
         'body_template'     => 'notifications.templates.welcome-business' // body will be a template of some sort
     ];
 
+    const FAILED_PAYMENT_NOTIFICATION     = [ // done
+        'type'              => 'failed_payment',
+        'subject'           => 'Payment Failed',
+        'body_template'     => 'notifications.webhook-templates.failed_payment' // body will be a template of some sort
+    ];
+
     /**
      * email: true
      */
@@ -230,6 +236,13 @@ class Notification extends Model
             ]);
         }
 
+        if($notificationType == self::FAILED_PAYMENT_NOTIFICATION['type']) {
+            return view($this->body_template)->with([
+                'user'          => $data['user'],
+                'plan'          => $data['plan']
+            ]);
+        }
+
         return view();
 
     }
@@ -395,6 +408,26 @@ class Notification extends Model
         $userNotification->recipient_id = Auth::id();
 
         return $userNotification->save();
+    }
+
+    public function sendFailedPaymentNotification($data)
+    {
+        $subscription               = $data['subscription'];
+        $this->type                 = self::FAILED_PAYMENT_NOTIFICATION['type'];
+        $this->subject              = $data['subject'];
+        $this->body                 = $this->renderNotificationView(self::FAILED_PAYMENT_NOTIFICATION['type'],$data); // needs user and plan
+        $this->body_template        = self::MESSAGE_TO_CUSTOMERS_NOTIFICATION['body_template']; // template?
+        $this->sender_name          = env('APP_NAME');
+        $this->is_template          = "0";
+        $this->recipient_id         = $subscription->user_id;
+        $this->subscription_id      = $subscription->id;
+        $this->save();
+
+        $user = User::find($subscription->user_id);
+
+        Email::sendFailedPaymentEmail($user,$data['plan']);
+
+        return true;
     }
 
     public function completeSubject($str1, $str2) {

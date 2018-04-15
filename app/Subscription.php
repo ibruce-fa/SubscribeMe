@@ -12,6 +12,7 @@ class Subscription extends Model
         'stripe_plan',
         'plan_id',
         'business_owner_id',
+        'status',
         'quantity',
         'is_checking_in',
         'last_usage_date',

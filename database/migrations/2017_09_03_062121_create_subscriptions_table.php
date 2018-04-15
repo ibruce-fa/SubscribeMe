@@ -21,6 +21,7 @@ class CreateSubscriptionsTable extends Migration
             $table->string('stripe_plan');
             $table->string('plan_id');
             $table->integer('business_id')->default(0);
+            $table->enum('status',['1','0'])->default(0);
             $table->integer('price')->default(0);
             $table->string('o_interval')->default(0);
             $table->integer('is_checking_in')->nullable();

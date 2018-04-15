@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Mail\ConfirmAccount;
+use App\Mail\FailedPayment;
 use App\Mail\MessageToCustomers;
 use App\Mail\NotifyBusinessDeletion;
 use App\Mail\NotifyBusinessModification;
@@ -51,5 +52,9 @@ class Email extends Model
 
     public static function sendMessageToCustomersEmail(User $toUser, Business $business, $body) { // done
         return Mail::to($toUser->email)->queue(new MessageToCustomers($business, $body));
+    }
+
+    public static function sendFailedPaymentEmail(User $toUser, Plan $plan) { // done
+        return Mail::to($toUser->email)->queue(new FailedPayment($toUser, $plan));
     }
 }
