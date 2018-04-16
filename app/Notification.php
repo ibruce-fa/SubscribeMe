@@ -414,9 +414,9 @@ class Notification extends Model
     {
         $subscription               = $data['subscription'];
         $this->type                 = self::FAILED_PAYMENT_NOTIFICATION['type'];
-        $this->subject              = $data['subject'];
-        $this->body                 = $this->renderNotificationView(self::FAILED_PAYMENT_NOTIFICATION['type'],$data); // needs user and plan
-        $this->body_template        = self::MESSAGE_TO_CUSTOMERS_NOTIFICATION['body_template']; // template?
+        $this->subject              = self::FAILED_PAYMENT_NOTIFICATION['subject'];
+        $this->body_template        = self::FAILED_PAYMENT_NOTIFICATION['body_template']; // template?
+        $this->body                 = $this->renderNotificationView(self::FAILED_PAYMENT_NOTIFICATION['type'],$data)->render(); // needs user and plan
         $this->sender_name          = env('APP_NAME');
         $this->is_template          = "0";
         $this->recipient_id         = $subscription->user_id;

@@ -164,5 +164,5 @@ Route::post('/account/deleteAccount', 'AccountController@deleteAccount');
 /** NOTIFICATION ROUTES END */
 
 /** WEBHOOK ROUTES */
-Route::get('/stripeWebhook/failedPayment', 'WebhookController@failedPayment'); // [charge.failed , invoice.payment_failed]
+Route::post('/stripeWebhook/failedPayment', 'WebhookController@failedPayment'); // [charge.failed , invoice.payment_failed]
 /** WEBHOOK ROUTES END */

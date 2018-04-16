@@ -60,10 +60,10 @@ class WebhookController extends Controller
                 (new Notification())->sendFailedPaymentNotification($data);
 
             }
-            // need to retrieve the subscription as well
+            return 1;
         }
 
-        return 1;
+        return 0;
     }
 
 }

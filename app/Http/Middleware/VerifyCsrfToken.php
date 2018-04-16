@@ -14,6 +14,7 @@ class VerifyCsrfToken extends BaseVerifier
     protected $except = [
         'location',
         'subscription/checkin/*',
-        'subscription/confirmCheckin/*'
+        'subscription/confirmCheckin/*',
+        '/stripeWebhook/failedPayment'
     ];
 }
