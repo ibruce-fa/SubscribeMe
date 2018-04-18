@@ -159,6 +159,8 @@ Route::get('/account/mysubscriptions', 'AccountController@subscriptions');
 Route::get('/account/notifications', 'AccountController@accountNotificationView');
 Route::get('/account/delete', 'AccountController@showDeleteAccountView');
 Route::get('/account/support', 'AccountController@showSupportView');
+Route::get('/account/updatePayment', 'AccountController@showUpdatePaymentView');
+Route::post('/account/updatePaymentMethod', 'AccountController@UpdatePaymentMethod');
 Route::post('/account/contactSupport', 'AccountController@contactSupport');
 Route::post('/account/deleteAccount', 'AccountController@deleteAccount');
 /** NOTIFICATION ROUTES END */

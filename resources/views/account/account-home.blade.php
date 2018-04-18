@@ -9,6 +9,7 @@
                         <a href="/account/mysubscriptions" class="list-group-item theme-background text-default">My Subscriptions</a>
                         <a href="/account/notifications" class="list-group-item {{ hasNewNotifications() ? 'red-background' : 'theme-background' }} text-default"> Notifications </a>
                         <a href="/account/support" class="list-group-item theme-background text-default"> Customer Support</a>
+                        <a href="/account/updatePayment" class="list-group-item theme-background text-default"> Update Payment method</a>
                         <a href="/account/delete" class="list-group-item theme-background text-default"> Delete your Account</a>
                     </ul>
             </div>

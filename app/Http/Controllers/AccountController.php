@@ -9,6 +9,7 @@ use App\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Stripe\Stripe;
 
 class AccountController extends Controller
 {
@@ -99,6 +100,48 @@ class AccountController extends Controller
     public function showSupportView(){
         // maybe also get common
         return view('account.support');
+    }
+
+    public function showUpdatePaymentView(){
+        return view('account.update-payment')->with('user', Auth::user());
+    }
+
+    public function updatePaymentMethod(Request $request) {
+
+        setStripeApiKey('secret');
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (isset($_POST['stripeToken'])){
+            try {
+                $cu = \Stripe\Customer::retrieve($user->stripe_id); // stored in your application
+                $cu->source = $_POST['stripeToken']; // obtained with Checkout
+                $cu->save();
+
+                $user->card_brand  = $cu->sources->data[0]->brand;
+                $user->card_last_four = $cu->sources->data[0]->last4;
+                $user->save();
+
+
+                return redirect()->back()
+                    ->with('successMessage', "Your card details have been updated");
+            }
+            catch(Exception $e) {
+
+                // Use the variable $error to save any errors
+                // To be displayed to the customer later in the page
+                $body = $e->getJsonBody();
+                $err  = $body['error'];
+                $error = $err['message'];
+
+                return redirect()->back()
+                    ->with('errorMessage', $error);
+            }
+            // Add additional error handling here as needed
+        }
+        return redirect()->back()
+            ->with('warningMessage', "Invalid form submission");
+
     }
 
 }

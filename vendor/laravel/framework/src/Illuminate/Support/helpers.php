@@ -1203,6 +1203,11 @@ function getBusinessLogoImg($business)
     return asset('/storage/'.$business->logo_path);
 }
 
+function getOtruvezLogoImg()
+{
+    return asset('/storage/images/logos/otruvez-logo.png');
+}
+
 function getAccountNotificationsUrl()
 {
     return sprintf('%s/account/notifications',config('app.url'));
