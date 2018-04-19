@@ -425,7 +425,8 @@ class Notification extends Model
 
         $user = User::find($subscription->user_id);
 
-        Email::sendFailedPaymentEmail($user,$data['plan']);
+        //Since Stripe will send an email for us, we don't need to send an email. just the notification
+        //Email::sendFailedPaymentEmail($user,$data['plan']);
 
         return true;
     }

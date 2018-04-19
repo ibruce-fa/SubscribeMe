@@ -26,7 +26,7 @@ class AccountController extends Controller
     public function subscriptions()
     {
         $subscriptions  = Subscription::where('user_id', Auth::id())->where('business_id',"!=",0)->get();
-        return view('account.subscriptions')->with('subscriptions', $subscriptions);
+        return view('account.subscriptions')->with('subscriptions', $subscriptions)->with('mustUpdatePaymentMethod', !Auth::user()->has_valid_payment_method);
     }
     public function businessNotificationView($businessId){
         $businessEmail = (new Business())->where('id', $businessId)->value('email');
@@ -103,12 +103,10 @@ class AccountController extends Controller
     }
 
     public function showUpdatePaymentView(){
-        $inactiveSubscriptions = Subscription::where('user_id', Auth::id())->where('status', "0")->get();
         $user = Auth::user();
         return view('account.update-payment')
             ->with('user', Auth::user())
-            ->with('hasValidPaymentMethod', $user->has_valid_payment_method)
-            ->with('inactiveSubscriptions', $inactiveSubscriptions);
+            ->with('hasValidPaymentMethod', $user->has_valid_payment_method);
     }
 
     public function updatePaymentMethod(Request $request) {
@@ -123,6 +121,7 @@ class AccountController extends Controller
                 $cu->source = $_POST['stripeToken']; // obtained with Checkout
                 $cu->save();
 
+                $user->has_valid_payment_method = 1;
                 $user->card_brand  = $cu->sources->data[0]->brand;
                 $user->card_last_four = $cu->sources->data[0]->last4;
                 $user->save();

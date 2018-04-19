@@ -51,8 +51,6 @@ class WebhookController extends Controller
 
             if($subscription) {
                 $plan = Plan::find($subscription->plan_id);
-                $subscription->status = "0";
-                $subscription->save();
                 $data['subscription']   = $subscription;
                 $data['plan']           = $plan;
                 $data['user']           = $user;
