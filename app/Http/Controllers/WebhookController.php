@@ -56,6 +56,8 @@ class WebhookController extends Controller
                 $data['subscription']   = $subscription;
                 $data['plan']           = $plan;
                 $data['user']           = $user;
+                $user->has_valid_payment_method = 0;
+                $user->save();
 
                 (new Notification())->sendFailedPaymentNotification($data);
 

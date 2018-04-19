@@ -3,6 +3,19 @@
     @include('partials.account-back')
     <div class="row">
         <div class="col-md-8 offset-md-2">
+            @if(count($inactiveSubscriptions))
+                <div class="alert-warning">
+                    You have inactive subscriptions. please update your payment and then reactivate your subscriptions
+                </div>
+
+                <ul class="list-group">
+                    @foreach($inactiveSubscriptions as $sub)
+                        <li class="list-group-item">Subscription: <b>{{removeLastWord($sub->name)}}</b> <i class="text-danger">inactive</i><br>
+                            <button class="btn-sm text-danger {{$hasValidPaymentMethod ? "" : "update-card-first"}}" >Reactivate</button></li>
+                    @endforeach
+                </ul>
+                <br><br>
+            @endIf
             <div class="card">
                 <div class="card-header">
                     <h4 class="text-center">Payment Method</h4>

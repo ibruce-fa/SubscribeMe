@@ -103,7 +103,12 @@ class AccountController extends Controller
     }
 
     public function showUpdatePaymentView(){
-        return view('account.update-payment')->with('user', Auth::user());
+        $inactiveSubscriptions = Subscription::where('user_id', Auth::id())->where('status', "0")->get();
+        $user = Auth::user();
+        return view('account.update-payment')
+            ->with('user', Auth::user())
+            ->with('hasValidPaymentMethod', $user->has_valid_payment_method)
+            ->with('inactiveSubscriptions', $inactiveSubscriptions);
     }
 
     public function updatePaymentMethod(Request $request) {
