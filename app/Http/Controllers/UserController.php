@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Notification;
+use App\Subscription;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,10 +61,11 @@ class UserController extends Controller
     }
 
     public function test(Request $request) {
-        $notification = new Notification();
-        $user = User::find(Auth::id());
-        $notification->sendNotification($request, $user, Notification::WELCOME_USER_NOTIFICATION['type_id']);
-        return redirect('/account')->with('successMessage','Notification sent successfully');
+        setStripeApiKey('secret');
+        $sub = Subscription::find(9);
+        $refund = Subscription::getRefundStatusAndAmount($sub);
+        echo $refund['refund'] ? 'true' : 'false';
+        echo $refund['amount'];
     }
 
     private function getUserObject()

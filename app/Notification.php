@@ -196,13 +196,13 @@ class Notification extends Model
             $subscription       = $data['subscription'];
             $plan               = $data['plan'];
             $business           = $data['business'];
-            $refund             = $data['refund'];
+            $refundStatus       = $data['refundStatus'];
 
             return view($this->body_template)->with([
                 'companyName'       => $business->name,
                 'serviceName'       => $plan->stripe_plan_name,
                 'confirmationId'    => $subscription->stripe_id,
-                'refund'            => $refund,
+                'refundStatus'      => $refundStatus,
                 'logoPath'          => $business->logo_path ?: ''// html
             ]);
         }
@@ -225,13 +225,14 @@ class Notification extends Model
         if($notificationType == self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type']) {
             return view($this->body_template)->with([
                 'business'      => $data['business'],
-                'plan'  => $data['plan']
+                'plan'          => $data['plan'],
+                'refundStatus'  => $data['refundStatus']
             ]);
         }
 
         if($notificationType == self::NOTIFY_BUSINESS_MODIFICATION_NOTIFICATION['type']) {
             return view($this->body_template)->with([
-                'business' => $data['business'],
+                'business'  => $data['business'],
                 'days'      => $data['days']
             ]);
         }
@@ -306,9 +307,8 @@ class Notification extends Model
         return Email::sendNotifyPlanDeletionEmail($user, $business);
     }
 
-    public function sendNotifyBusinessDeletionNotification($business, $subscription)
+    public function sendNotifyBusinessDeletionNotification($business, $subscription, $data)
     {
-        $data                       = [];
         $data['business']           = $business;
         $data['plan']               = Plan::find($subscription->plan_id);
         $this->type                 = self::NOTIFY_BUSINESS_DELETION_NOTIFICATION['type'];

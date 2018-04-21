@@ -312,10 +312,12 @@ class BusinessController extends Controller
         $sentToUser = [];
         $subs = (new \App\Subscription())->where('business_id', $businessId)->get(); // delete all the subscriptions
         $notification         = new Notification();
+        $data = [];
         if(count($subs) > 0) {
             foreach($subs as $sub)
             {
                 try {
+                    $data['refundStatus'] = \App\Subscription::getRefundStatusAndAmount($sub);
                     Subscription::retrieve($sub->stripe_id)->cancel();
                 } catch (Exception $e) {
                     logger('subscription cancellation failed');
@@ -326,7 +328,7 @@ class BusinessController extends Controller
                     // send email
                 }
 
-                $notification->sendNotifyBusinessDeletionNotification($business, $sub);
+                $notification->sendNotifyBusinessDeletionNotification($business, $sub, $data);
                 $sub->delete(); // delete all photos assoc with plans
             }
         }

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
@@ -35,6 +36,30 @@ class Subscription extends Model
 
     public function user() {
         return $this->belongsTo('App\User');
+    }
+
+    public static function getRefundStatusAndAmount($subscription) {
+
+        setStripeApiKey('secret');
+        $stripeSubscription = \Stripe\Subscription::retrieve($subscription->stripe_id);
+        $todaysDate = new DateTime();
+        $paidDate = new DateTime();
+        $paidDate->setTimestamp($stripeSubscription->current_period_start);
+        $refundStatus = [
+            'refund' => false,
+            'amount' => 0
+        ];
+
+        if($paidDate >= $todaysDate && $subscription->uses < 1) {
+            $refundStatus['refund'] = true;
+            $refundStatus['amount'] = formatPrice($subscription->price);
+        }
+
+        return $refundStatus;
+    }
+
+    public static function issueRefund($subscription) {
+
     }
 
 }

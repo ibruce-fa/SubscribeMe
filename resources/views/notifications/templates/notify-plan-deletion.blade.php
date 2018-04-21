@@ -5,7 +5,7 @@
 
     <li>Confirmation ID: <p style="color: black">{{$confirmationId}}</p></li>
 
-    <li>Refund Status: {{$refund ? 'A refund will be issued to your bank card' : 'no refund is due since the cancellation is not with in the refundable period'}}</li>
+    <li>Refund Status: {{$refundStatus['refund'] ? sprintf("a refund of %s will be issued back to you", $refundStatus['amount']) : 'No refund is due'}}</li>
 
 </ul>
 

@@ -183,6 +183,7 @@ class PlanController extends Controller
         $business = $smPlan->business;
         $planName = $smPlan->stripe_plan_name;
         $subscriptions = Subscription::where('plan_id', $id)->get();
+        $refundStatus =
         $notification         = new Notification();
         if($subscriptions) {
             foreach ($subscriptions as $subscription) {
@@ -192,8 +193,9 @@ class PlanController extends Controller
                     'subscription'  => $subscription,
                     'plan'          => $smPlan,
                     'business'      => $business,
-                    'refund'        => true
+                    'refund'        => getRefundStatusAndAmount($subscription)
                 ];
+                $data['refundStatus'] = Subscription::getRefundStatusAndAmount($subscription);
                 $notification->sendNotifyPlanDeletionNotification($business, $subscription, $data);
 
             }
