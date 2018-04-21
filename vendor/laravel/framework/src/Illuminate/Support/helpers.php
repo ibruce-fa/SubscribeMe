@@ -1052,8 +1052,8 @@ function getPrivateStripeKey() {
     return config('services.stripe.secret');
 }
 
-function getWebHookKey() {
-    return config('services.stripe.webhook');
+function getWebHookKey($type) {
+    return config('services.stripe.'.$type);
 }
 
 function setStripeApiKey($secretOrPublic) {

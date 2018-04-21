@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Notification;
 use App\Plan;
+use App\StripeWebhook;
 use App\Subscription;
 use App\User;
 use Illuminate\Http\Request;
@@ -17,8 +18,14 @@ class WebhookController extends Controller
         ];
     }
 
-    public function verifyStripeEvent(Request $payload) {
-        $endpointSecret = getWebHookKey();
+    private function getSuccessfulPaymentEventList() {
+        return [
+            'invoice.payment_succeeded',
+        ];
+    }
+
+    public function verifyStripeEvent(Request $payload, $webhooktype) {
+        $endpointSecret = getWebHookKey($webhooktype);
 
         $sig_header = $_SERVER["HTTP_STRIPE_SIGNATURE"];
         $event = null;
@@ -43,7 +50,7 @@ class WebhookController extends Controller
 
     public function failedPayment(Request $request) {
         setStripeApiKey('secret');
-        $event = $this->verifyStripeEvent($request);
+        $event = $this->verifyStripeEvent($request,StripeWebhook::PAYMENT_FAILED_WH_KEY);
 
         if (isset($event) && in_array($event->type, $this->getFailedPaymentEventList())) {
             $user           = User::where('stripe_id', $event->data->object->customer)->first();
@@ -60,6 +67,21 @@ class WebhookController extends Controller
                 (new Notification())->sendFailedPaymentNotification($data);
 
             }
+            return 1;
+        }
+
+        return 0;
+    }
+
+    public function successfulCharge(Request $request) {
+        setStripeApiKey('secret');
+        $event = $this->verifyStripeEvent($request,StripeWebhook::PAYMENT_SUCCEEDED_WH_KEY);
+
+        if (isset($event) && in_array($event->type, $this->getSuccessfulPaymentEventList())) {
+
+            Subscription::where('stripe_id', $event->data->object->lines->data[0]->id)
+                        ->update(['last_charge_id' => $event->data->object->charge]);
+
             return 1;
         }
 

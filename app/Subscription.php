@@ -53,6 +53,8 @@ class Subscription extends Model
         if($paidDate >= $todaysDate && $subscription->uses < 1) {
             $refundStatus['refund'] = true;
             $refundStatus['amount'] = formatPrice($subscription->price);
+
+            self::issueRefund($subscription); // here we will issue the refund
         }
 
         return $refundStatus;
@@ -60,6 +62,11 @@ class Subscription extends Model
 
     public static function issueRefund($subscription) {
 
+        setStripeApiKey('secret');
+
+        \Stripe\Refund::create(array(
+            "charge" => $subscription->last_charge_id
+        ));
     }
 
 }
