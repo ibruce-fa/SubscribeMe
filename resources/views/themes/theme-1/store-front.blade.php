@@ -20,12 +20,12 @@
               <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner" role="listbox">
-              <div class="carousel-item active" style="height: 320px; max-height: 320px; background: url({{ $hasPhoto ? asset('/storage/'.$business->photo_path) : ''}}) no-repeat black; background-size: contain; background-position: center; ">
+              <div class="carousel-item active" style="height: 320px; max-height: 320px; background: url({{ $hasPhoto ? getImage('/storage/'.$business->photo_path) : ''}}) no-repeat black; background-size: contain; background-position: center; ">
                 {{--<img style="max-height: 100%" class="d-block img-fluid" >--}}
               </div>
               @foreach($business->plans() as $plan)
                   @if($plan->featured_photo_path)
-                    <div class="carousel-item" style="height: 320px; max-height: 320px; background: url({{ asset('/storage/'.$plan->featured_photo_path) }}) no-repeat black; background-size: contain; background-position: center; ">
+                    <div class="carousel-item" style="height: 320px; max-height: 320px; background: url({{ getImage('/storage/'.$plan->featured_photo_path) }}) no-repeat black; background-size: contain; background-position: center; ">
                     </div>
                   @endif
               @endforeach
@@ -45,7 +45,7 @@
             @foreach($business->plans() as $plan)
               <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                  <a href="#"><img class="card-img-top" src="{{asset('/storage/'.$plan->featured_photo_path)}}" height="160"alt=""></a>
+                  <a href="#"><img class="card-img-top" src="{{getImage('/storage/'.$plan->featured_photo_path)}}" height="160"alt=""></a>
                   <div class="card-body">
                     <h5 class="card-title">
                       <a href="#">{{substr($plan->stripe_plan_name,0,25)}}</a>

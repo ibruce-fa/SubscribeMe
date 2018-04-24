@@ -9,7 +9,7 @@
 			<div class="col-md-12">
 				<!-- Header Contetnt -->
 				<div class="content-block">
-				<img src="{{asset('/storage/images/logos/o-logo-w-tagline.png')}}" style="width: 70%; height: auto">
+				<img src="{{getImage('/logos/o-logo-w-tagline.png')}}" style="width: 70%; height: auto">
 					
 				</div>
 				<!-- Advance Search -->

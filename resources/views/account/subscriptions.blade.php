@@ -37,7 +37,7 @@
                         </div>
                         <div class="card-body">
                             <p>{{$plan->description}}</p>
-                            <img src="{{asset('/storage/'.$plan->featured_photo_path)}}" width="200">
+                            <img src="{{getImage('/storage/'.$plan->featured_photo_path)}}" width="200">
                             <hr>
                             <button class="btn btn-success show-sm-modal checkin" data-subscription-id="{{$subscription->id}}" data-plan-id="{{$plan->id}}" data-modal-target="#checkin-{{$subscription->id}}" {{$mustUpdatePaymentMethod ? "disabled" : ""}}> Check-in </button> {{-- still needs to be worked out --}}
                             <button class="btn btn-info" {{$mustUpdatePaymentMethod ? "disabled" : ""}}> View Details </button> {{-- we need a modal for this --}}

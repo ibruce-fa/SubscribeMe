@@ -16,6 +16,6 @@
         <div class="col-12">
             <h3 class="text-center">{{$companyName}} thanks you</h3>
         </div>
-        <div style="margin: auto; margin-bottom: 5px; width: 70px; height: 70px; background: url({{ asset('/storage/'.$logoPath) }}) no-repeat; background-size: contain"> </div>
+        <div style="margin: auto; margin-bottom: 5px; width: 70px; height: 70px; background: url({{ getImage('/storage/'.$logoPath) }}) no-repeat; background-size: contain"> </div>
     @endif
 </div>

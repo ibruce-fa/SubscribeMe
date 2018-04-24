@@ -1200,12 +1200,12 @@ function getUseLimitString($plan){
 
 function getBusinessLogoImg($business)
 {
-    return asset('/storage/'.$business->logo_path);
+    return getImage('/storage/'.$business->logo_path);
 }
 
 function getOtruvezLogoImg()
 {
-    return asset('/storage/images/logos/otruvez-logo.png');
+    return getImage('/logos/otruvez-logo.png');
 }
 
 function getAccountNotificationsUrl()
@@ -1223,4 +1223,11 @@ function getBusinessNotificationsUrl($businessId)
     return sprintf('%s/business/notifications/',config('app.url'), $businessId);
 }
 
-// logo: <img src="{{asset("/storage/images/logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">
+function s3PhotobucketPath() {
+    return "https://s3-us-west-2.amazonaws.com/otruvez-images";
+}
+
+function getImage($imgPath) {
+    return s3PhotobucketPath().$imgPath;
+}
+// logo: <img src="{{getImage("/logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">

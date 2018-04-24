@@ -7,7 +7,7 @@
   <div class="col-12">
     <h3 class="text-center">
       @if($business->logo_path)
-        <div class="d-inline-block" style="width: 200px; height: 100px; background: url({{ asset('/storage/'.$business->logo_path) }}) no-repeat; background-size: contain; background-position: center;" ></div></h3>
+        <div class="d-inline-block" style="width: 200px; height: 100px; background: url({{ getImage('/storage/'.$business->logo_path) }}) no-repeat; background-size: contain; background-position: center;" ></div></h3>
     @else
       {{$business->name}}
     @endif
@@ -32,13 +32,13 @@
             <div class="carousel-inner" role="listbox">
               @if($business->photo_path)
                 @php $showCarousel = true; $photoActive = 1 @endphp
-                <div class="carousel-item {{$photoActive ? 'active' : ''}}" style="height: 220px; max-height: 320px; background: url({{ $hasPhoto ? asset('/storage/'.$business->photo_path) : ''}}) no-repeat black; background-size: contain; background-position: center; ">
+                <div class="carousel-item {{$photoActive ? 'active' : ''}}" style="height: 220px; max-height: 320px; background: url({{ $hasPhoto ? getImage('/storage/'.$business->photo_path) : ''}}) no-repeat black; background-size: contain; background-position: center; ">
                 </div>
               @endif
               @foreach($business->plans() as $plan)
                   @if($plan->featured_photo_path)
                   @php $showCarousel = true; @endphp
-                    <div class="carousel-item {{!$photoActive ? 'active' : ''}}" style="height: 220px; max-height: 320px; background: url({{ asset('/storage/'.$plan->featured_photo_path) }}) no-repeat black; background-size: contain; background-position: center; ">
+                    <div class="carousel-item {{!$photoActive ? 'active' : ''}}" style="height: 220px; max-height: 320px; background: url({{ getImage('/storage/'.$plan->featured_photo_path) }}) no-repeat black; background-size: contain; background-position: center; ">
                     </div>
                     @php $showCarousel = true; $photoActive = 1 @endphp
                   @endif
@@ -61,7 +61,7 @@
                 <!-- product card -->
                 <div class="product-item bg-light">
                   <div class="card">
-                    <div class="thumb-content" style="width: 100%; height: 200px; background: url({{asset('/storage/'.$plan->featured_photo_path)}}) no-repeat; background-size: contain; background-position: center">
+                    <div class="thumb-content" style="width: 100%; height: 200px; background: url({{getImage('/storage/'.$plan->featured_photo_path)}}) no-repeat; background-size: contain; background-position: center">
 
                     </div>
                     <div class="card-body">

@@ -16,7 +16,7 @@ $intervals = ['month','year'];
 
                 <div class="card mt-4">
                     <h4 class="card-header">{{$plan->stripe_plan_name}}</h4>
-                    <div class="card-img-top img-fluid" style="background: url({{asset('/storage/'.$plan->featured_photo_path)}}) no-repeat black; height: 320px; max-height: 320px; background-size: contain; background-position: center; "> </div>
+                    <div class="card-img-top img-fluid" style="background: url({{getImage('/storage/'.$plan->featured_photo_path)}}) no-repeat black; height: 320px; max-height: 320px; background-size: contain; background-position: center; "> </div>
                     <h5 class="card-body btn btn-primary" data-toggle="collapse" href="#photoGallery">
                         <span class="fa fa-photo"></span> View more photos
                     </h5>
@@ -24,7 +24,7 @@ $intervals = ['month','year'];
                         {{--<h6 class="col-md-12 text-info text-center">click to enlarge</h6>--}}
                         @foreach($plan->photos as $photo)
 
-                            <div style="background: url({{asset('/storage/'.$photo->path)}}) no-repeat transparent; width: 32%; height: 100px; background-size: contain; background-position: center; display: inline-block; border: 1px solid lightgray" href="{{asset('/storage/'.$photo->path)}}" data-lity>
+                            <div style="background: url({{getImage('/storage/'.$photo->path)}}) no-repeat transparent; width: 32%; height: 100px; background-size: contain; background-position: center; display: inline-block; border: 1px solid lightgray" href="{{getImage('/storage/'.$photo->path)}}" data-lity>
                             </div>
                         @endforeach
                     </div>
@@ -75,7 +75,7 @@ $intervals = ['month','year'];
                                         data-amount="{{$interval == 'month' ? $plan->month_price : $plan->year_price}}"
                                         data-name="{{$plan->stripe_plan_name}} {{strtoupper($interval)}}"
                                         data-description="For plan: {{$plan->stripe_plan_id}}_{{$interval}}"
-                                        data-image="{{ $haslogo ? asset('/storage/'.$business->logo_path) : ''}}"
+                                        data-image="{{ $haslogo ? getImage('/storage/'.$business->logo_path) : ''}}"
                                         data-locale="auto">
                                 </script>
                                 <input type="hidden" name="stripe_plan_id" value="{{$plan->stripe_plan_id}}_{{$interval}}">
