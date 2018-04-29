@@ -1224,10 +1224,20 @@ function getBusinessNotificationsUrl($businessId)
 }
 
 function s3PhotobucketPath() {
-    return "https://s3-us-west-2.amazonaws.com/otruvez-images";
+    return "https://s3-us-west-2.amazonaws.com/otruvez-images/";
 }
 
 function getImage($imgPath) {
     return s3PhotobucketPath().$imgPath;
+}
+
+function s3BucketFolderList() {
+    return [
+        'business-photo',
+        'business-logo',
+        'plan-featured-photo',
+        'plan-photo',
+        'logos'
+    ];
 }
 // logo: <img src="{{getImage("/logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">

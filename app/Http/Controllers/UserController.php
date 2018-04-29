@@ -3,14 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Notification;
+use App\S3FolderTypes;
 use App\Subscription;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mockery\Matcher\Not;
+use App\PhotoClient\AWSPhoto;
 
 class UserController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->s3 = new AWSPhoto();
+    }
+
+    private $s3;
 
     public function activateBusinessAccount($id, $accountPlan, $subscriptionId)
     {
@@ -61,11 +70,15 @@ class UserController extends Controller
     }
 
     public function test(Request $request) {
-        setStripeApiKey('secret');
-        $sub = Subscription::find(9);
-        $refund = Subscription::getRefundStatusAndAmount($sub);
-        echo $refund['refund'] ? 'true' : 'false';
-        echo $refund['amount'];
+
+        $file = $request->file('file');
+        $this->s3->store($file, S3FolderTypes::BUSINESS_LOGO);
+        return redirect()->back()->with('successMessage',"it worked!");
+    }
+
+    public function testView() {
+        $this->s3->unlink("business-logo/22baaed9cb5ab368245aadb077a90e6e7553f6ca.jpg");
+        return view('test-view');
     }
 
     private function getUserObject()

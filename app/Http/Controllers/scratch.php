@@ -64,3 +64,4 @@ curl -XDELETE 'localhost:9200/plans?pretty'
 
 php artisan search:reindex
 
+

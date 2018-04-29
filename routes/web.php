@@ -37,7 +37,8 @@ Auth::routes();
 
 /** USER ROUTES */
 Route::get('/user/activateUserAccount', 'UserController@activateUserAccount');
-Route::get('/user/test', 'UserController@test');
+Route::post('/user/test', 'UserController@test');
+Route::get('/user/testView', 'UserController@testView');
 /** PLAN USER END */
 
 Route::get('/registered', function() {

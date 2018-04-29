@@ -9,6 +9,7 @@ use App\Notification;
 use App\Photo;
 use App\Plan;
 use App\Rating;
+use App\S3FolderTypes;
 use App\Subscription;
 use App\User;
 use Exception;
@@ -17,7 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Elasticsearch\Client;
-use Elasticsearch\ClientBuilder;
+use App\PhotoClient\AWSPhoto;
 use Stripe\Stripe;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -32,10 +33,13 @@ class PlanController extends Controller
 
     private $esClient;
 
+    private $photoClient;
+
     public function __construct(Client $esClient)
     {
         $this->middleware('auth');
         $this->esClient = $esClient;
+        $this->photoClient = new AWSPhoto();
     }
 
     private function getSecretStripeKey()
@@ -228,17 +232,17 @@ class PlanController extends Controller
     public function updateFeaturedPhoto(Request $request, $id)
     {
         if(!empty($request)) {
-            $path = $request->file('file')->store('public/images/plan');
-            $path = str_replace('public/','',$path); // fix path here so we can render properly. will likely be changed once we move to prod
+            $file = $request->file('file');
+            $path = $this->photoClient->store($file, S3FolderTypes::PLAN_FEATURED_PHOTO);
             try {
                 $plan = Plan::where('user_id', Auth::id())->where('id',$id)->first();
                 if ($plan->featured_photo_path) {
-                    unlink(getFullPathToImage($plan->featured_photo_path));
+                    $this->photoClient->unlink(getFullPathToImage($plan->featured_photo_path));
                 }
                 $plan->featured_photo_path = $path;
                 $plan->save();
             } catch (Exception $e) {
-                unlink($path);
+                $this->photoClient->unlink($path);
             }
 
             return redirect("/plan/managePlans")->with('successMessage',"Image uploaded successfully!");
@@ -250,7 +254,7 @@ class PlanController extends Controller
     public function deleteFeaturedPhoto(Request $request, $id)
     {
         $plan = Plan::find($id);
-        unlink(getFullPathToImage($plan->featured_photo_path));
+        $this->photoClient->unlink(getFullPathToImage($plan->featured_photo_path));
         $plan->featured_photo_path = null;
         $plan->save();
 
@@ -265,8 +269,8 @@ class PlanController extends Controller
             return redirect("/plan/managePlans")->with('warningMessage',"Max uploads exceeded. Please remove a photo to add more ");
         }
 
-        $path = $photo->store('public/images/plan-gallery');
-        $path = str_replace('public/','',$path); // because of rendering issues
+        $path = $this->photoClient->store($photo, S3FolderTypes::PLAN_GALLERY_PHOTO);
+
         try
         {
             DB::table('photos')->insert([
@@ -276,8 +280,8 @@ class PlanController extends Controller
                 'path'      => $path
             ]);
         } catch (Exception $e) {
-            unlink($path);
-            return redirect("/plan/managePlans")->with('errorMessage',"Unsuccessful uploaded");
+            $this->photoClient->unlink($path);
+            return redirect("/plan/managePlans")->with('errorMessage',"Unsuccessful upload");
         }
 
 
@@ -288,7 +292,7 @@ class PlanController extends Controller
     public function deleteGalleryPhoto(Request $request, $id)
     {
         $photo = Photo::find($id);
-        unlink(getFullPathToImage($photo->path));
+        $this->photoClient->unlink($photo->path);
         $photo->delete();
         return redirect("/plan/managePlans")->with('infoMessage',"Image removed successfully");
     }

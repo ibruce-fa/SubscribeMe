@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Location;
 use App\Notification;
 use App\Photo;
+use App\PhotoClient\AWSPhoto;
 use App\Plan;
 use App\Rating;
 use App\Review;
+use App\S3FolderTypes;
 use Dompdf\Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
@@ -25,11 +27,13 @@ class BusinessController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->photoClient = new AWSPhoto();
     }
 
     private $failMessage = "The business you requested does not exist";
     private $businessPhotoPath = 'public/images/business';
     private $businessLogoPath = 'public/images/business/logos';
+    private $photoClient;
 
     public function index()
     {
@@ -140,10 +144,10 @@ class BusinessController extends Controller
         if(!empty($request)) {
             $business = Business::find($businessId);
             if($business->photo_path) {
-                unlink(getFullPathToImage($business->photo_path));
+                $this->photoClient->unlink($business->photo_path);
             }
-            $path = $request->file('file')->store($this->businessPhotoPath);
-            $path = str_replace('public/','',$path); // fix path here so we can render properly. will likely be changed once we move to prod
+            $file = $request->file('file');
+            $path = $this->photoClient->store($file, S3FolderTypes::BUSINESS_PHOTO);
             $business->photo_path = $path;
             $business->save();
 
@@ -158,10 +162,10 @@ class BusinessController extends Controller
         if(!empty($request)) {
             $business = Business::find($businessId);
             if($business->logo_path) {
-                unlink(getFullPathToImage($business->logo_path));
+                $this->photoClient->unlink($business->logo_path);
             }
-            $path = $request->file('file')->store($this->businessLogoPath);
-            $path = str_replace('public/','',$path); // fix path here so we can render properly. will likely be changed once we move to prod
+            $file = $request->file('file');
+            $path = $this->photoClient->store($file, S3FolderTypes::BUSINESS_PHOTO);
             $business->logo_path = $path;
             $business->save();
 
@@ -175,7 +179,7 @@ class BusinessController extends Controller
     {
         if(!empty($request)) {
             $business = Business::find($businessId);
-            unlink(getFullPathToImage($business->photo_path));
+            $this->photoClient->unlink($business->photo_path);
             $business->photo_path = null;
             $business->save();
 
@@ -189,7 +193,7 @@ class BusinessController extends Controller
     {
         if(!empty($request)) {
             $business = Business::find($businessId);
-            unlink(getFullPathToImage($business->logo_path));
+            $this->photoClient->unlink($business->logo_path);
             $business->logo_path = null;
             $business->save();
 
@@ -343,7 +347,7 @@ class BusinessController extends Controller
                     foreach($photos as $photo)
                     {
                         try {
-                            unlink(getFullPathToImage($photo->path));
+                            $this->photoClient->unlink($photo->path);
                         } catch (Exception $e) {
                             logger('plan photo deletion failed');
                         }
@@ -357,10 +361,10 @@ class BusinessController extends Controller
 
         try {
             if ($business->photo_path) {
-                unlink(getFullPathToImage($business->photo_path));
+                $this->photoClient->unlink($business->photo_path);
             }
             if ($business->logo_path) {
-                unlink(getFullPathToImage($business->logo_path));
+                $this->photoClient->unlink($business->logo_path);
             }
         } catch (Exception $e) {
             logger('business photos deletion failed');
