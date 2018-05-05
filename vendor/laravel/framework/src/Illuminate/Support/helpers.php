@@ -1200,7 +1200,7 @@ function getUseLimitString($plan){
 
 function getBusinessLogoImg($business)
 {
-    return getImage('/storage/'.$business->logo_path);
+    return getImage($business->logo_path);
 }
 
 function getOtruvezLogoImg()

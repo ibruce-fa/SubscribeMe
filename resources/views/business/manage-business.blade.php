@@ -38,7 +38,7 @@
                                 </div>
                             </form>
                             </p>
-                            <div href="{{ $haslogo ? getImage('/storage/'.$business->logo_path) : ''}}" class="business-logo-placeholder text-center" style="background-image: url({{$haslogo ? getImage('/storage/'.$business->logo_path) : ''}})" {{$haslogo ? 'data-lity' : ''}}>
+                            <div href="{{ $haslogo ? getImage($business->logo_path) : ''}}" class="business-logo-placeholder text-center" style="background-image: url({{$haslogo ? getImage($business->logo_path) : ''}})" {{$haslogo ? 'data-lity' : ''}}>
                                 @if(!$haslogo) <span class="fa fa-photo fa-2x" style="display: block; margin-top: 30%"></span> @endif
                             </div>
                             @if($haslogo)
@@ -64,7 +64,7 @@
                                     </div>
                                 </form>
                             </p>
-                            <div href="{{ $hasPhoto ? getImage('/storage/'.$business->photo_path) : ''}}" class="business-img-placeholder text-center" style="background-image: url({{$hasPhoto ? getImage('/storage/'.$business->photo_path) : ''}})" {{$hasPhoto ? 'data-lity' : ''}}>
+                            <div href="{{ $hasPhoto ? getImage($business->photo_path) : ''}}" class="business-img-placeholder text-center" style="background-image: url({{$hasPhoto ? getImage($business->photo_path) : ''}})" {{$hasPhoto ? 'data-lity' : ''}}>
                                 @if(!$hasPhoto) <span class="fa fa-photo fa-2x" style="display: block; margin-top: 30%"></span> @endif
                             </div>
                             @if($hasPhoto)

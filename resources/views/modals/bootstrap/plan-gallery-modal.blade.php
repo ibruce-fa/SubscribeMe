@@ -18,13 +18,13 @@
                         {{csrf_field()}}
                     </form>
                 </p>
-                <div style="background: url({{$hasFeaturedPhoto ? getImage("/storage/".$plan->featured_photo_path) : ''}}) center"  class="featured-photo-thumb text-center {{!$hasFeaturedPhoto ? 'choose-featured-photo' : ''}}" data-target="#plan-dropzone-{{$plan->id}}" href="{{$hasFeaturedPhoto ? getImage('/storage/'.$plan->featured_photo_path) : ''}}" {{$hasFeaturedPhoto ? 'data-lity' : ''}}>
+                <div style="background: url({{$hasFeaturedPhoto ? getImage($plan->featured_photo_path) : ''}}) center"  class="featured-photo-thumb text-center {{!$hasFeaturedPhoto ? 'choose-featured-photo' : ''}}" data-target="#plan-dropzone-{{$plan->id}}" href="{{$hasFeaturedPhoto ? getImage($plan->featured_photo_path) : ''}}" {{$hasFeaturedPhoto ? 'data-lity' : ''}}>
                     @if(!$hasFeaturedPhoto)
                         <span class="fa fa-photo fa-2x" style="margin-top: 40%"></span>
                     @endif
                 </div>
                 <p class="text-center">
-                    <a href="{{getImage('/storage/'.$plan->featured_photo_path)}}" class="text-danger" data-target="#delete-featured-photo-form-{{$plan->id}}" onclick="triggerTargetSubmit(event, this)">remove</a>
+                    <a href="{{getImage($plan->featured_photo_path)}}" class="text-danger" data-target="#delete-featured-photo-form-{{$plan->id}}" onclick="triggerTargetSubmit(event, this)">remove</a>
                     <form method="POST" action="/plan/featuredPhoto/{{$plan->id}}" id="delete-featured-photo-form-{{$plan->id}}">
                         {{form_method_field("DELETE")}}
                         {{csrf_field()}}
@@ -55,14 +55,14 @@
 
                         <div class="col-md-3" style="padding-top: 20px;">
 
-                            <div style="background: url({{ $hasGalleryPhoto ? getImage('/storage/'. $path) : ''}})" class="gallery-photo" href="{{ $hasGalleryPhoto ? getImage('/storage/'.$path) : ''}}" {{$hasGalleryPhoto ? 'data-lity' : ''}}>
+                            <div style="background: url({{ $hasGalleryPhoto ? getImage( $path) : ''}})" class="gallery-photo" href="{{ $hasGalleryPhoto ? getImage($path) : ''}}" {{$hasGalleryPhoto ? 'data-lity' : ''}}>
                                 @if(!$hasGalleryPhoto)
                                     <span class="fa fa-photo fa-2x" style="margin-top: 30%; margin-left: 28%"></span>
                                 @endif
                             </div>
                             @if($hasGalleryPhoto)
                                 <div class="text-center">
-                                    <a href="{{getImage('/storage/'.$path)}}" class="delete-gallery-photo text-danger" data-target="#delete-gallery-photo-form-{{$photoId}}" onclick="triggerTargetSubmit(event, this)"><span class="fa fa-close"></span> </a>
+                                    <a href="{{getImage($path)}}" class="delete-gallery-photo text-danger" data-target="#delete-gallery-photo-form-{{$photoId}}" onclick="triggerTargetSubmit(event, this)"><span class="fa fa-close"></span> </a>
                                 <form class="hide" method="POST" action="/plan/galleryPhoto/{{$photoId}}" id="delete-gallery-photo-form-{{$photoId}}">
                                     <input name="_method" type="hidden" value="DELETE">
                                     {{csrf_field()}}
