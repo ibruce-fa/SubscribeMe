@@ -1240,4 +1240,4 @@ function s3BucketFolderList() {
         'logos'
     ];
 }
-// logo: <img src="{{getImage("/logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">
+// logo: <img src="{{getImage("logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">

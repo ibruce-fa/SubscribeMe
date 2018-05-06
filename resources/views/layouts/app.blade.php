@@ -49,7 +49,7 @@
         {{--<div class="col-md-12">--}}
             <nav class="navbar navbar-light navbar-expand-md navigation p-4" style="width: 100% !important">
                 <a class="navbar-brand" href="/">
-                    <img src="{{getImage("/logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">
+                    <img src="{{getImage("logos/otruvez-logo.png")}}" style="width: 150px; height: auto;">
                 </a>
                 <button class="navbar-toggler theme-background" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     {!! hasNewNotifications() ? '<span class="fa fa-bell text-danger"></span>' : '<span class="navbar-toggler-icon"></span>' !!}
