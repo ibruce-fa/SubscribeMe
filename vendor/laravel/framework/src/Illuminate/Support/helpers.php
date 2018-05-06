@@ -1205,7 +1205,7 @@ function getBusinessLogoImg($business)
 
 function getOtruvezLogoImg()
 {
-    return getImage('/logos/otruvez-logo.png');
+    return getImage('logos/otruvez-logo.png');
 }
 
 function getAccountNotificationsUrl()

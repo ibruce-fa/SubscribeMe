@@ -7,9 +7,12 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
+## Otruvez Setup
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+1) run 'git clone [repo url] [directory to clone to]'
+2) run 'composer install' to download dependencies and fix 500 error
+3) run 'chmod -R 777 storage' because storage directory must be writable (need to figure out correct permissions)
+4) run 'chmod -R 777 bootstrap' because bootstrap directory must be writable (need to figure out correct permissions)
 
 - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
