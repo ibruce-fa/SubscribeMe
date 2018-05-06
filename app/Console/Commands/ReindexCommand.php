@@ -53,7 +53,7 @@ class ReindexCommand extends Command
 
     public function buildPlanIndex() {
         // structure == localhost:9200/{index}/{type}
-        $client = ClientBuilder::create()->build();
+        $client = ClientBuilder::create()->setHosts(config('services.search.hosts'))->build();
         $params = [
             'index' => 'plans',
             'body' => [
@@ -93,7 +93,7 @@ class ReindexCommand extends Command
 
     public function deleteIndex($id)
     {
-        $client = ClientBuilder::create()->build();
+        $client = ClientBuilder::create()->setHosts(config('services.search.hosts'))->build();
         $params = [
             'index' => 'plans',
             'type'  => 'plans',

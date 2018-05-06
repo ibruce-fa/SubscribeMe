@@ -65,3 +65,4 @@ curl -XDELETE 'localhost:9200/plans?pretty'
 php artisan search:reindex
 
 
+docker run -d -p 9200:9200 elasticsearch

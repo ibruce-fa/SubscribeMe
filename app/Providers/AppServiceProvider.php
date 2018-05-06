@@ -40,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
             // This is useful in case we want to turn-off our
             // search cluster or when deploying the search
             // to a live, running application at first.
+            // Todo: make this work
             if (!config('services.search.enabled')) {
                 return new Repository($app->make(Model::class));
             }
