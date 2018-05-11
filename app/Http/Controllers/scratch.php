@@ -66,3 +66,13 @@ php artisan search:reindex
 
 
 docker run -d -p 9200:9200 elasticsearch
+
+
+ps aux | egrep '(apache|httpd)'
+chown -R webapp:webapp /var/www/html
+
+sudo find /var/www/html/ -type d -exec chmod 755 {} \;
+sudo find /var/www/html/ -type f -exec chmod 644 {} \;
+
+sudo chgrp -R webapp /var/www/html/storage /var/www/html/bootstrap/cache
+sudo chmod -R ug+rwx /var/www/html/storage /var/www/html/bootstrap/cache
