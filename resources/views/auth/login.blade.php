@@ -8,7 +8,7 @@
                 <h3 class="card-heading text-center">Login</h3>
 
                 <div class="card-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+                    <form class="form-horizontal" method="POST" action="{{baseUrlConcat('/login')}}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
@@ -55,7 +55,7 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
+                                <a class="btn btn-link" href="{{ baseUrlConcat('/password/reset') }}">
                                     Forgot Your Password?
                                 </a>
                             </div>
