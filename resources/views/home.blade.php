@@ -139,6 +139,6 @@
 @endsection
 
 @section('footer')
-<script src="{{getImage('/js/location/setLocation.js')}}"></script>
-<script src="{{getImage('/js/index.js')}}"></script>
+<script src="{{baseUrlConcat('/js/location/setLocation.js')}}"></script>
+<script src="{{baseUrlConcat('/js/index.js')}}"></script>
 @endsection
