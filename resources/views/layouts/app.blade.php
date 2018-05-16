@@ -9,23 +9,18 @@
     <title>Otruvez</title>
 
     <!-- PLUGINS CSS STYLE -->
-    {{--<link href="{{baseUrlConcat('/classimax/plugins/jquery-ui/jquery-ui.min.css')}}" rel="stylesheet">--}}
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
     <!-- Bootstrap -->
     <link href="{{baseUrlConcat('/classimax/plugins/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{baseUrlConcat('/classimax/plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <!-- Owl Carousel -->
     <link href="{{baseUrlConcat('/classimax/plugins/slick-carousel/slick/slick.css')}}" rel="stylesheet">
     <link href="{{baseUrlConcat('/classimax/plugins/slick-carousel/slick/slick-theme.css')}}" rel="stylesheet">
     <!-- Fancy Box -->
-    {{--    <link href="{{baseUrlConcat('/classimax/plugins/fancybox/jquery.fancybox.pack.css')}}" rel="stylesheet">--}}
-    {{--<link href="{{baseUrlConcat('/classimax/plugins/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet">--}}
-    {{--<link href="{{baseUrlConcat('/classimax/plugins/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css')}}" rel="stylesheet">--}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lity/2.3.0/lity.min.css">
     <!-- CUSTOM CSS -->
     <link href="{{baseUrlConcat('/classimax/css/style.css')}}" rel="stylesheet">
-    {{--<link href="{{ baseUrlConcat('/css/app.css') }}" rel="stylesheet">--}}
     <link href="{{ baseUrlConcat('/css/style.css') }}" rel="stylesheet">
 
 
@@ -112,9 +107,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-{{--        <script src="{{baseUrlConcat('/classimax/plugins/jquery/jquery.js')}}"></script>--}}
-<script src="{{baseUrlConcat('/classimax/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
-{{--        <script src="{{baseUrlConcat('/classimax/plugins/tether/js/tether.min.js')}}"></script>--}}
 <script src="{{baseUrlConcat('/classimax/plugins/raty/jquery.raty-fa.js')}}"></script>
 <script src="{{baseUrlConcat('/classimax/plugins/bootstrap/dist/js/popper.min.js')}}"></script>
 <script src="{{baseUrlConcat('/classimax/plugins/bootstrap/dist/js/bootstrap.min.js')}}"></script>

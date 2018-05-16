@@ -98,7 +98,7 @@
                     <!-- product card -->
                     <div class="product-item bg-light">
                         <div class="card">
-                            <div class="thumb-content" style="width: 100%; height: 200px; background: url({{getImage($plan->featured_photo_path)}}) no-repeat; background-size: contain; background-position: center">
+                            <div class="thumb-content" style="width: 100%; height: 200px; background: url({{!empty($plan->featured_photo_path) ? getImage($plan->featured_photo_path) : ''}}) no-repeat; background-size: contain; background-position: center">
 
                             </div>
                             <div class="card-body">
