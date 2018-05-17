@@ -58,7 +58,11 @@ curl -XPOST 'localhost:9200/my_index/my_type?pretty' -H 'Content-Type: applicati
 }
 '
 
+aws acm request-certificate --domain-name www.otruvez.com --subject-alternative-names otruvez.com
 
+RewriteCond %{HTTP_HOST} ^otruvez\.com [NC]
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://www.otruvez.com/$1 [R=301,L]
 
 curl -XDELETE 'localhost:9200/plans?pretty'
 

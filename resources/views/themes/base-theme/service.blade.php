@@ -137,3 +137,7 @@ $intervals = ['month','year'];
 
     </div>
  @endsection
+
+@section('footer')
+    <script src="{{ baseUrlConcat('/js/stripe.js') }}"></script>
+@endsection

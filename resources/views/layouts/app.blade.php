@@ -117,7 +117,6 @@
 <script src="{{baseUrlConcat('/classimax/plugins/smoothscroll/SmoothScroll.min.js')}}"></script>
 <script src="{{baseUrlConcat('/classimax/js/scripts.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lity/2.3.0/lity.min.js"></script>
-<script src="{{ baseUrlConcat('/js/stripe.js') }}"></script>
 <script src="{{ baseUrlConcat('/js/index.js') }}"></script>
 @yield('footer')
 
