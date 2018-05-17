@@ -111,6 +111,7 @@ class ComposerStaticInitcb940c85f1fa07f82965b7da0db918f9
         array (
             'FontLib\\' => 8,
             'Firebase\\JWT\\' => 13,
+            'Fideloper\\Proxy\\' => 16,
             'Faker\\' => 6,
         ),
         'E' => 
@@ -320,6 +321,10 @@ class ComposerStaticInitcb940c85f1fa07f82965b7da0db918f9
         array (
             0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
+        'Fideloper\\Proxy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fideloper/proxy/src',
+        ),
         'Faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
@@ -446,6 +451,7 @@ class ComposerStaticInitcb940c85f1fa07f82965b7da0db918f9
         'App\\Http\\Controllers\\WebhookController' => __DIR__ . '/../..' . '/app/Http/Controllers/WebhookController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
+        'App\\Http\\Middleware\\HttpsProtocol' => __DIR__ . '/../..' . '/app/Http/Middleware/HttpsProtocol.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
@@ -464,6 +470,7 @@ class ComposerStaticInitcb940c85f1fa07f82965b7da0db918f9
         'App\\Mail\\WelcomeBusiness' => __DIR__ . '/../..' . '/app/Mail/WelcomeBusiness.php',
         'App\\Notification' => __DIR__ . '/../..' . '/app/Notification.php',
         'App\\Photo' => __DIR__ . '/../..' . '/app/Photo.php',
+        'App\\PhotoClient\\AWSPhoto' => __DIR__ . '/../..' . '/app/PhotoClient/AWSPhoto.php',
         'App\\Plan' => __DIR__ . '/../..' . '/app/Plan.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',
@@ -478,6 +485,7 @@ class ComposerStaticInitcb940c85f1fa07f82965b7da0db918f9
         'App\\Repositories\\PlanRepository' => __DIR__ . '/../..' . '/app/Repositories/PlanRepository.php',
         'App\\Repositories\\Repository' => __DIR__ . '/../..' . '/app/Repositories/Repository.php',
         'App\\Review' => __DIR__ . '/../..' . '/app/Review.php',
+        'App\\S3FolderTypes' => __DIR__ . '/../..' . '/app/S3FolderTypes.php',
         'App\\SearchClient\\ElasticsearchObserver' => __DIR__ . '/../..' . '/app/SearchClient/ElasticsearchObserver.php',
         'App\\Search\\SearchableTrait' => __DIR__ . '/../..' . '/app/SearchClient/Traits/SearchableTrait.php',
         'App\\StripeWebhook' => __DIR__ . '/../..' . '/app/StripeWebhook.php',
@@ -1686,6 +1694,8 @@ class ComposerStaticInitcb940c85f1fa07f82965b7da0db918f9
         'Faker\\Provider\\zh_TW\\Text' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/Provider/zh_TW/Text.php',
         'Faker\\UniqueGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/UniqueGenerator.php',
         'Faker\\ValidGenerator' => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker/ValidGenerator.php',
+        'Fideloper\\Proxy\\TrustProxies' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustProxies.php',
+        'Fideloper\\Proxy\\TrustedProxyServiceProvider' => __DIR__ . '/..' . '/fideloper/proxy/src/TrustedProxyServiceProvider.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',

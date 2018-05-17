@@ -8,6 +8,7 @@
         "php": ">=5.6.4",
         "aws/aws-sdk-php": "^3.55",
         "elasticsearch/elasticsearch": "^5.3",
+        "fideloper/proxy": "~3.0",
         "guzzlehttp/guzzle": "^6.3",
         "laravel/cashier": "~7.0",
         "laravel/framework": "5.4.*",
