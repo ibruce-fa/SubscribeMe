@@ -36,10 +36,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
 
-        if (env('APP_ENV') === 'prod') {
-            $this->app['url']->forceScheme('https');
-        }
-
         $this->app->singleton(RepositoryInterface::class, function($app) {
             // This is useful in case we want to turn-off our
             // search cluster or when deploying the search
