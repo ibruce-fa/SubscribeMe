@@ -8,7 +8,7 @@
                 <h3 class="card-heading text-center">Register</h3>
 
                 <div class="card-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
+                    <form class="form-horizontal" method="POST" action="{{baseUrlConcat("/register")}}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('first') ? ' has-error' : '' }}">
